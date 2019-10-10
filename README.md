@@ -8,38 +8,38 @@
 [![jsdelivr][jsdelivr-image]][jsdelivr-url]
 [![npm license][license-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/h5-audio-controls.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/h5-audio-controls
-[travis-image]: https://img.shields.io/travis/cycdpo/h5-audio-controls.svg?style=flat-square
-[travis-url]: https://travis-ci.org/cycdpo/h5-audio-controls
-[david-image]: https://img.shields.io/david/cycdpo/h5-audio-controls.svg?style=flat-square
-[david-url]: https://david-dm.org/cycdpo/h5-audio-controls
-[david-dev-image]: https://david-dm.org/cycdpo/h5-audio-controls/dev-status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/cycdpo/h5-audio-controls?type=dev
-[download-image]: https://img.shields.io/npm/dm/h5-audio-controls.svg?style=flat-square
-[download-url]: https://npmjs.org/package/h5-audio-controls
-[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/h5-audio-controls/badge
-[jsdelivr-url]: https://www.jsdelivr.com/package/npm/h5-audio-controls
-[license-image]: https://img.shields.io/npm/l/h5-audio-controls.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/@cycjimmy/h5-audio-controls.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/@cycjimmy/h5-audio-controls
+[travis-image]: https://img.shields.io/travis/cycjimmy/h5-audio-controls.svg?style=flat-square
+[travis-url]: https://travis-ci.org/cycjimmy/h5-audio-controls
+[david-image]: https://img.shields.io/david/cycjimmy/h5-audio-controls.svg?style=flat-square
+[david-url]: https://david-dm.org/cycjimmy/h5-audio-controls
+[david-dev-image]: https://david-dm.org/cycjimmy/h5-audio-controls/dev-status.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/cycjimmy/h5-audio-controls?type=dev
+[download-image]: https://img.shields.io/npm/dm/@cycjimmy/h5-audio-controls.svg?style=flat-square
+[download-url]: https://npmjs.org/package/@cycjimmy/h5-audio-controls
+[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/@cycjimmy/h5-audio-controls/badge
+[jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/h5-audio-controls
+[license-image]: https://img.shields.io/npm/l/@cycjimmy/h5-audio-controls.svg?style=flat-square
 
 
 * Simple h5 music controller
 
-[Releases](https://github.com/cycdpo/h5-audio-controls/releases) | [Demo](https://cycdpo.github.io/h5-audio-controls/)
+[Releases](https://github.com/cycjimmy/h5-audio-controls/releases) | [Demo](https://cycjimmy.github.io/h5-audio-controls/)
 
 ## How to use
 ### Install
   ```shell
-  $ npm install h5-audio-controls --save
+  $ npm install @cycjimmy/h5-audio-controls --save
   # or
-  $ yarn add h5-audio-controls
+  $ yarn add @cycjimmy/h5-audio-controls
   ```
 
 ### Usage
   ```javascript
-  import H5AudioControls from 'h5-audio-controls';
+  import H5AudioControls from '@cycjimmy/h5-audio-controls';
   # OR
-  let H5AudioControls = require('h5-audio-controls');
+  const H5AudioControls = require('@cycjimmy/h5-audio-controls');
   ```
 
   ```javascript
@@ -67,7 +67,7 @@
 
 ### Use in browser
 ```html
-<script src="H5AudioControls.min.js"></script>
+<script src="h5-audio-controls.min.js"></script>
 <script>
   var audioSrc = '../media/test_audio.mp3';
   new H5AudioControls(audioSrc).load();
@@ -77,6 +77,6 @@
 ## CDN
 To use via a CDN include this in your html:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/h5-audio-controls@1/build/H5AudioControls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@2/build/h5-audio-controls.min.js"></script>
 ```
 

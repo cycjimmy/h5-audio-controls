@@ -1,13 +1,13 @@
+@import "~@cycjimmy/sass-lib";
+
 .musicControlWrapper {
-  position: absolute;
+  @extend %abs;
+  @extend %flexCenter;
   z-index: 999;
   max-width: 15vw;
   max-height: 15vw;
   width: 15vw;
   height: 15vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
   outline: none;
@@ -51,14 +51,12 @@
   height: 60%;
 
   &.play {
-    background: url(./audioPlay.svg) no-repeat;
-    background-size: 100% 100%;
+    @include bg-image-full(url("./audioPlay.svg"));
 
     animation: reverseRotataZ 2s linear infinite;
   }
 
   &.pause {
-    background: url(./audioPause.svg) no-repeat;
-    background-size: 100% 100%;
+    @include bg-image-full(url("./audioPause.svg"));
   }
 }

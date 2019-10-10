@@ -1,15 +1,14 @@
-import H5AudioControls from '../dist/H5AudioControls';
+import H5AudioControls from '../build/h5-audio-controls.min';
 
 describe('ui spec', () => {
   const
     audioContext = document.createElement('div')
-    ,
-    audioSrc = 'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3'
+    , audioSrc = 'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3'
   ;
 
   audioContext.id = 'audioContext';
 
-  let
+  const
     audioDefault = new H5AudioControls(audioSrc)
     , audio1 = new H5AudioControls(audioSrc, {
       context: audioContext,

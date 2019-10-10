@@ -1,5 +1,5 @@
 import _style from './audio.scss';
-import isString from 'awesome-js-funcs/judgeBasic/isString';
+import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString';
 
 /**
  * H5AudioControls
@@ -107,11 +107,9 @@ export default class H5AudioControls {
 
   _initButtonSize() {
     if (!this.config.buttonSize) {
-      let
-        shortW = window.innerWidth > window.innerHeight
-          ? window.innerHeight
-          : window.innerWidth
-      ;
+      const shortW = window.innerWidth > window.innerHeight
+        ? window.innerHeight
+        : window.innerWidth;
       this.config.buttonSize = shortW * .15 + 'px';
     }
 

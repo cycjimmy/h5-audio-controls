@@ -53,8 +53,7 @@ Temporary Items
 node_modules/
 npm-debug.log
 yarn-error.log
-yarn.lock
 
 # project
+.publish
 dist
-temp
