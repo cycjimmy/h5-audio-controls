@@ -1,4 +1,4 @@
-name: Npm Package Publish
+name: Deploy To gh-pages
 
 on:
   pull_request:
