@@ -1,14 +1,13 @@
 {
   "name": "@cycjimmy/h5-audio-controls",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple h5 music controller",
   "main": "build/h5-audio-controls.js",
   "scripts": {
     "test": "jest",
     "start": "cross-env NODE_ENV=development webpack --display-modules --display-reasons --display-error-details --watch --color",
     "build": "cross-env NODE_ENV=production webpack --progress --optimize-minimize && webpack --progress --display-modules --display-reasons --display-error-details --color",
-    "build:dev": "cross-env NODE_ENV=development webpack --display-modules --display-reasons --display-error-details --color",
-    "deploy": "npm run build:dev && gulp deploy"
+    "build:dev": "cross-env NODE_ENV=development webpack --display-modules --display-reasons --display-error-details --color"
   },
   "repository": {
     "type": "git",
@@ -37,8 +36,6 @@
     "clean-webpack-plugin": "^3.0.0",
     "cross-env": "^6.0.3",
     "css-loader": "^3.2.0",
-    "gh-pages": "^2.1.1",
-    "gulp": "^4.0.2",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.9.0",
     "node-sass": "^4.12.0",
