@@ -1,82 +1,113 @@
 # H5 Audio Controls
-
-[![NPM version][npm-image]][npm-url]
+![][workflows-badge-image]
 [![build status][travis-image]][travis-url]
-[![David deps][david-image]][david-url]
-[![devDependencies Status][david-dev-image]][david-dev-url]
-[![npm download][download-image]][download-url]
-[![jsdelivr][jsdelivr-image]][jsdelivr-url]
+[![libraries dependency status][libraries-status-image]][libraries-status-url]
+[![libraries sourcerank][libraries-sourcerank-image]][libraries-sourcerank-url]
+[![Coverage Status][coverage-image]][coverage-url]
+[![Release date][release-date-image]][release-url]
+[![rollup][rollup-image]][rollup-url]
+[![semantic-release][semantic-image]][semantic-url]
+[![jest][jest-image]][jest-url]
 [![npm license][license-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/@cycjimmy/h5-audio-controls.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/@cycjimmy/h5-audio-controls
-[travis-image]: https://img.shields.io/travis/cycjimmy/h5-audio-controls.svg?style=flat-square
-[travis-url]: https://travis-ci.org/cycjimmy/h5-audio-controls
-[david-image]: https://img.shields.io/david/cycjimmy/h5-audio-controls.svg?style=flat-square
-[david-url]: https://david-dm.org/cycjimmy/h5-audio-controls
-[david-dev-image]: https://david-dm.org/cycjimmy/h5-audio-controls/dev-status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/cycjimmy/h5-audio-controls?type=dev
-[download-image]: https://img.shields.io/npm/dm/@cycjimmy/h5-audio-controls.svg?style=flat-square
-[download-url]: https://npmjs.org/package/@cycjimmy/h5-audio-controls
-[jsdelivr-image]: https://data.jsdelivr.com/v1/package/npm/@cycjimmy/h5-audio-controls/badge
-[jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/h5-audio-controls
-[license-image]: https://img.shields.io/npm/l/@cycjimmy/h5-audio-controls.svg?style=flat-square
-
-
-* Simple h5 music controller
-
-[Releases](https://github.com/cycjimmy/h5-audio-controls/releases) | [Demo](https://cycjimmy.github.io/h5-audio-controls/)
+* Simple h5 music controller [Demo][github-pages-url]
 
 ## How to use
 ### Install
-  ```shell
-  $ npm install @cycjimmy/h5-audio-controls --save
-  # or
-  $ yarn add @cycjimmy/h5-audio-controls
-  ```
+[![NPM version][npm-image]][npm-url]
+[![NPM bundle size][npm-bundle-size-image]][npm-url]
+[![npm download][download-image]][download-url]
+
+```shell
+$ npm install @cycjimmy/h5-audio-controls --save
+# or
+$ yarn add @cycjimmy/h5-audio-controls
+```
 
 ### Usage
-  ```javascript
-  import H5AudioControls from '@cycjimmy/h5-audio-controls';
-  # OR
-  const H5AudioControls = require('@cycjimmy/h5-audio-controls');
-  ```
+```javascript
+import h5AudioControls from '@cycjimmy/h5-audio-controls';
+# OR
+const h5AudioControls = require('@cycjimmy/h5-audio-controls');
+```
 
-  ```javascript
-  new H5AudioControls(audioSrc [, options])
-  ```
+```javascript
+h5AudioControls(audioSrc [, options])
+```
 
-* `audioSrc`: [string] a url to an audio file
+* `audioSrc`: [Require][string] a url to an audio file
 * The `options` supports:
-  * `context`: [string|element] the context of audio controller. Default `document.body`.
-  * `position`: [string] the position of audio controller.
+  * `context`: [Option][string|element] the context of audio controller. Default `document.body`.
+  * `position`: [Option][string] the position of audio controller.
     * Choose one of the four options:
       * `'left-top'`
       * `'top-right'`(Default)
       * `'right-bottom'`
       * `'left-bottom'`
-  * `buttonSize`: [string|number] Set button wrapper size. Default `''`
-  * `picSize`: [string|number] Set button picture size. Default `''`
-  * `autoPlay`: [boolean] Whether to play immediately after loading. Default `true`
+  * `buttonSize`: [Option][string|number] Set button wrapper size.
+  * `iconSize`: [Option][string|number] Set button icon size.
+  * `playIcon`: [Option][string] Set play icon.
+  * `pauseIcon`: [Option][string] Set pause icon.
+  * `autoPlay`: [Option][boolean] Whether to play immediately after loading. Default `true`.
 
-* `H5AudioControls` instance supports the following methods:
-  * `load()`: init controller.
-  * `play()`: play the audio.
-  * `pause()`: pause the audio.
-  * `stop()`: stop the audio.
+* `h5AudioControls` instance supports the following methods:
+  * `load()`: Init controller.
+  * `play()`: Play the audio.
+  * `pause()`: Pause the audio.
+  * `stop()`: Stop the audio.
 
 ### Use in browser
 ```html
-<script src="h5-audio-controls.min.js"></script>
+<script src="h5-audio-controls.umd.min.js"></script>
 <script>
   var audioSrc = '../media/test_audio.mp3';
-  new H5AudioControls(audioSrc).load();
+  h5AudioControls(audioSrc).load();
 </script>
 ```
 
 ## CDN
+[![jsdelivr][jsdelivr-image]][jsdelivr-url]
+
 To use via a CDN include this in your html:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@2/build/h5-audio-controls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@3/dist/h5-audio-controls.umd.min.js"></script>
 ```
 
+<!-- Links: -->
+[npm-image]: https://img.shields.io/npm/v/@cycjimmy/h5-audio-controls
+[npm-url]: https://npmjs.org/package/@cycjimmy/h5-audio-controls
+[npm-bundle-size-image]: https://img.shields.io/bundlephobia/min/@cycjimmy/h5-audio-controls
+
+[download-image]: https://img.shields.io/npm/dt/@cycjimmy/h5-audio-controls
+[download-url]: https://npmjs.org/package/@cycjimmy/h5-audio-controls
+
+[jsdelivr-image]: https://img.shields.io/jsdelivr/npm/hy/@cycjimmy/h5-audio-controls
+[jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/h5-audio-controls
+
+[workflows-badge-image]: https://github.com/cycjimmy/h5-audio-controls/workflows/Test%20CI/badge.svg
+[travis-image]: https://img.shields.io/travis/cycjimmy/h5-audio-controls
+[travis-url]: https://travis-ci.org/cycjimmy/h5-audio-controls
+
+[libraries-status-image]: https://img.shields.io/librariesio/release/npm/@cycjimmy/h5-audio-controls
+[libraries-sourcerank-image]: https://img.shields.io/librariesio/sourcerank/npm/@cycjimmy/h5-audio-controls
+[libraries-status-url]: https://libraries.io/github/cycjimmy/h5-audio-controls
+[libraries-sourcerank-url]: https://libraries.io/npm/@cycjimmy%2Fh5-audio-controls
+
+[coverage-image]: https://img.shields.io/coveralls/github/cycjimmy/h5-audio-controls
+[coverage-url]: https://coveralls.io/github/cycjimmy/h5-audio-controls
+
+[release-date-image]: https://img.shields.io/github/release-date/cycjimmy/h5-audio-controls
+[release-url]: https://github.com/cycjimmy/h5-audio-controls/releases
+
+[rollup-image]: https://img.shields.io/github/package-json/dependency-version/cycjimmy/h5-audio-controls/dev/rollup
+[rollup-url]: https://github.com/rollup/rollup
+
+[semantic-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-url]: https://github.com/semantic-release/semantic-release
+
+[jest-image]: https://img.shields.io/badge/tested_with-jest-99424f.svg
+[jest-url]: https://github.com/facebook/jest
+
+[license-image]: https://img.shields.io/npm/l/@cycjimmy/h5-audio-controls
+
+[github-pages-url]: https://cycjimmy.github.io/h5-audio-controls/

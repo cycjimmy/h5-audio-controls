@@ -17,4 +17,4 @@ cache:
 script:
   - npm --version
   - npm run build
-  - jest
+  - npm run test
