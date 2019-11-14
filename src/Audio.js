@@ -24,7 +24,7 @@ export default class {
 
   /**
    * play
-   * @returns {Promise<void>}
+   * @returns {HTMLAudioElement}
    */
   play() {
     const wxFakePlay = () =>
@@ -33,10 +33,11 @@ export default class {
     if (window.WeixinJSBridge) {
       wxFakePlay();
     } else {
-      document.addEventListener('WeixinJSBridgeReady', () => wxFakePlay(), false);
+      document.addEventListener('WeixinJSBridgeReady', () => this.audio.play(), false);
     }
 
     this.audio.play();
+    return this.audio;
   }
 
   /**
