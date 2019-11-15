@@ -9,6 +9,11 @@ describe('icons test', () => {
     expect(eIcon).toBeTruthy();
   });
 
+  it('ePauseIcon default test', () => {
+    const eIcon = ePauseIcon({});
+    expect(eIcon).toBeTruthy();
+  });
+
   it('ePauseIcon test', () => {
     const size = '10px';
     const iconUrl = './img.svg';
