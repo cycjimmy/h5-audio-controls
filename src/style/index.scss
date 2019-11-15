@@ -45,18 +45,20 @@
   }
 }
 
-.musicControl {
+%musicControl {
   display: block;
   width: 60%;
   height: 60%;
+}
 
-  &.play {
-    @include bg-image-full(url("./audioPlay.svg"));
+.playIcon {
+  @extend %musicControl;
+  @include bg-image-full(url(../images/audioPlay.svg));
 
-    animation: reverseRotataZ 2s linear infinite;
-  }
+  animation: reverseRotataZ 2s linear infinite;
+}
 
-  &.pause {
-    @include bg-image-full(url("./audioPause.svg"));
-  }
+.pauseIcon {
+  @extend %musicControl;
+  @include bg-image-full(url(../images/audioPause.svg));
 }

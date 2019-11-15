@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="shortcut icon" href="./favicon.ico">
+  <title>H5 Audio Controls Test</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0a4f56;
+    }
+
+    .buttons-wrapper {
+      display: flex;
+      padding: 100px 40px;
+    }
+
+    .button {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30px;
+      margin: 0 5px;
+
+      font-size: 16px;
+      border: 1px solid white;
+      border-radius: 4px;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+<div class="buttons-wrapper">
+  <a href="javascript:" class="button" data-tip="play">play</a>
+  <a href="javascript:" class="button" data-tip="pause">pause</a>
+  <a href="javascript:" class="button" data-tip="stop">stop</a>
+</div>
+
+
+<script src="./h5-audio-controls.umd.js"></script>
+<script>
+  const audioSrc = 'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3';
+  const audioControls = h5AudioControls(audioSrc);
+
+  const aButtons = Array.prototype.slice.call(document.querySelectorAll('.button'));
+
+  console.log(audioControls);
+  audioControls.load();
+
+  aButtons.forEach(button => button.addEventListener('click', function () {
+    const buttonTip = button.dataset.tip;
+
+    if (!buttonTip) {
+      return;
+    }
+    audioControls[buttonTip]();
+  }));
+</script>
+</body>
+</html>
