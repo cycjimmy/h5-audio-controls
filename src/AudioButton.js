@@ -28,11 +28,11 @@ export default class {
     this.audioButton = document.createElement('a');
     this.playIcon = ePlayIcon({
       iconUrl: playIcon,
-      size: this.config.picSize
+      size: this.config.iconSize
     });
     this.pauseIcon = ePauseIcon({
       iconUrl: pauseIcon,
-      size: this.config.picSize
+      size: this.config.iconSize
     });
 
     this._init();
