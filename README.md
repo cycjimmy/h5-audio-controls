@@ -55,6 +55,7 @@ h5AudioControls(audioSrc [, options])
   * `play()`: Play the audio.
   * `pause()`: Pause the audio.
   * `stop()`: Stop the audio.
+  * `isPlaying()`: Return whether the audio is playing.
 
 ### Use in browser
 ```html

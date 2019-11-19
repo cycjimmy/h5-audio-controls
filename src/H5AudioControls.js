@@ -14,6 +14,7 @@ import AudioButton from './AudioButton';
  * pause
  * stop
  * changeButtonUI
+ * isPlaying
  */
 export default class {
   /**
@@ -101,11 +102,19 @@ export default class {
    * changeButtonUI
    */
   changeButtonUI() {
-    if (this.audioInstance.isPlaying()) {
+    if (this.isPlaying()) {
       this.audioButtonInstance.changeUIToPlay();
     } else {
       this.audioButtonInstance.changeUIToPause();
     }
+  }
+
+  /**
+   * isPlaying
+   * @returns {boolean}
+   */
+  isPlaying() {
+    return this.audioInstance.isPlaying();
   }
 
   /**
@@ -141,7 +150,7 @@ export default class {
     this.els.audioButton.addEventListener('click', (e) => {
       e.stopPropagation();
 
-      if (this.audioInstance.isPlaying()) {
+      if (this.isPlaying()) {
         this.pause();
         return;
       }
