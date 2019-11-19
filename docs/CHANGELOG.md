@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.0.0...v3.1.0) (2019-11-19)
+
+
+### Features
+
+* **isplaying:** support for judging whether audio is playing ([ebdedfe](https://github.com/cycjimmy/h5-audio-controls/commit/ebdedfe6071bfb45f114d9b70fcff2252129b8be))
+
 # [3.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v2.0.3...v3.0.0) (2019-11-15)
 
 
