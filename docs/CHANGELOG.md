@@ -1,3 +1,10 @@
+## [3.1.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.1.0...v3.1.1) (2019-11-20)
+
+
+### Performance Improvements
+
+* split construction method ([a61a7b4](https://github.com/cycjimmy/h5-audio-controls/commit/a61a7b472cbe6bed51b2c3e402d6a9f9e61b3f1f))
+
 # [3.1.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.0.0...v3.1.0) (2019-11-19)
 
 
