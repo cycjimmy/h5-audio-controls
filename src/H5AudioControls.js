@@ -50,10 +50,18 @@ export default class {
       autoPlay
     };
 
-    this.context = isString(context) ? document.querySelector(context) : context;
-    this.els = {};
+    this.setContext(context);
 
     this._init();
+  }
+
+  /**
+   * setContext
+   * @param context
+   */
+  setContext(context) {
+    this.context = isString(context) ? document.querySelector(context) : context;
+    return this;
   }
 
   /**
@@ -63,9 +71,10 @@ export default class {
   load() {
     return Promise.resolve().then(() =>
       functionToPromise(() => {
-        this.context.appendChild(this.els.audioButton);
+        this._fixContextPosition();
+        this.context.appendChild(this.audioButtonInstance.getAudioButton());
         this.changeButtonUI();
-        this._eventBind();
+        this.eventBind();
 
         if (this.config.autoPlay) {
           this.play();
@@ -118,6 +127,23 @@ export default class {
   }
 
   /**
+   * eventBind
+   */
+  eventBind() {
+    this.audioButtonInstance.getAudioButton().addEventListener('click', (e) => {
+      e.stopPropagation();
+
+      if (this.isPlaying()) {
+        this.pause();
+        return;
+      }
+      this.play();
+    });
+
+    return this;
+  }
+
+  /**
    * Init
    * @private
    */
@@ -133,28 +159,17 @@ export default class {
       playIcon: this.config.playIcon,
       pauseIcon: this.config.pauseIcon
     });
-
-    this.els.audioButton = this.audioButtonInstance.getAudioButton();
-
-    // fix context position
-    if (getElementStyle(this.context, 'position') === 'static') {
-      this.context.style.position = 'relative';
-    }
   }
 
   /**
-   * eventBind
+   * fix context position
    * @private
    */
-  _eventBind() {
-    this.els.audioButton.addEventListener('click', (e) => {
-      e.stopPropagation();
+  _fixContextPosition() {
+    if (getElementStyle(this.context, 'position') === 'static') {
+      this.context.style.position = 'relative';
+    }
 
-      if (this.isPlaying()) {
-        this.pause();
-        return;
-      }
-      this.play();
-    });
+    return this;
   }
 }

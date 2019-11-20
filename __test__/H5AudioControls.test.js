@@ -41,16 +41,16 @@ describe('H5AudioControls test', () => {
 
     const h5AudioControls = new H5AudioControls(audioSrc);
 
-    mockAddEventListener(h5AudioControls.els.audioButton);
+    mockAddEventListener(h5AudioControls.audioButtonInstance.getAudioButton());
 
     h5AudioControls.load().then(() => {
       expect(h5AudioControls.context).toBe(document.body);
       expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
 
-      h5AudioControls.els.audioButton.mockClick();
+      h5AudioControls.audioButtonInstance.getAudioButton().mockClick();
       expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
 
-      h5AudioControls.els.audioButton.mockClick();
+      h5AudioControls.audioButtonInstance.getAudioButton().mockClick();
       expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
 
       h5AudioControls.stop();
