@@ -1,15 +1,15 @@
-import {banner, input, name, plugins, terserPlugins,} from './rollup.common';
-
 import pkg from '../package.json';
+
+import { banner, input, name, plugins, terserPlugins } from './rollup.common';
 
 export default [
   {
     input,
     output: [
-      {file: pkg.main, format: 'cjs'},
-      {file: pkg.module, format: 'es'}
+      { file: pkg.main, format: 'cjs' },
+      { file: pkg.module, format: 'es' }
     ],
-    plugins,
+    plugins
   },
   {
     input,
@@ -17,11 +17,8 @@ export default [
       name,
       file: pkg.browser,
       format: 'umd',
-      banner,
+      banner
     },
-    plugins: [
-      ...plugins,
-      terserPlugins,
-    ]
-  },
+    plugins: [...plugins, terserPlugins]
+  }
 ];

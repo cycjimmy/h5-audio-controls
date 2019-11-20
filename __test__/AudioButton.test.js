@@ -1,8 +1,6 @@
 import AudioButton from '../src/AudioButton';
 
 describe('AudioButton test', () => {
-
-
   it('AudioButton default test', () => {
     const audioButton = new AudioButton({});
 
@@ -23,7 +21,7 @@ describe('AudioButton test', () => {
 
   it('AudioButton buttonSize test', () => {
     const audioButton = new AudioButton({
-      buttonSize: 2,
+      buttonSize: 2
     });
 
     expect(audioButton.config.buttonSize).toBe('2px');
@@ -41,7 +39,7 @@ describe('AudioButton test', () => {
 
   it('AudioButton iconSize test', () => {
     const audioButton = new AudioButton({
-      iconSize: 1,
+      iconSize: 1
     });
 
     expect(audioButton.config.iconSize).toBe('1px');

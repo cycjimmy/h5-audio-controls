@@ -1,7 +1,8 @@
 import h5AudioControls from '../src/index';
 
 describe('h5AudioControls test', () => {
-  const audioSrc = 'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3';
+  const audioSrc =
+    'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3';
 
   const audioControls = h5AudioControls(audioSrc);
 

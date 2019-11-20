@@ -3,7 +3,8 @@ import H5AudioControls from '../src/H5AudioControls';
 const audioSrc = 'audioSrc';
 const mockAddEventListener = (el) => {
   const event = {
-    stopPropagation: () => {/* do nothing */
+    stopPropagation: () => {
+      /* do nothing */
     }
   };
   el.addEventListener = (x, cb) => {
@@ -14,9 +15,10 @@ const mockAddEventListener = (el) => {
 describe('H5AudioControls test', () => {
   beforeAll(() => {
     // mock audio events
-    window.HTMLMediaElement.prototype.load = () => {/* do nothing */
+    window.HTMLMediaElement.prototype.load = () => {
+      /* do nothing */
     };
-    window.HTMLMediaElement.prototype.play = function () {
+    window.HTMLMediaElement.prototype.play = function() {
       Object.defineProperty(this, 'paused', {
         configurable: true,
         get() {
@@ -24,7 +26,7 @@ describe('H5AudioControls test', () => {
         }
       });
     };
-    window.HTMLMediaElement.prototype.pause = function () {
+    window.HTMLMediaElement.prototype.pause = function() {
       Object.defineProperty(this, 'paused', {
         configurable: true,
         get() {
@@ -41,28 +43,27 @@ describe('H5AudioControls test', () => {
 
     mockAddEventListener(h5AudioControls.els.audioButton);
 
-    h5AudioControls.load()
-      .then(() => {
-        expect(h5AudioControls.context).toBe(document.body);
-        expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
+    h5AudioControls.load().then(() => {
+      expect(h5AudioControls.context).toBe(document.body);
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
 
-        h5AudioControls.els.audioButton.mockClick();
-        expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
+      h5AudioControls.els.audioButton.mockClick();
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
 
-        h5AudioControls.els.audioButton.mockClick();
-        expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
+      h5AudioControls.els.audioButton.mockClick();
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
 
-        h5AudioControls.stop();
-        expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
+      h5AudioControls.stop();
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
 
-        h5AudioControls.play();
-        expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
+      h5AudioControls.play();
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
 
-        h5AudioControls.pause();
-        expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
+      h5AudioControls.pause();
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
 
-        setTimeout(done, 500);
-      });
+      setTimeout(done, 500);
+    });
   });
 
   it('H5AudioControls custom context test', () => {
@@ -73,12 +74,11 @@ describe('H5AudioControls test', () => {
 
     const h5AudioControls = new H5AudioControls(audioSrc, {
       context: `#${mockContext.id}`,
-      autoPlay: false,
+      autoPlay: false
     });
 
-    return h5AudioControls.load()
-      .then(() => {
-        expect(h5AudioControls.context).toBe(mockContext);
-      });
+    return h5AudioControls.load().then(() => {
+      expect(h5AudioControls.context).toBe(mockContext);
+    });
   });
 });

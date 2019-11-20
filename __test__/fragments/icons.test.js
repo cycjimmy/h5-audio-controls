@@ -1,7 +1,4 @@
-import {
-  ePlayIcon,
-  ePauseIcon,
-} from '../../src/fragments/icons';
+import { ePlayIcon, ePauseIcon } from '../../src/fragments/icons';
 
 describe('icons test', () => {
   it('ePlayIcon default test', () => {
@@ -20,7 +17,7 @@ describe('icons test', () => {
 
     const eIcon = ePauseIcon({
       iconUrl,
-      size,
+      size
     });
 
     expect(eIcon.style.width).toBe(size);
