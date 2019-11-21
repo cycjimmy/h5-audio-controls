@@ -66,6 +66,60 @@ describe('H5AudioControls test', () => {
     });
   });
 
+  it('H5AudioControls changeAudioSrc test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc);
+
+    return Promise.resolve()
+      .then(() => h5AudioControls.changeAudioSrc())
+      .then(() => h5AudioControls.changeAudioSrc(audioSrc))
+      .then(() => {
+        expect(h5AudioControls.config.audioSrc).toBe(audioSrc);
+      });
+  });
+
+  it('H5AudioControls changePosition test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc);
+    const position = 'top-right';
+
+    return h5AudioControls
+      .load()
+      .then(() => h5AudioControls.changePosition())
+      .then(() => h5AudioControls.changePosition(position))
+      .then(() => {
+        expect(h5AudioControls.config.position).toBe(position);
+      });
+  });
+
+  it('H5AudioControls changeButtonSize test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc);
+    const buttonSize = '15vw';
+
+    return h5AudioControls
+      .load()
+      .then(() => h5AudioControls.changeButtonSize())
+      .then(() => h5AudioControls.changeButtonSize(buttonSize))
+      .then(() => {
+        expect(h5AudioControls.config.buttonSize).toBe(buttonSize);
+
+        // cover branch
+        h5AudioControls.config.autoPlay = false;
+        return h5AudioControls.changeButtonSize(buttonSize);
+      });
+  });
+
+  it('H5AudioControls changeIconSize test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc);
+    const iconSize = '15vw';
+
+    return h5AudioControls
+      .load()
+      .then(() => h5AudioControls.changeIconSize())
+      .then(() => h5AudioControls.changeIconSize(iconSize))
+      .then(() => {
+        expect(h5AudioControls.config.iconSize).toBe(iconSize);
+      });
+  });
+
   it('H5AudioControls custom context test', () => {
     // mock custom context
     const mockContext = document.createElement('div');
