@@ -51,7 +51,6 @@ export default class {
     };
 
     this.setContext(context);
-
     this._init();
   }
 
@@ -69,9 +68,8 @@ export default class {
    * @returns {Promise<void>}
    */
   load() {
-    return Promise.resolve().then(() =>
+    return this.appendAudioButton().then(() =>
       functionToPromise(() => {
-        this._fixContextPosition();
         this.context.appendChild(this.audioButtonInstance.getAudioButton());
         this.changeButtonUI();
         this.eventBind();
@@ -119,6 +117,76 @@ export default class {
   }
 
   /**
+   * changeAudioSrc
+   * @param src
+   * @returns {Promise<void>}
+   */
+  changeAudioSrc(src) {
+    if (!src) {
+      return Promise.resolve();
+    }
+
+    this.config.audioSrc = src;
+
+    return Promise.resolve()
+      .then(() =>
+        functionToPromise(() => {
+          this.stop();
+          this._initAudioInstance();
+        })
+      )
+      .then(() =>
+        functionToPromise(() => {
+          if (this.config.autoPlay) {
+            this.play();
+          }
+        })
+      );
+  }
+
+  /**
+   * changePosition
+   * @param position
+   * @returns {Promise<void>}
+   */
+  changePosition(position) {
+    if (!position) {
+      return Promise.resolve();
+    }
+
+    this.config.position = position;
+    return this.repaintAudioButton();
+  }
+
+  /**
+   * changeButtonSize
+   * @param size
+   * @returns {Promise<void>}
+   */
+  changeButtonSize(size) {
+    if (!size) {
+      return Promise.resolve();
+    }
+
+    this.config.buttonSize = size;
+    return this.repaintAudioButton();
+  }
+
+  /**
+   * changeIconSize
+   * @param size
+   * @returns {Promise<void>}
+   */
+  changeIconSize(size) {
+    if (!size) {
+      return Promise.resolve();
+    }
+
+    this.config.iconSize = size;
+    return this.repaintAudioButton();
+  }
+
+  /**
    * isPlaying
    * @returns {boolean}
    */
@@ -144,14 +212,65 @@ export default class {
   }
 
   /**
+   * Repaint AudioButton
+   * @returns {Promise<void>}
+   */
+  repaintAudioButton() {
+    return Promise.resolve()
+      .then(() =>
+        functionToPromise(() => {
+          this.context.removeChild(this.audioButtonInstance.getAudioButton());
+        })
+      )
+      .then(() =>
+        functionToPromise(() => {
+          this._initAudioButtonInstance();
+        })
+      )
+      .then(() => this.appendAudioButton());
+  }
+
+  /**
+   * appendAudioButton
+   * @returns {Promise<void>}
+   */
+  appendAudioButton() {
+    return Promise.resolve().then(() =>
+      functionToPromise(() => {
+        this.context.appendChild(this.audioButtonInstance.getAudioButton());
+        this.changeButtonUI();
+        this.eventBind();
+      })
+    );
+  }
+
+  /**
    * Init
    * @private
    */
   _init() {
+    this._fixContextPosition();
+    this._initAudioInstance();
+    this._initAudioButtonInstance();
+  }
+
+  /**
+   * InitAudioInstance
+   * @private
+   */
+  _initAudioInstance() {
     this.audioInstance = new Audio({
       audioSrc: this.config.audioSrc
     });
 
+    return this;
+  }
+
+  /**
+   * InitAudioButtonInstance
+   * @private
+   */
+  _initAudioButtonInstance() {
     this.audioButtonInstance = new AudioButton({
       buttonSize: this.config.buttonSize,
       position: this.config.position,
@@ -159,6 +278,8 @@ export default class {
       playIcon: this.config.playIcon,
       pauseIcon: this.config.pauseIcon
     });
+
+    return this;
   }
 
   /**

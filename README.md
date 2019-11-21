@@ -56,6 +56,10 @@ h5AudioControls(audioSrc [, options])
   * `pause()`: Pause the audio.
   * `stop()`: Stop the audio.
   * `isPlaying()`: Return whether the audio is playing.
+  * `changeAudioSrc(src)`: Dynamically modify the value of `audioSrc`.
+  * `changePosition(position)`: Dynamically modify the value of `position`.
+  * `changeButtonSize(size)`: Dynamically modify the value of `buttonSize`.
+  * `changeIconSize(size)`: Dynamically modify the value of `iconSize`.
 
 ### Use in browser
 ```html

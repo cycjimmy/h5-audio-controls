@@ -12,13 +12,17 @@
       padding: 0;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
       background-color: #0a4f56;
     }
 
     .buttons-wrapper {
       display: flex;
-      padding: 100px 40px;
+      padding: 60px 40px 0;
     }
 
     .button {
@@ -44,11 +48,30 @@
   <a href="javascript:" class="button" data-tip="stop">stop</a>
 </div>
 
+<div class="buttons-wrapper">
+  <a href="javascript:" class="button" data-tip="changeAudioSrc">changeAudioSrc</a>
+</div>
+
+<div class="buttons-wrapper">
+  <a href="javascript:" class="button" data-tip="changePosition">changePosition</a>
+</div>
+
+<div class="buttons-wrapper">
+  <a href="javascript:" class="button" data-tip="changeButtonSize">changeButtonSize</a>
+</div>
+
+<div class="buttons-wrapper">
+  <a href="javascript:" class="button" data-tip="changeIconSize">changeIconSize</a>
+</div>
+
 
 <script src="./h5-audio-controls.umd.js"></script>
 <script>
-  const audioSrc = 'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3';
-  const audioControls = h5AudioControls(audioSrc, {
+  const aAudioSrc = [
+    'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3',
+    'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-Secget_Garden.mp3'
+  ];
+  const audioControls = h5AudioControls(aAudioSrc[0], {
     position: 'left-top'
   });
 
@@ -63,7 +86,68 @@
     if (!buttonTip) {
       return;
     }
-    audioControls[buttonTip]();
+    switch (buttonTip) {
+      case 'play':
+      case 'pause':
+      case 'stop':
+        audioControls[buttonTip]();
+        break;
+
+      case 'changeAudioSrc':
+        switch (audioControls.config.audioSrc) {
+          case aAudioSrc[0]:
+            audioControls.changeAudioSrc(aAudioSrc[1]);
+            break;
+          case aAudioSrc[1]:
+            audioControls.changeAudioSrc(aAudioSrc[0]);
+            break;
+        }
+        break;
+
+      case 'changePosition':
+        switch (audioControls.config.position) {
+          case 'left-top':
+            audioControls.changePosition('top-right');
+            break;
+          case 'top-right':
+            audioControls.changePosition('right-bottom');
+            break;
+          case 'right-bottom':
+            audioControls.changePosition('left-bottom');
+            break;
+          case 'left-bottom':
+            audioControls.changePosition('left-top');
+            break;
+        }
+        break;
+
+      case 'changeButtonSize':
+        switch (audioControls.config.buttonSize) {
+          case '12vw':
+            audioControls.changeButtonSize('16vw');
+            break;
+          case '16vw':
+            audioControls.changeButtonSize('12vw');
+            break;
+          default:
+            audioControls.changeButtonSize('12vw');
+        }
+        break;
+
+      case 'changeIconSize':
+        switch (audioControls.config.iconSize) {
+          case '10vw':
+            audioControls.changeIconSize('7vw');
+            break;
+          case '7vw':
+            audioControls.changeIconSize('10vw');
+            break;
+          default:
+            audioControls.changeIconSize('7vw');
+        }
+        break;
+    }
+
   }));
 </script>
 </body>
