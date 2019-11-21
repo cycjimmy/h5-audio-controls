@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.1.2...v3.2.0) (2019-11-21)
+
+
+### Features
+
+* **dynamical:** support for dynamically modifying the value of configuration properties ([a947592](https://github.com/cycjimmy/h5-audio-controls/commit/a9475927e38cd6fcdf0d016ba9ad85a3fee97d93))
+
 ## [3.1.2](https://github.com/cycjimmy/h5-audio-controls/compare/v3.1.1...v3.1.2) (2019-11-21)
 
 
