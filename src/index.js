@@ -9,12 +9,12 @@ const instance = new CreateInstance();
  * @param param
  * @returns {H5AudioControls}
  */
-export default (param) => {
+export default (...param) => {
   if (instance()) {
     return instance();
   }
 
-  const h5AudioControls = new H5AudioControls(param);
+  const h5AudioControls = new H5AudioControls(...param);
   instance(h5AudioControls);
 
   return h5AudioControls;

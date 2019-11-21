@@ -48,7 +48,9 @@
 <script src="./h5-audio-controls.umd.js"></script>
 <script>
   const audioSrc = 'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3';
-  const audioControls = h5AudioControls(audioSrc);
+  const audioControls = h5AudioControls(audioSrc, {
+    position: 'left-top'
+  });
 
   const aButtons = Array.prototype.slice.call(document.querySelectorAll('.button'));
 
