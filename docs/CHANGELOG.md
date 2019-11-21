@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/cycjimmy/h5-audio-controls/compare/v3.1.1...v3.1.2) (2019-11-21)
+
+
+### Bug Fixes
+
+* **param:** fix multi-parameter support ([76bba62](https://github.com/cycjimmy/h5-audio-controls/commit/76bba62066946aa80adad999ab22a1ead32a8426))
+
 ## [3.1.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.1.0...v3.1.1) (2019-11-20)
 
 
