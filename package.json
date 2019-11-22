@@ -1,6 +1,6 @@
 {
   "name": "@cycjimmy/h5-audio-controls",
-  "version": "3.2.1",
+  "version": "3.3.0",
   "description": "Simple h5 music controller",
   "main": "dist/h5-audio-controls.cjs.js",
   "module": "dist/h5-audio-controls.esm.js",

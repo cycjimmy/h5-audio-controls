@@ -1,3 +1,16 @@
+# [3.3.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.2.1...v3.3.0) (2019-11-22)
+
+
+### Bug Fixes
+
+* **defaults:** unify defaults for comparison ([e4d0a6f](https://github.com/cycjimmy/h5-audio-controls/commit/e4d0a6f74b9b9464441b5da9560bddf72a0b6c53))
+* **type:** receive values ​​excluding 'undefined' type ([a8f0199](https://github.com/cycjimmy/h5-audio-controls/commit/a8f01999b8eaff78352c7f40ee0277d57b24bc4d))
+
+
+### Features
+
+* **change:** add new method change() and optimize multi-configuration property changes ([7dc0aca](https://github.com/cycjimmy/h5-audio-controls/commit/7dc0aca90ecb441ba3e7060417b06e4077ce5a47))
+
 ## [3.2.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.2.0...v3.2.1) (2019-11-22)
 
 
