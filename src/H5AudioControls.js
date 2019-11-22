@@ -34,10 +34,10 @@ export default class {
     {
       context = document.body,
       position = 'top-right',
-      buttonSize,
-      iconSize,
-      playIcon,
-      pauseIcon,
+      buttonSize = '',
+      iconSize = '',
+      playIcon = '',
+      pauseIcon = '',
       autoPlay = true
     } = {}
   ) {
