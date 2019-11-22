@@ -22,7 +22,7 @@
 
     .buttons-wrapper {
       display: flex;
-      padding: 60px 40px 0;
+      padding: 50px 40px 0;
     }
 
     .button {
@@ -64,6 +64,10 @@
   <a href="javascript:" class="button" data-tip="changeIconSize">changeIconSize</a>
 </div>
 
+<div class="buttons-wrapper">
+  <a href="javascript:" class="button" data-tip="changeAll">changeAll</a>
+</div>
+
 
 <script src="./h5-audio-controls.umd.js"></script>
 <script>
@@ -77,8 +81,61 @@
 
   const aButtons = Array.prototype.slice.call(document.querySelectorAll('.button'));
 
-  console.log(audioControls);
   audioControls.load();
+
+  const methods = {
+    changeAudioSrc() {
+      switch (audioControls.config.audioSrc) {
+        case aAudioSrc[0]:
+          audioControls.changeAudioSrc(aAudioSrc[1]);
+          break;
+        case aAudioSrc[1]:
+          audioControls.changeAudioSrc(aAudioSrc[0]);
+          break;
+      }
+    },
+    changePosition() {
+      switch (audioControls.config.position) {
+        case 'left-top':
+          audioControls.changePosition('top-right');
+          break;
+        case 'top-right':
+          audioControls.changePosition('right-bottom');
+          break;
+        case 'right-bottom':
+          audioControls.changePosition('left-bottom');
+          break;
+        case 'left-bottom':
+          audioControls.changePosition('left-top');
+          break;
+      }
+    },
+
+    changeButtonSize() {
+      switch (audioControls.config.buttonSize) {
+        case '12vw':
+          audioControls.changeButtonSize('16vw');
+          break;
+        case '16vw':
+          audioControls.changeButtonSize('12vw');
+          break;
+        default:
+          audioControls.changeButtonSize('12vw');
+      }
+    },
+    changeIconSize() {
+      switch (audioControls.config.iconSize) {
+        case '10vw':
+          audioControls.changeIconSize('7vw');
+          break;
+        case '7vw':
+          audioControls.changeIconSize('10vw');
+          break;
+        default:
+          audioControls.changeIconSize('7vw');
+      }
+    },
+  };
 
   aButtons.forEach(button => button.addEventListener('click', function () {
     const buttonTip = button.dataset.tip;
@@ -94,60 +151,18 @@
         break;
 
       case 'changeAudioSrc':
-        switch (audioControls.config.audioSrc) {
-          case aAudioSrc[0]:
-            audioControls.changeAudioSrc(aAudioSrc[1]);
-            break;
-          case aAudioSrc[1]:
-            audioControls.changeAudioSrc(aAudioSrc[0]);
-            break;
-        }
-        break;
-
       case 'changePosition':
-        switch (audioControls.config.position) {
-          case 'left-top':
-            audioControls.changePosition('top-right');
-            break;
-          case 'top-right':
-            audioControls.changePosition('right-bottom');
-            break;
-          case 'right-bottom':
-            audioControls.changePosition('left-bottom');
-            break;
-          case 'left-bottom':
-            audioControls.changePosition('left-top');
-            break;
-        }
-        break;
-
       case 'changeButtonSize':
-        switch (audioControls.config.buttonSize) {
-          case '12vw':
-            audioControls.changeButtonSize('16vw');
-            break;
-          case '16vw':
-            audioControls.changeButtonSize('12vw');
-            break;
-          default:
-            audioControls.changeButtonSize('12vw');
-        }
+      case 'changeIconSize':
+        methods[buttonTip]();
         break;
 
-      case 'changeIconSize':
-        switch (audioControls.config.iconSize) {
-          case '10vw':
-            audioControls.changeIconSize('7vw');
-            break;
-          case '7vw':
-            audioControls.changeIconSize('10vw');
-            break;
-          default:
-            audioControls.changeIconSize('7vw');
+      case 'changeAll':
+        for (let key in methods) {
+          methods[key]();
         }
         break;
     }
-
   }));
 </script>
 </body>
