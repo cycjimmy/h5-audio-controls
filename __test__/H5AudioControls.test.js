@@ -74,6 +74,10 @@ describe('H5AudioControls test', () => {
       .then(() => h5AudioControls.changeAudioSrc(audioSrc))
       .then(() => {
         expect(h5AudioControls.config.audioSrc).toBe(audioSrc);
+
+        // coverall branch
+        h5AudioControls.config.autoPlay = false;
+        return h5AudioControls.changeAudioSrc(audioSrc);
       });
   });
 
