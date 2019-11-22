@@ -66,6 +66,25 @@ describe('H5AudioControls test', () => {
     });
   });
 
+  it('H5AudioControls change test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc);
+    const position = 'top-right';
+    const buttonSize = '15vw';
+
+    return h5AudioControls
+      .load()
+      .then(() => h5AudioControls.change('illegal-key', ' '))
+      .then(() => h5AudioControls.change('autoPlay', false))
+      .then(() => h5AudioControls.change('autoPlay'))
+      .then(() =>
+        // multi changes
+        Promise.all([
+          h5AudioControls.change('position', position),
+          h5AudioControls.change('buttonSize', buttonSize)
+        ])
+      );
+  });
+
   it('H5AudioControls changeAudioSrc test', () => {
     const h5AudioControls = new H5AudioControls(audioSrc);
 
