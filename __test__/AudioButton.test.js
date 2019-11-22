@@ -24,7 +24,7 @@ describe('AudioButton test', () => {
       buttonSize: 2
     });
 
-    expect(audioButton.config.buttonSize).toBe('2px');
+    expect(audioButton.buttonSize).toBe('2px');
   });
 
   it('AudioButton default buttonSize test', () => {
@@ -34,7 +34,7 @@ describe('AudioButton test', () => {
 
     const audioButton = new AudioButton({});
 
-    expect(audioButton.config.buttonSize).toBe(`${window.innerWidth * 0.15}px`);
+    expect(audioButton.buttonSize).toBe(`${window.innerWidth * 0.15}px`);
   });
 
   it('AudioButton iconSize test', () => {
@@ -42,6 +42,6 @@ describe('AudioButton test', () => {
       iconSize: 1
     });
 
-    expect(audioButton.config.iconSize).toBe('1px');
+    expect(audioButton.iconSize).toBe('1px');
   });
 });
