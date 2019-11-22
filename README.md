@@ -60,6 +60,15 @@ h5AudioControls(audioSrc [, options])
   * `changePosition(position)`: Dynamically modify the value of `position`.
   * `changeButtonSize(size)`: Dynamically modify the value of `buttonSize`.
   * `changeIconSize(size)`: Dynamically modify the value of `iconSize`.
+  * `change(key, val)`: Dynamically change the value of configuration properties. 
+    * Supports the following keys: 
+      * `'audioSrc'`: Change the value of `audioSrc`. `change('audioSrc', 'yourSrc')` is the same as `changeAudioSrc('yourSrc')`
+      * `'position'`: Change the value of `position`. `change('position', 'left-top')` is the same as `changePosition('left-top')`
+      * `'buttonSize'`: Change the value of `buttonSize`. `change('buttonSize', '16vw')` is the same as `changeButtonSize('16vw')`
+      * `'iconSize'`: Change the value of `iconSize`. `change('iconSize', '10vw')` is the same as `changeIconSize('10vw')`
+      * `'playIcon'`: Change the value of `playIcon`.
+      * `'pauseIcon'`: Change the value of `pauseIcon`.
+      * `'autoPlay'`: Change the value of `autoPlay`.
 
 ### Use in browser
 ```html

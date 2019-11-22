@@ -2,6 +2,7 @@ import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString';
 import getElementStyle from '@cycjimmy/awesome-js-funcs/dom/getElementStyle';
 import functionToPromise from '@cycjimmy/awesome-js-funcs/typeConversion/functionToPromise';
 
+import { isLegalConfigKey, audioButtonNeedChange } from './tools';
 import Audio from './Audio';
 import AudioButton from './AudioButton';
 
@@ -33,10 +34,10 @@ export default class {
     {
       context = document.body,
       position = 'top-right',
-      buttonSize,
-      iconSize,
-      playIcon,
-      pauseIcon,
+      buttonSize = '',
+      iconSize = '',
+      playIcon = '',
+      pauseIcon = '',
       autoPlay = true
     } = {}
   ) {
@@ -48,6 +49,10 @@ export default class {
       playIcon,
       pauseIcon,
       autoPlay
+    };
+
+    this.state = {
+      isAudioButtonChanging: false
     };
 
     this.setContext(context);
@@ -113,31 +118,73 @@ export default class {
   }
 
   /**
+   * dynamically change the value of configuration properties
+   * @param key
+   * @param val
+   * @returns {Promise<void>}
+   */
+  change(key, val) {
+    if (!isLegalConfigKey(key)) {
+      return Promise.resolve();
+    }
+
+    if (typeof val === 'undefined') {
+      return Promise.resolve();
+    }
+
+    this.config[key] = val;
+
+    if (key === 'autoPlay') {
+      return Promise.resolve();
+    }
+
+    if (key === 'audioSrc') {
+      return Promise.resolve()
+        .then(() =>
+          functionToPromise(() => {
+            this.stop();
+            this._initAudioInstance();
+          })
+        )
+        .then(() =>
+          functionToPromise(() => {
+            if (this.config.autoPlay) {
+              this.play();
+            }
+          })
+        );
+    }
+
+    if (this.state.isAudioButtonChanging) {
+      return Promise.resolve()
+        .then(() => functionToPromise(() => {}, 10))
+        .then(() => this.change(key, val));
+    }
+
+    this.state.isAudioButtonChanging = true;
+
+    return Promise.resolve().then(() => {
+      if (!audioButtonNeedChange([this.config, this.audioButtonInstance.config])) {
+        return Promise.resolve();
+      }
+
+      return Promise.resolve()
+        .then(() => this.repaintAudioButton())
+        .then(() =>
+          functionToPromise(() => {
+            this.state.isAudioButtonChanging = false;
+          })
+        );
+    });
+  }
+
+  /**
    * changeAudioSrc
    * @param src
    * @returns {Promise<void>}
    */
   changeAudioSrc(src) {
-    if (!src) {
-      return Promise.resolve();
-    }
-
-    this.config.audioSrc = src;
-
-    return Promise.resolve()
-      .then(() =>
-        functionToPromise(() => {
-          this.stop();
-          this._initAudioInstance();
-        })
-      )
-      .then(() =>
-        functionToPromise(() => {
-          if (this.config.autoPlay) {
-            this.play();
-          }
-        })
-      );
+    return this.change('audioSrc', src);
   }
 
   /**
@@ -146,12 +193,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changePosition(position) {
-    if (!position) {
-      return Promise.resolve();
-    }
-
-    this.config.position = position;
-    return this.repaintAudioButton();
+    return this.change('position', position);
   }
 
   /**
@@ -160,12 +202,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changeButtonSize(size) {
-    if (!size) {
-      return Promise.resolve();
-    }
-
-    this.config.buttonSize = size;
-    return this.repaintAudioButton();
+    return this.change('buttonSize', size);
   }
 
   /**
@@ -174,12 +211,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changeIconSize(size) {
-    if (!size) {
-      return Promise.resolve();
-    }
-
-    this.config.iconSize = size;
-    return this.repaintAudioButton();
+    return this.change('iconSize', size);
   }
 
   /**
