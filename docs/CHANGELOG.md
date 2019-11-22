@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.2.0...v3.2.1) (2019-11-22)
+
+
+### Bug Fixes
+
+* **eventbind:** remove duplicate bindings ([92037b9](https://github.com/cycjimmy/h5-audio-controls/commit/92037b980bc6ce9e8216f8d771fdf0547a05dc6b))
+
 # [3.2.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.1.2...v3.2.0) (2019-11-21)
 
 
