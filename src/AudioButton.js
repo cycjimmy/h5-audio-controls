@@ -13,26 +13,35 @@ export default class {
    * @param pauseIcon
    */
   constructor({
-    buttonSize = '',
     position = 'top-right',
+    buttonSize = '',
     iconSize = '',
     playIcon = '',
     pauseIcon = ''
   }) {
     this.config = {
-      buttonSize: isString(buttonSize) ? buttonSize : `${buttonSize}px`,
+      buttonSize,
       position,
-      iconSize: isString(iconSize) ? iconSize : `${iconSize}px`
+      iconSize,
+      playIcon,
+      pauseIcon
     };
+
+    this.buttonSize = isString(this.config.buttonSize)
+      ? this.config.buttonSize
+      : `${this.config.buttonSize}px`;
+    this.iconSize = isString(this.config.iconSize)
+      ? this.config.iconSize
+      : `${this.config.iconSize}px`;
 
     this.audioButton = document.createElement('a');
     this.playIcon = ePlayIcon({
-      iconUrl: playIcon,
-      size: this.config.iconSize
+      iconUrl: this.config.playIcon,
+      size: this.iconSize
     });
     this.pauseIcon = ePauseIcon({
-      iconUrl: pauseIcon,
-      size: this.config.iconSize
+      iconUrl: this.config.pauseIcon,
+      size: this.iconSize
     });
 
     this._init();
@@ -74,13 +83,13 @@ export default class {
     this.audioButton.classList.add(_style.musicControlWrapper, this.config.position);
 
     // Init Button Size
-    if (!this.config.buttonSize) {
+    if (!this.buttonSize) {
       const shortW =
         window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
-      this.config.buttonSize = `${shortW * 0.15}px`;
+      this.buttonSize = `${shortW * 0.15}px`;
     }
 
-    this.audioButton.style.cssText = `width: ${this.config.buttonSize}; height: ${this.config.buttonSize}`;
+    this.audioButton.style.cssText = `width: ${this.buttonSize}; height: ${this.buttonSize}`;
 
     this.changeUIToPlay();
   }
