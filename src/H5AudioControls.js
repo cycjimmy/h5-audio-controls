@@ -70,10 +70,6 @@ export default class {
   load() {
     return this.appendAudioButton().then(() =>
       functionToPromise(() => {
-        this.context.appendChild(this.audioButtonInstance.getAudioButton());
-        this.changeButtonUI();
-        this.eventBind();
-
         if (this.config.autoPlay) {
           this.play();
         }
