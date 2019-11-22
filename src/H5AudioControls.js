@@ -128,7 +128,7 @@ export default class {
       return Promise.resolve();
     }
 
-    if (!val) {
+    if (typeof val === 'undefined') {
       return Promise.resolve();
     }
 
