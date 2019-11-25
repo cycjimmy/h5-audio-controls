@@ -1,3 +1,10 @@
+## [3.3.2](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.1...v3.3.2) (2019-11-25)
+
+
+### Performance Improvements
+
+* **position:** use fixed position instead of absolute ([8111653](https://github.com/cycjimmy/h5-audio-controls/commit/81116537d89935ac2ff208804a0753b1fef3b0fb))
+
 ## [3.3.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.0...v3.3.1) (2019-11-25)
 
 
