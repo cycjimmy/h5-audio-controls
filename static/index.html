@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <link rel="shortcut icon" href="./favicon.ico">
+  <link rel="preload" href="https://cycjimmy.github.io/staticFiles/images/icons/icon-play1.svg" as="image">
+  <link rel="preload" href="https://cycjimmy.github.io/staticFiles/images/icons/icon-play2.svg" as="image">
+  <link rel="preload" href="https://cycjimmy.github.io/staticFiles/images/icons/icon-pause1.svg" as="image">
+  <link rel="preload" href="https://cycjimmy.github.io/staticFiles/images/icons/icon-pause2.svg" as="image">
+
   <title>H5 Audio Controls Test</title>
 
   <style>
@@ -17,18 +22,52 @@
     }
 
     body {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+
       background-color: #0a4f56;
     }
 
-    .buttons-wrapper {
+    .wrapper {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
-      padding: 50px 40px 0;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+
+      padding: 40px;
+    }
+
+    .buttons-wrapper {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      width: 80vw;
     }
 
     .button {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
       flex: 1;
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
       justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
       height: 30px;
       margin: 0 5px;
@@ -42,38 +81,55 @@
 </head>
 
 <body>
-<div class="buttons-wrapper">
-  <a href="javascript:" class="button" data-tip="play">play</a>
-  <a href="javascript:" class="button" data-tip="pause">pause</a>
-  <a href="javascript:" class="button" data-tip="stop">stop</a>
-</div>
+<div class="wrapper">
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="play">play</a>
+    <a href="javascript:" class="button" data-tip="pause">pause</a>
+    <a href="javascript:" class="button" data-tip="stop">stop</a>
+  </div>
 
-<div class="buttons-wrapper">
-  <a href="javascript:" class="button" data-tip="changeAudioSrc">changeAudioSrc</a>
-</div>
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changeAudioSrc">changeAudioSrc</a>
+  </div>
 
-<div class="buttons-wrapper">
-  <a href="javascript:" class="button" data-tip="changePosition">changePosition</a>
-</div>
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changePosition">changePosition</a>
+  </div>
 
-<div class="buttons-wrapper">
-  <a href="javascript:" class="button" data-tip="changeButtonSize">changeButtonSize</a>
-</div>
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changeButtonSize">changeButtonSize</a>
+  </div>
 
-<div class="buttons-wrapper">
-  <a href="javascript:" class="button" data-tip="changeIconSize">changeIconSize</a>
-</div>
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changeIconSize">changeIconSize</a>
+  </div>
 
-<div class="buttons-wrapper">
-  <a href="javascript:" class="button" data-tip="changeAll">changeAll</a>
-</div>
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changePlayIcon">changePlayIcon</a>
+  </div>
 
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changePauseIcon">changePauseIcon</a>
+  </div>
+
+  <div class="buttons-wrapper">
+    <a href="javascript:" class="button" data-tip="changeAll">changeAll</a>
+  </div>
+</div>
 
 <script src="./h5-audio-controls.umd.js"></script>
 <script>
   const aAudioSrc = [
     'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3',
     'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-Secget_Garden.mp3'
+  ];
+  const aPlayIconSrc = [
+    'https://cycjimmy.github.io/staticFiles/images/icons/icon-play1.svg',
+    'https://cycjimmy.github.io/staticFiles/images/icons/icon-play2.svg'
+  ];
+  const aPauseIconSrc = [
+    'https://cycjimmy.github.io/staticFiles/images/icons/icon-pause1.svg',
+    'https://cycjimmy.github.io/staticFiles/images/icons/icon-pause2.svg'
   ];
   const audioControls = h5AudioControls(aAudioSrc[0], {
     position: 'left-top'
@@ -110,7 +166,6 @@
           break;
       }
     },
-
     changeButtonSize() {
       switch (audioControls.config.buttonSize) {
         case '12vw':
@@ -135,6 +190,30 @@
           audioControls.changeIconSize('7vw');
       }
     },
+    changePlayIcon() {
+      switch (audioControls.config.playIcon) {
+        case aPlayIconSrc[0]:
+          audioControls.change('playIcon', aPlayIconSrc[1]);
+          break;
+        case aPlayIconSrc[1]:
+          audioControls.change('playIcon', aPlayIconSrc[0]);
+          break;
+        default:
+          audioControls.change('playIcon', aPlayIconSrc[1]);
+      }
+    },
+    changePauseIcon() {
+      switch (audioControls.config.pauseIcon) {
+        case aPauseIconSrc[0]:
+          audioControls.change('pauseIcon', aPauseIconSrc[1]);
+          break;
+        case aPauseIconSrc[1]:
+          audioControls.change('pauseIcon', aPauseIconSrc[0]);
+          break;
+        default:
+          audioControls.change('pauseIcon', aPauseIconSrc[1]);
+      }
+    },
   };
 
   aButtons.forEach(button => button.addEventListener('click', function () {
@@ -154,6 +233,8 @@
       case 'changePosition':
       case 'changeButtonSize':
       case 'changeIconSize':
+      case 'changePlayIcon':
+      case 'changePauseIcon':
         methods[buttonTip]();
         break;
 
