@@ -1,5 +1,4 @@
 import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString';
-import getElementStyle from '@cycjimmy/awesome-js-funcs/dom/getElementStyle';
 import functionToPromise from '@cycjimmy/awesome-js-funcs/typeConversion/functionToPromise';
 
 import { isLegalConfigKey, audioButtonNeedChange } from './tools';
@@ -278,7 +277,6 @@ export default class {
    * @private
    */
   _init() {
-    this._fixContextPosition();
     this._initAudioInstance();
     this._initAudioButtonInstance();
   }
@@ -307,18 +305,6 @@ export default class {
       playIcon: this.config.playIcon,
       pauseIcon: this.config.pauseIcon
     });
-
-    return this;
-  }
-
-  /**
-   * fix context position
-   * @private
-   */
-  _fixContextPosition() {
-    if (getElementStyle(this.context, 'position') === 'static') {
-      this.context.style.position = 'relative';
-    }
 
     return this;
   }

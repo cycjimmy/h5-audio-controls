@@ -1,11 +1,11 @@
 @import "~@cycjimmy/sass-lib";
 
 .musicControlWrapper {
-  @extend %abs;
-  @extend %flexCenter;
+  position: fixed;
   z-index: 999;
-  max-width: 15vw;
-  max-height: 15vw;
+  @extend %flexCenter;
+  max-width: 60px;
+  max-height: 60px;
   width: 15vw;
   height: 15vw;
 
