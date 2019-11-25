@@ -165,6 +165,7 @@ export default class {
 
     return Promise.resolve().then(() => {
       if (!audioButtonNeedChange([this.config, this.audioButtonInstance.config])) {
+        this.state.isAudioButtonChanging = false;
         return Promise.resolve();
       }
 
