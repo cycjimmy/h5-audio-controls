@@ -1,3 +1,10 @@
+## [3.3.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.0...v3.3.1) (2019-11-25)
+
+
+### Bug Fixes
+
+* **isAudioButtonChanging:** change state isAudioButtonChanging to false when audioButton no need to change ([d27c8cf](https://github.com/cycjimmy/h5-audio-controls/commit/d27c8cfc88417571c7180e5f54cb2749c4cf1c0b))
+
 # [3.3.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.2.1...v3.3.0) (2019-11-22)
 
 
