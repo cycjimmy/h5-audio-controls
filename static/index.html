@@ -86,6 +86,7 @@
     <a href="javascript:" class="button" data-tip="play">play</a>
     <a href="javascript:" class="button" data-tip="pause">pause</a>
     <a href="javascript:" class="button" data-tip="stop">stop</a>
+    <a href="javascript:" class="button" data-tip="trigger">trigger</a>
   </div>
 
   <div class="buttons-wrapper">
@@ -123,6 +124,9 @@
     'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3',
     'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-Secget_Garden.mp3'
   ];
+  const aPosition = ['left-top', 'top-right', 'right-bottom', 'left-bottom'];
+  const aButtonSize = ['16vw', '12vw'];
+  const aIconSize = ['10vw', '7vw'];
   const aPlayIconSrc = [
     'https://cycjimmy.github.io/staticFiles/images/icons/icon-play1.svg',
     'https://cycjimmy.github.io/staticFiles/images/icons/icon-play2.svg'
@@ -152,42 +156,42 @@
     },
     changePosition() {
       switch (audioControls.config.position) {
-        case 'left-top':
-          audioControls.changePosition('top-right');
+        case aPosition[0]:
+          audioControls.changePosition(aPosition[1]);
           break;
-        case 'top-right':
-          audioControls.changePosition('right-bottom');
+        case aPosition[1]:
+          audioControls.changePosition(aPosition[2]);
           break;
-        case 'right-bottom':
-          audioControls.changePosition('left-bottom');
+        case aPosition[2]:
+          audioControls.changePosition(aPosition[3]);
           break;
-        case 'left-bottom':
-          audioControls.changePosition('left-top');
+        case aPosition[3]:
+          audioControls.changePosition(aPosition[0]);
           break;
       }
     },
     changeButtonSize() {
       switch (audioControls.config.buttonSize) {
-        case '12vw':
-          audioControls.changeButtonSize('16vw');
+        case aButtonSize[0]:
+          audioControls.changeIconSize(aButtonSize[1]);
           break;
-        case '16vw':
-          audioControls.changeButtonSize('12vw');
+        case aButtonSize[1]:
+          audioControls.changeIconSize(aButtonSize[0]);
           break;
         default:
-          audioControls.changeButtonSize('12vw');
+          audioControls.changeIconSize(aButtonSize[0]);
       }
     },
     changeIconSize() {
       switch (audioControls.config.iconSize) {
-        case '10vw':
-          audioControls.changeIconSize('7vw');
+        case aIconSize[0]:
+          audioControls.changeIconSize(aIconSize[1]);
           break;
-        case '7vw':
-          audioControls.changeIconSize('10vw');
+        case aIconSize[1]:
+          audioControls.changeIconSize(aIconSize[0]);
           break;
         default:
-          audioControls.changeIconSize('7vw');
+          audioControls.changeIconSize(aIconSize[0]);
       }
     },
     changePlayIcon() {
@@ -227,6 +231,14 @@
       case 'pause':
       case 'stop':
         audioControls[buttonTip]();
+        break;
+
+      case 'trigger':
+        if (audioControls.isPlaying()) {
+          audioControls.pause();
+        } else {
+          audioControls.play();
+        }
         break;
 
       case 'changeAudioSrc':
