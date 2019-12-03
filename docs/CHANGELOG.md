@@ -1,3 +1,11 @@
+## [3.3.3](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.2...v3.3.3) (2019-12-03)
+
+
+### Bug Fixes
+
+* **audiobutton:** fix AudioButton state missing when autoplay on ios13 ([bb70bfe](https://github.com/cycjimmy/h5-audio-controls/commit/bb70bfeef4bea5c93752f72c73d8b0746a66abf0))
+* **mock:** mock audio canplay ([7785f85](https://github.com/cycjimmy/h5-audio-controls/commit/7785f8573a1fc623632044a61cd75ee66222737c))
+
 ## [3.3.2](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.1...v3.3.2) (2019-11-25)
 
 
