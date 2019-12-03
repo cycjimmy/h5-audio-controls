@@ -68,6 +68,16 @@ export default class {
   }
 
   /**
+   * canplay
+   * @returns {Promise<>}
+   */
+  canplay() {
+    return new Promise((resolve) => {
+      this.audio.addEventListener('canplay', resolve);
+    });
+  }
+
+  /**
    * init
    * @private
    */
