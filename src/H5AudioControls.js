@@ -76,6 +76,9 @@ export default class {
       functionToPromise(() => {
         if (this.config.autoPlay) {
           this.play();
+          this.audioInstance.canplay().then(() => {
+            this.changeButtonUI();
+          });
         }
       })
     );
