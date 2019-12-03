@@ -34,6 +34,14 @@ describe('H5AudioControls test', () => {
         }
       });
     };
+
+    // mock canplay
+    window.HTMLMediaElement.prototype.addEventListener = (x, cb) => {
+      if (x !== 'canplay') {
+        return;
+      }
+      cb();
+    };
   });
 
   it('H5AudioControls default test', (done) => {
