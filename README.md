@@ -44,6 +44,13 @@ h5AudioControls(audioSrc [, options])
       * `'top-right'`(Default)
       * `'right-bottom'`
       * `'left-bottom'`
+  * `positionType`: [Option][string] Set position type of audio controller.
+    * Choose one of the five options:
+      * `'fixed'`(Default)
+      * `'absolute'`
+      * `'relative'`
+      * `'sticky'`
+      * `'static'`
   * `buttonSize`: [Option][string|number] Set button wrapper size.
   * `iconSize`: [Option][string|number] Set button icon size.
   * `playIcon`: [Option][string] Set play icon.

@@ -22,6 +22,7 @@ export default class {
    * @param audioSrc
    * @param context default: body
    * @param position 'left-top'|'top-right'(default)|'right-bottom'|'left-bottom'
+   * @param positionType 'fixed'|'absolute'|'relative'|'sticky'|'static' default: 'fixed'
    * @param buttonSize
    * @param iconSize
    * @param playIcon
@@ -33,6 +34,7 @@ export default class {
     {
       context = document.body,
       position = 'top-right',
+      positionType = 'fixed',
       buttonSize = '',
       iconSize = '',
       playIcon = '',
@@ -43,6 +45,7 @@ export default class {
     this.config = {
       audioSrc,
       position,
+      positionType,
       buttonSize,
       iconSize,
       playIcon,
@@ -304,6 +307,7 @@ export default class {
     this.audioButtonInstance = new AudioButton({
       buttonSize: this.config.buttonSize,
       position: this.config.position,
+      positionType: this.config.positionType,
       iconSize: this.config.iconSize,
       playIcon: this.config.playIcon,
       pauseIcon: this.config.pauseIcon

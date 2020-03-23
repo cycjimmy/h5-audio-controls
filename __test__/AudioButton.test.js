@@ -19,6 +19,31 @@ describe('AudioButton test', () => {
     expect(audioButton.getAudioButton().contains(audioButton.pauseIcon)).toBe(false);
   });
 
+  it('AudioButton positionType test', () => {
+    const positionTypeStatic = 'static';
+    const positionTypeRelative = 'relative';
+    const positionTypeAbsolute = 'absolute';
+    const positionTypeSticky = 'sticky';
+
+    const audioButton1 = new AudioButton({
+      positionType: positionTypeStatic
+    });
+    const audioButton2 = new AudioButton({
+      positionType: positionTypeRelative
+    });
+    const audioButton3 = new AudioButton({
+      positionType: positionTypeAbsolute
+    });
+    const audioButton4 = new AudioButton({
+      positionType: positionTypeSticky
+    });
+
+    expect(audioButton1.config.positionType).toBe(positionTypeStatic);
+    expect(audioButton2.config.positionType).toBe(positionTypeRelative);
+    expect(audioButton3.config.positionType).toBe(positionTypeAbsolute);
+    expect(audioButton4.config.positionType).toBe(positionTypeSticky);
+  });
+
   it('AudioButton buttonSize test', () => {
     const audioButton = new AudioButton({
       buttonSize: 2

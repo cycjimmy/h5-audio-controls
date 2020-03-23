@@ -8,12 +8,14 @@ export default class {
    * AudioButton
    * @param buttonSize
    * @param position
+   * @param positionType 'fixed'|'absolute'|'relative'|'sticky'|'static' default: 'fixed'
    * @param iconSize
    * @param playIcon
    * @param pauseIcon
    */
   constructor({
     position = 'top-right',
+    positionType = 'fixed',
     buttonSize = '',
     iconSize = '',
     playIcon = '',
@@ -22,6 +24,7 @@ export default class {
     this.config = {
       buttonSize,
       position,
+      positionType,
       iconSize,
       playIcon,
       pauseIcon
@@ -89,8 +92,25 @@ export default class {
       this.buttonSize = `${shortW * 0.15}px`;
     }
 
-    this.audioButton.style.cssText = `width: ${this.buttonSize}; height: ${this.buttonSize}`;
+    this.audioButton.style.cssText += `width: ${this.buttonSize}; height: ${this.buttonSize}`;
 
+    this._setPositionType();
     this.changeUIToPlay();
+  }
+
+  /**
+   * _setPositionType
+   * @private
+   */
+  _setPositionType() {
+    // eslint-disable-next-line default-case
+    switch (this.config.positionType) {
+      // 'fixed' is default in style
+      case 'static':
+      case 'relative':
+      case 'absolute':
+      case 'sticky':
+        this.audioButton.style.position = this.config.positionType;
+    }
   }
 }
