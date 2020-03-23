@@ -1,9 +1,9 @@
 @import "~@cycjimmy/sass-lib";
 
 .musicControlWrapper {
+  @extend %flexCenter;
   position: fixed;
   z-index: 999;
-  @extend %flexCenter;
   max-width: 60px;
   max-height: 60px;
   width: 15vw;
@@ -53,12 +53,12 @@
 
 .playIcon {
   @extend %musicControl;
-  @include bg-image-full(url(../images/audioPlay.svg));
+  @include bg-image-full(url("../images/audioPlay.svg"));
 
   animation: reverseRotataZ 2s linear infinite;
 }
 
 .pauseIcon {
   @extend %musicControl;
-  @include bg-image-full(url(../images/audioPause.svg));
+  @include bg-image-full(url("../images/audioPause.svg"));
 }
