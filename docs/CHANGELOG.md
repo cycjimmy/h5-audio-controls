@@ -1,3 +1,10 @@
+# [3.4.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.3...v3.4.0) (2020-03-23)
+
+
+### Features
+
+* **audiobutton:** add positionType parameter ([2b24df0](https://github.com/cycjimmy/h5-audio-controls/commit/2b24df0ed4b9fa9d4ac4e8812f8a6394d85d1dee))
+
 ## [3.3.3](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.2...v3.3.3) (2019-12-03)
 
 
