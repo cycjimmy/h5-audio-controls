@@ -1,7 +1,7 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global = global || self, global.h5AudioControls = factory());
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.h5AudioControls = factory());
 }(this, (function () { 'use strict';
 
   function _setPrototypeOf(o, p) {
@@ -43,12 +43,22 @@
     return _construct.apply(null, arguments);
   }
 
-  function unwrapExports (x) {
+  function getDefaultExportFromCjs (x) {
   	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
   }
 
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
+  function createCommonjsModule(fn, basedir, module) {
+  	return module = {
+  		path: basedir,
+  		exports: {},
+  		require: function (path, base) {
+  			return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
+  		}
+  	}, fn(module, module.exports), module.exports;
+  }
+
+  function commonjsRequire () {
+  	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
   }
 
   var CreateInstance = createCommonjsModule(function (module, exports) {
@@ -77,7 +87,7 @@
   exports["default"] = _default;
   });
 
-  var CreateInstance$1 = unwrapExports(CreateInstance);
+  var CreateInstance$1 = /*@__PURE__*/getDefaultExportFromCjs(CreateInstance);
 
   var isString = createCommonjsModule(function (module, exports) {
 
@@ -98,7 +108,7 @@
   exports["default"] = _default;
   });
 
-  var isString$1 = unwrapExports(isString);
+  var isString$1 = /*@__PURE__*/getDefaultExportFromCjs(isString);
 
   var isPromise = createCommonjsModule(function (module, exports) {
 
@@ -118,8 +128,6 @@
 
   exports["default"] = _default;
   });
-
-  unwrapExports(isPromise);
 
   var functionToPromise = createCommonjsModule(function (module, exports) {
 
@@ -160,7 +168,7 @@
   exports["default"] = _default;
   });
 
-  var functionToPromise$1 = unwrapExports(functionToPromise);
+  var functionToPromise$1 = /*@__PURE__*/getDefaultExportFromCjs(functionToPromise);
 
   /**
    * isLegalConfigKey
@@ -217,7 +225,7 @@
   exports["default"] = _default;
   });
 
-  var isAudioPlaying$1 = unwrapExports(isAudioPlaying);
+  var isAudioPlaying$1 = /*@__PURE__*/getDefaultExportFromCjs(isAudioPlaying);
 
   var _default = /*#__PURE__*/function () {
     /**
