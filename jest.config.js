@@ -4,11 +4,11 @@ module.exports = {
     "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/styleMock.js"
   },
   coverageThreshold: {
-    // global: {
-    //   branches: 50,
-    //   functions: 50,
-    //   lines: 50,
-    //   statements: 50,
-    // },
+    global: {
+      branches: 50,
+      functions: 50,
+      lines: 50,
+      statements: 50,
+    },
   },
 };
