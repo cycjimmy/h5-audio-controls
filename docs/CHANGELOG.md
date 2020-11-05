@@ -1,3 +1,10 @@
+## [3.4.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.4.0...v3.4.1) (2020-11-05)
+
+
+### Bug Fixes
+
+* **deps:** upgrade dev dependencies ([88b826d](https://github.com/cycjimmy/h5-audio-controls/commit/88b826d3f5f9cbbd05e6209d81849a641e8ae5da))
+
 # [3.4.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.3.3...v3.4.0) (2020-03-23)
 
 
