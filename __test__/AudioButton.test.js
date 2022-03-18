@@ -1,3 +1,4 @@
+/* eslint no-undef: off */
 import AudioButton from '../src/AudioButton';
 
 describe('AudioButton test', () => {
@@ -26,16 +27,16 @@ describe('AudioButton test', () => {
     const positionTypeSticky = 'sticky';
 
     const audioButton1 = new AudioButton({
-      positionType: positionTypeStatic
+      positionType: positionTypeStatic,
     });
     const audioButton2 = new AudioButton({
-      positionType: positionTypeRelative
+      positionType: positionTypeRelative,
     });
     const audioButton3 = new AudioButton({
-      positionType: positionTypeAbsolute
+      positionType: positionTypeAbsolute,
     });
     const audioButton4 = new AudioButton({
-      positionType: positionTypeSticky
+      positionType: positionTypeSticky,
     });
 
     expect(audioButton1.config.positionType).toBe(positionTypeStatic);
@@ -46,7 +47,7 @@ describe('AudioButton test', () => {
 
   it('AudioButton buttonSize test', () => {
     const audioButton = new AudioButton({
-      buttonSize: 2
+      buttonSize: 2,
     });
 
     expect(audioButton.buttonSize).toBe('2px');
@@ -64,7 +65,7 @@ describe('AudioButton test', () => {
 
   it('AudioButton iconSize test', () => {
     const audioButton = new AudioButton({
-      iconSize: 1
+      iconSize: 1,
     });
 
     expect(audioButton.iconSize).toBe('1px');

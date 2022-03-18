@@ -1,5 +1,5 @@
-import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString';
-import functionToPromise from '@cycjimmy/awesome-js-funcs/typeConversion/functionToPromise';
+import isString from '@cycjimmy/awesome-js-funcs/esm/judgeBasic/isString';
+import functionToPromise from '@cycjimmy/awesome-js-funcs/esm/typeConversion/functionToPromise';
 
 import { isLegalConfigKey, audioButtonNeedChange } from './tools';
 import Audio from './Audio';
@@ -39,8 +39,8 @@ export default class {
       iconSize = '',
       playIcon = '',
       pauseIcon = '',
-      autoPlay = true
-    } = {}
+      autoPlay = true,
+    } = {},
   ) {
     this.config = {
       audioSrc,
@@ -50,11 +50,11 @@ export default class {
       iconSize,
       playIcon,
       pauseIcon,
-      autoPlay
+      autoPlay,
     };
 
     this.state = {
-      isAudioButtonChanging: false
+      isAudioButtonChanging: false,
     };
 
     this.setContext(context);
@@ -75,16 +75,14 @@ export default class {
    * @returns {Promise<void>}
    */
   load() {
-    return this.appendAudioButton().then(() =>
-      functionToPromise(() => {
-        if (this.config.autoPlay) {
-          this.play();
-          this.audioInstance.canplay().then(() => {
-            this.changeButtonUI();
-          });
-        }
-      })
-    );
+    return this.appendAudioButton().then(() => functionToPromise(() => {
+      if (this.config.autoPlay) {
+        this.play();
+        this.audioInstance.canplay().then(() => {
+          this.changeButtonUI();
+        });
+      }
+    }));
   }
 
   /**
@@ -145,19 +143,15 @@ export default class {
 
     if (key === 'audioSrc') {
       return Promise.resolve()
-        .then(() =>
-          functionToPromise(() => {
-            this.stop();
-            this._initAudioInstance();
-          })
-        )
-        .then(() =>
-          functionToPromise(() => {
-            if (this.config.autoPlay) {
-              this.play();
-            }
-          })
-        );
+        .then(() => functionToPromise(() => {
+          this.stop();
+          this._initAudioInstance();
+        }))
+        .then(() => functionToPromise(() => {
+          if (this.config.autoPlay) {
+            this.play();
+          }
+        }));
     }
 
     if (this.state.isAudioButtonChanging) {
@@ -176,11 +170,9 @@ export default class {
 
       return Promise.resolve()
         .then(() => this.repaintAudioButton())
-        .then(() =>
-          functionToPromise(() => {
-            this.state.isAudioButtonChanging = false;
-          })
-        );
+        .then(() => functionToPromise(() => {
+          this.state.isAudioButtonChanging = false;
+        }));
     });
   }
 
@@ -251,16 +243,12 @@ export default class {
    */
   repaintAudioButton() {
     return Promise.resolve()
-      .then(() =>
-        functionToPromise(() => {
-          this.context.removeChild(this.audioButtonInstance.getAudioButton());
-        })
-      )
-      .then(() =>
-        functionToPromise(() => {
-          this._initAudioButtonInstance();
-        })
-      )
+      .then(() => functionToPromise(() => {
+        this.context.removeChild(this.audioButtonInstance.getAudioButton());
+      }))
+      .then(() => functionToPromise(() => {
+        this._initAudioButtonInstance();
+      }))
       .then(() => this.appendAudioButton());
   }
 
@@ -269,13 +257,11 @@ export default class {
    * @returns {Promise<void>}
    */
   appendAudioButton() {
-    return Promise.resolve().then(() =>
-      functionToPromise(() => {
-        this.context.appendChild(this.audioButtonInstance.getAudioButton());
-        this.changeButtonUI();
-        this.eventBind();
-      })
-    );
+    return Promise.resolve().then(() => functionToPromise(() => {
+      this.context.appendChild(this.audioButtonInstance.getAudioButton());
+      this.changeButtonUI();
+      this.eventBind();
+    }));
   }
 
   /**
@@ -293,7 +279,7 @@ export default class {
    */
   _initAudioInstance() {
     this.audioInstance = new Audio({
-      audioSrc: this.config.audioSrc
+      audioSrc: this.config.audioSrc,
     });
 
     return this;
@@ -310,7 +296,7 @@ export default class {
       positionType: this.config.positionType,
       iconSize: this.config.iconSize,
       playIcon: this.config.playIcon,
-      pauseIcon: this.config.pauseIcon
+      pauseIcon: this.config.pauseIcon,
     });
 
     return this;

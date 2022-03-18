@@ -1,8 +1,8 @@
-import CreateInstance from '@cycjimmy/awesome-js-funcs/designPattern/CreateInstance';
+import CreateInstance from '@cycjimmy/awesome-js-funcs/esm/designPattern/CreateInstance';
 
 import H5AudioControls from './H5AudioControls';
 
-const instance = new CreateInstance();
+const instance = CreateInstance();
 
 /**
  * h5AudioControls

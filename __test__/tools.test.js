@@ -1,3 +1,4 @@
+/* eslint no-undef: off */
 import { isLegalConfigKey, audioButtonNeedChange } from '../src/tools';
 
 describe('tools test', () => {
@@ -11,7 +12,7 @@ describe('tools test', () => {
     const configKeys = ['position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon'];
     const config = {};
     const audioButtonConfig = {};
-    for (let i = 0; i < configKeys.length; i++) {
+    for (let i = 0; i < configKeys.length; i += 1) {
       config[configKeys[i]] = configKeys[i];
       audioButtonConfig[configKeys[i]] = configKeys[i];
     }

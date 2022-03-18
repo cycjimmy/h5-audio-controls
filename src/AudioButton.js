@@ -1,4 +1,4 @@
-import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString';
+import isString from '@cycjimmy/awesome-js-funcs/esm/judgeBasic/isString';
 
 import _style from './style/index.scss';
 import { ePlayIcon, ePauseIcon } from './fragments/icons';
@@ -19,7 +19,7 @@ export default class {
     buttonSize = '',
     iconSize = '',
     playIcon = '',
-    pauseIcon = ''
+    pauseIcon = '',
   }) {
     this.config = {
       buttonSize,
@@ -27,7 +27,7 @@ export default class {
       positionType,
       iconSize,
       playIcon,
-      pauseIcon
+      pauseIcon,
     };
 
     this.buttonSize = isString(this.config.buttonSize)
@@ -40,11 +40,11 @@ export default class {
     this.audioButton = document.createElement('a');
     this.playIcon = ePlayIcon({
       iconUrl: this.config.playIcon,
-      size: this.iconSize
+      size: this.iconSize,
     });
     this.pauseIcon = ePauseIcon({
       iconUrl: this.config.pauseIcon,
-      size: this.iconSize
+      size: this.iconSize,
     });
 
     this._init();
@@ -52,7 +52,15 @@ export default class {
 
   /**
    * getAudioButton
-   * @returns {HTMLAnchorElement | {changeUIToPlay(): void, _init(): void, getAudioButton(): *, changeUIToPause(): void}}
+   * @returns {
+   * HTMLAnchorElement |
+   *   {
+   *      changeUIToPlay(): void,
+   *      _init(): void,
+   *      getAudioButton(): *,
+   *      changeUIToPause(): void
+   *   }
+   * }
    */
   getAudioButton() {
     return this.audioButton;
@@ -87,8 +95,9 @@ export default class {
 
     // Init Button Size
     if (!this.buttonSize) {
-      const shortW =
-        window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
+      const shortW = window.innerWidth > window.innerHeight
+        ? window.innerHeight
+        : window.innerWidth;
       this.buttonSize = `${shortW * 0.15}px`;
     }
 

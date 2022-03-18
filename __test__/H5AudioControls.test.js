@@ -1,3 +1,6 @@
+/* eslint no-undef: off */
+/* eslint no-param-reassign: off */
+/* eslint func-names: off */
 import H5AudioControls from '../src/H5AudioControls';
 
 const audioSrc = 'audioSrc';
@@ -5,7 +8,7 @@ const mockAddEventListener = (el) => {
   const event = {
     stopPropagation: () => {
       /* do nothing */
-    }
+    },
   };
   el.addEventListener = (x, cb) => {
     el.mockClick = () => cb(event);
@@ -18,20 +21,20 @@ describe('H5AudioControls test', () => {
     window.HTMLMediaElement.prototype.load = () => {
       /* do nothing */
     };
-    window.HTMLMediaElement.prototype.play = function() {
+    window.HTMLMediaElement.prototype.play = function () {
       Object.defineProperty(this, 'paused', {
         configurable: true,
         get() {
           return false;
-        }
+        },
       });
     };
-    window.HTMLMediaElement.prototype.pause = function() {
+    window.HTMLMediaElement.prototype.pause = function () {
       Object.defineProperty(this, 'paused', {
         configurable: true,
         get() {
           return true;
-        }
+        },
       });
     };
 
@@ -86,11 +89,11 @@ describe('H5AudioControls test', () => {
       .then(() => h5AudioControls.change('autoPlay'))
       .then(() =>
         // multi changes
+        // eslint-disable-next-line implicit-arrow-linebreak
         Promise.all([
           h5AudioControls.change('position', position),
-          h5AudioControls.change('buttonSize', buttonSize)
-        ])
-      );
+          h5AudioControls.change('buttonSize', buttonSize),
+        ]));
   });
 
   it('H5AudioControls changeAudioSrc test', () => {
@@ -159,7 +162,7 @@ describe('H5AudioControls test', () => {
 
     const h5AudioControls = new H5AudioControls(audioSrc, {
       context: `#${mockContext.id}`,
-      autoPlay: false
+      autoPlay: false,
     });
 
     return h5AudioControls.load().then(() => {

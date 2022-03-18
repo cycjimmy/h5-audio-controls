@@ -1,4 +1,4 @@
-import isAudioPlaying from '@cycjimmy/awesome-js-funcs/media/isAudioPlaying';
+import isAudioPlaying from '@cycjimmy/awesome-js-funcs/esm/media/isAudioPlaying';
 
 export default class {
   /**
@@ -7,7 +7,7 @@ export default class {
    */
   constructor({ audioSrc }) {
     this.config = {
-      audioSrc
+      audioSrc,
     };
 
     this.audio = new Audio();
@@ -27,8 +27,7 @@ export default class {
    * @returns {HTMLAudioElement}
    */
   play() {
-    const wxFakePlay = () =>
-      window.WeixinJSBridge.invoke('getNetworkType', {}, () => this.audio.play(), false);
+    const wxFakePlay = () => window.WeixinJSBridge.invoke('getNetworkType', {}, () => this.audio.play(), false);
 
     if (window.WeixinJSBridge) {
       wxFakePlay();

@@ -1,6 +1,5 @@
 # H5 Audio Controls
 ![][workflows-badge-image]
-[![build status][travis-image]][travis-url]
 [![libraries dependency status][libraries-status-image]][libraries-status-url]
 [![libraries sourcerank][libraries-sourcerank-image]][libraries-sourcerank-url]
 [![Coverage Status][coverage-image]][coverage-url]
@@ -91,7 +90,7 @@ h5AudioControls(audioSrc [, options])
 
 To use via a CDN include this in your html:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@3/dist/h5-audio-controls.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@4/dist/h5-audio-controls.umd.min.js"></script>
 ```
 
 <!-- Links: -->
@@ -106,8 +105,6 @@ To use via a CDN include this in your html:
 [jsdelivr-url]: https://www.jsdelivr.com/package/npm/@cycjimmy/h5-audio-controls
 
 [workflows-badge-image]: https://github.com/cycjimmy/h5-audio-controls/workflows/Test%20CI/badge.svg
-[travis-image]: https://img.shields.io/travis/cycjimmy/h5-audio-controls
-[travis-url]: https://travis-ci.org/cycjimmy/h5-audio-controls
 
 [libraries-status-image]: https://img.shields.io/librariesio/release/npm/@cycjimmy/h5-audio-controls
 [libraries-sourcerank-image]: https://img.shields.io/librariesio/sourcerank/npm/@cycjimmy/h5-audio-controls

@@ -1,3 +1,4 @@
+/* eslint no-undef: off */
 import { ePlayIcon, ePauseIcon } from '../../src/fragments/icons';
 
 describe('icons test', () => {
@@ -17,7 +18,7 @@ describe('icons test', () => {
 
     const eIcon = ePauseIcon({
       iconUrl,
-      size
+      size,
     });
 
     expect(eIcon.style.width).toBe(size);

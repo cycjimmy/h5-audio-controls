@@ -32,8 +32,7 @@ const eIcon = ({ iconUrl, className, size }) => {
  * @param size
  * @returns {HTMLSpanElement}
  */
-export const ePlayIcon = ({ iconUrl, size = '' }) =>
-  eIcon({ iconUrl, className: _style.playIcon, size });
+export const ePlayIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className: _style.playIcon, size });
 
 /**
  * pauseIcon
@@ -41,5 +40,4 @@ export const ePlayIcon = ({ iconUrl, size = '' }) =>
  * @param size
  * @returns {HTMLSpanElement}
  */
-export const ePauseIcon = ({ iconUrl, size = '' }) =>
-  eIcon({ iconUrl, className: _style.pauseIcon, size });
+export const ePauseIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className: _style.pauseIcon, size });

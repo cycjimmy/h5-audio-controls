@@ -11,10 +11,10 @@ export const isLegalConfigKey = (key) => {
     'iconSize',
     'playIcon',
     'pauseIcon',
-    'autoPlay'
+    'autoPlay',
   ];
 
-  for (let i = 0; i < configKeys.length; i++) {
+  for (let i = 0; i < configKeys.length; i += 1) {
     if (key === configKeys[i]) {
       return true;
     }
@@ -32,7 +32,7 @@ export const isLegalConfigKey = (key) => {
 export const audioButtonNeedChange = ([config, audioButtonConfig]) => {
   const configKeys = ['position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon'];
 
-  for (let i = 0; i < configKeys.length; i++) {
+  for (let i = 0; i < configKeys.length; i += 1) {
     if (config[configKeys[i]] !== audioButtonConfig[configKeys[i]]) {
       return true;
     }
