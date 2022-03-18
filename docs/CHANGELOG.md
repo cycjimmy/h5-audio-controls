@@ -1,3 +1,15 @@
+# [4.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.4.1...v4.0.0) (2022-03-18)
+
+
+### Features
+
+* change to module mode ([eac3c33](https://github.com/cycjimmy/h5-audio-controls/commit/eac3c33b76aed9e3c34e314bfed6d85aa117aa19))
+
+
+### BREAKING CHANGES
+
+* change to module mode
+
 ## [3.4.1](https://github.com/cycjimmy/h5-audio-controls/compare/v3.4.0...v3.4.1) (2020-11-05)
 
 
