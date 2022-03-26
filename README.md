@@ -90,7 +90,7 @@ h5AudioControls(audioSrc [, options])
 
 To use via a CDN include this in your html:
 ```text
-<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@4/dist/h5-audio-controls.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@cycjimmy/h5-audio-controls@5/dist/h5-audio-controls.umd.min.js"></script>
 ```
 
 <!-- Links: -->
