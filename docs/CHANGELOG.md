@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.0...v5.0.1) (2022-03-26)
+
+
+### Bug Fixes
+
+* fix root version after releasing ([c221c34](https://github.com/cycjimmy/h5-audio-controls/commit/c221c3448f14247649e1a8cad21d9bd027c7be5b))
+
 # [5.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v4.0.0...v5.0.0) (2022-03-26)
 
 
