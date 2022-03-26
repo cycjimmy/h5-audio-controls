@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v4.0.0...v5.0.0) (2022-03-26)
+
+
+### Features
+
+* refactoring build tasks ([f9026e6](https://github.com/cycjimmy/h5-audio-controls/commit/f9026e6711bea220c1e60f4e48e45c22e7829966))
+
+
+### BREAKING CHANGES
+
+* refactoring build tasks
+
 # [4.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v3.4.1...v4.0.0) (2022-03-18)
 
 
