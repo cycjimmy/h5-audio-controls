@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.1...v5.0.2) (2022-06-21)
+
+
+### Bug Fixes
+
+* remove @rollup/plugin-commonjs and fix jest ([95c192d](https://github.com/cycjimmy/h5-audio-controls/commit/95c192d0f167a0ecf2273e51b349a0bcfb437f6d))
+
 ## [5.0.1](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.0...v5.0.1) (2022-03-26)
 
 
