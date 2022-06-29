@@ -8,7 +8,7 @@
   "browser": "dist/h5-audio-controls.umd.min.js",
   "exports": {
     "require": "./dist/h5-audio-controls.cjs",
-    "import": "./dist/h5-audio-controls.umd.min.js"
+    "import": "./dist/h5-audio-controls.esm.js"
   },
   "scripts": {
     "start": "npm run dev",
