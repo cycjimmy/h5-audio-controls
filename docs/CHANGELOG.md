@@ -1,3 +1,10 @@
+## [5.0.3](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.2...v5.0.3) (2022-06-29)
+
+
+### Bug Fixes
+
+* fix exports import path ([1570ae7](https://github.com/cycjimmy/h5-audio-controls/commit/1570ae7215c9729787b8825171b03347fb4b83ed))
+
 ## [5.0.2](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.1...v5.0.2) (2022-06-21)
 
 
