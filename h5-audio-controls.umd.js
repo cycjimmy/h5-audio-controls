@@ -9,7 +9,6 @@
       throw new TypeError("Cannot call a class as a function");
     }
   }
-
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i];
@@ -19,7 +18,6 @@
       Object.defineProperty(target, descriptor.key, descriptor);
     }
   }
-
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
@@ -28,7 +26,6 @@
     });
     return Constructor;
   }
-
   function _setPrototypeOf(o, p) {
     _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
       o.__proto__ = p;
@@ -36,12 +33,10 @@
     };
     return _setPrototypeOf(o, p);
   }
-
   function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
     if (Reflect.construct.sham) return false;
     if (typeof Proxy === "function") return true;
-
     try {
       Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
       return true;
@@ -49,7 +44,6 @@
       return false;
     }
   }
-
   function _construct(Parent, args, Class) {
     if (_isNativeReflectConstruct()) {
       _construct = Reflect.construct.bind();
@@ -63,32 +57,24 @@
         return instance;
       };
     }
-
     return _construct.apply(null, arguments);
   }
-
   function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
   }
-
   function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
   }
-
   function _iterableToArrayLimit(arr, i) {
     var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
     if (_i == null) return;
     var _arr = [];
     var _n = true;
     var _d = false;
-
     var _s, _e;
-
     try {
       for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
         _arr.push(_s.value);
-
         if (i && _arr.length === i) break;
       }
     } catch (err) {
@@ -101,10 +87,8 @@
         if (_d) throw _e;
       }
     }
-
     return _arr;
   }
-
   function _unsupportedIterableToArray(o, minLen) {
     if (!o) return;
     if (typeof o === "string") return _arrayLikeToArray(o, minLen);
@@ -113,15 +97,11 @@
     if (n === "Map" || n === "Set") return Array.from(o);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
   }
-
   function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
-
     for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
     return arr2;
   }
-
   function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
@@ -137,7 +117,6 @@
       if (newInstance) {
         instance = newInstance;
       }
-
       return instance;
     };
   });
@@ -165,11 +144,9 @@
 
   var functionToPromise = (function (normalFunction) {
     var timeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-
     if (isPromise(normalFunction)) {
       return normalFunction;
     } // eslint-disable-next-line no-undef
-
 
     return new Promise(resolve => {
       normalFunction();
@@ -184,35 +161,30 @@
    */
   var isLegalConfigKey = function isLegalConfigKey(key) {
     var configKeys = ['audioSrc', 'position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon', 'autoPlay'];
-
     for (var i = 0; i < configKeys.length; i += 1) {
       if (key === configKeys[i]) {
         return true;
       }
     }
-
     return false;
   };
+
   /**
    * audioButton Need Change
    * @param config
    * @param audioButtonConfig
    * @returns {boolean}
    */
-
   var audioButtonNeedChange = function audioButtonNeedChange(_ref) {
     var _ref2 = _slicedToArray(_ref, 2),
-        config = _ref2[0],
-        audioButtonConfig = _ref2[1];
-
+      config = _ref2[0],
+      audioButtonConfig = _ref2[1];
     var configKeys = ['position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon'];
-
     for (var i = 0; i < configKeys.length; i += 1) {
       if (config[configKeys[i]] !== audioButtonConfig[configKeys[i]]) {
         return true;
       }
     }
-
     return false;
   };
 
@@ -229,43 +201,37 @@
      */
     function _default(_ref) {
       var audioSrc = _ref.audioSrc;
-
       _classCallCheck(this, _default);
-
       this.config = {
         audioSrc: audioSrc
       };
       this.audio = new Audio();
-
       this._init();
     }
+
     /**
      * getAudioButton
      * @returns {HTMLAudioElement}
      */
-
-
     _createClass(_default, [{
       key: "getAudio",
       value: function getAudio() {
         return this.audio;
       }
+
       /**
        * play
        * @returns {HTMLAudioElement}
        */
-
     }, {
       key: "play",
       value: function play() {
         var _this = this;
-
         var wxFakePlay = function wxFakePlay() {
           return window.WeixinJSBridge.invoke('getNetworkType', {}, function () {
             return _this.audio.play();
           }, false);
         };
-
         if (window.WeixinJSBridge) {
           wxFakePlay();
         } else {
@@ -273,26 +239,25 @@
             return _this.audio.play();
           }, false);
         }
-
         this.audio.play();
         return this.audio;
       }
+
       /**
        * pause
        * @returns {HTMLAudioElement}
        */
-
     }, {
       key: "pause",
       value: function pause() {
         this.audio.pause();
         return this.audio;
       }
+
       /**
        * stop
        * @returns {HTMLAudioElement}
        */
-
     }, {
       key: "stop",
       value: function stop() {
@@ -300,35 +265,34 @@
         this.audio.pause();
         return this.audio;
       }
+
       /**
        * isPlaying
        * @returns {boolean}
        */
-
     }, {
       key: "isPlaying",
       value: function isPlaying() {
         return isAudioPlaying(this.audio);
       }
+
       /**
        * canplay
        * @returns {Promise<>}
        */
-
     }, {
       key: "canplay",
       value: function canplay() {
         var _this2 = this;
-
         return new Promise(function (resolve) {
           _this2.audio.addEventListener('canplay', resolve);
         });
       }
+
       /**
        * init
        * @private
        */
-
     }, {
       key: "_init",
       value: function _init() {
@@ -337,22 +301,18 @@
         this.audio.loop = true;
       }
     }]);
-
     return _default;
   }();
 
   function styleInject(css, ref) {
     if (ref === void 0) ref = {};
     var insertAt = ref.insertAt;
-
     if (!css || typeof document === 'undefined') {
       return;
     }
-
     var head = document.head || document.getElementsByTagName('head')[0];
     var style = document.createElement('style');
     style.type = 'text/css';
-
     if (insertAt === 'top') {
       if (head.firstChild) {
         head.insertBefore(style, head.firstChild);
@@ -362,7 +322,6 @@
     } else {
       head.appendChild(style);
     }
-
     if (style.styleSheet) {
       style.styleSheet.cssText = css;
     } else {
@@ -381,55 +340,50 @@
    * @param size
    * @returns {HTMLSpanElement}
    */
-
   var eIcon = function eIcon(_ref) {
     var iconUrl = _ref.iconUrl,
-        className = _ref.className,
-        size = _ref.size;
+      className = _ref.className,
+      size = _ref.size;
     var icon = document.createElement('span');
     var cssText = '';
     icon.classList.add(className);
-
     if (iconUrl) {
       cssText += "background-image: url(".concat(iconUrl, "); ");
     }
-
     if (size) {
       cssText += "width: ".concat(size, "; height: ").concat(size);
     }
-
     icon.style.cssText = cssText;
     return icon;
   };
+
   /**
    * playIcon
    * @param iconUrl
    * @param size
    * @returns {HTMLSpanElement}
    */
-
-
   var ePlayIcon = function ePlayIcon(_ref2) {
     var iconUrl = _ref2.iconUrl,
-        _ref2$size = _ref2.size,
-        size = _ref2$size === void 0 ? '' : _ref2$size;
+      _ref2$size = _ref2.size,
+      size = _ref2$size === void 0 ? '' : _ref2$size;
     return eIcon({
       iconUrl: iconUrl,
       className: _style.playIcon,
       size: size
     });
   };
+
   /**
    * pauseIcon
    * @param iconUrl
    * @param size
    * @returns {HTMLSpanElement}
    */
-
   var ePauseIcon = function ePauseIcon(_ref3) {
     var iconUrl = _ref3.iconUrl,
-        _ref3$size = _ref3.size,
-        size = _ref3$size === void 0 ? '' : _ref3$size;
+      _ref3$size = _ref3.size,
+      size = _ref3$size === void 0 ? '' : _ref3$size;
     return eIcon({
       iconUrl: iconUrl,
       className: _style.pauseIcon,
@@ -449,20 +403,18 @@
      */
     function _default(_ref) {
       var _ref$position = _ref.position,
-          position = _ref$position === void 0 ? 'top-right' : _ref$position,
-          _ref$positionType = _ref.positionType,
-          positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
-          _ref$buttonSize = _ref.buttonSize,
-          buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
-          _ref$iconSize = _ref.iconSize,
-          iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
-          _ref$playIcon = _ref.playIcon,
-          playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
-          _ref$pauseIcon = _ref.pauseIcon,
-          pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon;
-
+        position = _ref$position === void 0 ? 'top-right' : _ref$position,
+        _ref$positionType = _ref.positionType,
+        positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
+        _ref$buttonSize = _ref.buttonSize,
+        buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
+        _ref$iconSize = _ref.iconSize,
+        iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
+        _ref$playIcon = _ref.playIcon,
+        playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
+        _ref$pauseIcon = _ref.pauseIcon,
+        pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon;
       _classCallCheck(this, _default);
-
       this.config = {
         buttonSize: buttonSize,
         position: position,
@@ -482,9 +434,9 @@
         iconUrl: this.config.pauseIcon,
         size: this.iconSize
       });
-
       this._init();
     }
+
     /**
      * getAudioButton
      * @returns {
@@ -497,65 +449,59 @@
      *   }
      * }
      */
-
-
     _createClass(_default, [{
       key: "getAudioButton",
       value: function getAudioButton() {
         return this.audioButton;
       }
+
       /**
        * changeUIToPlay
        */
-
     }, {
       key: "changeUIToPlay",
       value: function changeUIToPlay() {
         if (this.audioButton.contains(this.pauseIcon)) {
           this.audioButton.removeChild(this.pauseIcon);
         }
-
         this.audioButton.appendChild(this.playIcon);
       }
+
       /**
        * changeUIToPause
        */
-
     }, {
       key: "changeUIToPause",
       value: function changeUIToPause() {
         if (this.audioButton.contains(this.playIcon)) {
           this.audioButton.removeChild(this.playIcon);
         }
-
         this.audioButton.appendChild(this.pauseIcon);
       }
+
       /**
        * init
        * @private
        */
-
     }, {
       key: "_init",
       value: function _init() {
-        this.audioButton.classList.add(_style.musicControlWrapper, this.config.position); // Init Button Size
+        this.audioButton.classList.add(_style.musicControlWrapper, this.config.position);
 
+        // Init Button Size
         if (!this.buttonSize) {
           var shortW = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
           this.buttonSize = "".concat(shortW * 0.15, "px");
         }
-
         this.audioButton.style.cssText += "width: ".concat(this.buttonSize, "; height: ").concat(this.buttonSize);
-
         this._setPositionType();
-
         this.changeUIToPlay();
       }
+
       /**
        * _setPositionType
        * @private
        */
-
     }, {
       key: "_setPositionType",
       value: function _setPositionType() {
@@ -570,7 +516,6 @@
         }
       }
     }]);
-
     return _default;
   }();
 
@@ -585,7 +530,6 @@
    * changeButtonUI
    * isPlaying
    */
-
   var _default = /*#__PURE__*/function () {
     /**
      * H5AudioControls
@@ -601,25 +545,23 @@
      */
     function _default(audioSrc) {
       var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-          _ref$context = _ref.context,
-          context = _ref$context === void 0 ? document.body : _ref$context,
-          _ref$position = _ref.position,
-          position = _ref$position === void 0 ? 'top-right' : _ref$position,
-          _ref$positionType = _ref.positionType,
-          positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
-          _ref$buttonSize = _ref.buttonSize,
-          buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
-          _ref$iconSize = _ref.iconSize,
-          iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
-          _ref$playIcon = _ref.playIcon,
-          playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
-          _ref$pauseIcon = _ref.pauseIcon,
-          pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon,
-          _ref$autoPlay = _ref.autoPlay,
-          autoPlay = _ref$autoPlay === void 0 ? true : _ref$autoPlay;
-
+        _ref$context = _ref.context,
+        context = _ref$context === void 0 ? document.body : _ref$context,
+        _ref$position = _ref.position,
+        position = _ref$position === void 0 ? 'top-right' : _ref$position,
+        _ref$positionType = _ref.positionType,
+        positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
+        _ref$buttonSize = _ref.buttonSize,
+        buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
+        _ref$iconSize = _ref.iconSize,
+        iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
+        _ref$playIcon = _ref.playIcon,
+        playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
+        _ref$pauseIcon = _ref.pauseIcon,
+        pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon,
+        _ref$autoPlay = _ref.autoPlay,
+        autoPlay = _ref$autoPlay === void 0 ? true : _ref$autoPlay;
       _classCallCheck(this, _default);
-
       this.config = {
         audioSrc: audioSrc,
         position: position,
@@ -634,36 +576,32 @@
         isAudioButtonChanging: false
       };
       this.setContext(context);
-
       this._init();
     }
+
     /**
      * setContext
      * @param context
      */
-
-
     _createClass(_default, [{
       key: "setContext",
       value: function setContext(context) {
         this.context = isString(context) ? document.querySelector(context) : context;
         return this;
       }
+
       /**
        * Load
        * @returns {Promise<void>}
        */
-
     }, {
       key: "load",
       value: function load() {
         var _this = this;
-
         return this.appendAudioButton().then(function () {
           return functionToPromise(function () {
             if (_this.config.autoPlay) {
               _this.play();
-
               _this.audioInstance.canplay().then(function () {
                 _this.changeButtonUI();
               });
@@ -671,52 +609,49 @@
           });
         });
       }
+
       /**
        * play
        */
-
     }, {
       key: "play",
       value: function play() {
         var _this2 = this;
-
         this.audioInstance.play();
         setTimeout(function () {
           return _this2.changeButtonUI();
         }, 0);
       }
+
       /**
        * pause
        */
-
     }, {
       key: "pause",
       value: function pause() {
         var _this3 = this;
-
         this.audioInstance.pause();
         setTimeout(function () {
           return _this3.changeButtonUI();
         }, 0);
       }
+
       /**
        * stop
        */
-
     }, {
       key: "stop",
       value: function stop() {
         var _this4 = this;
-
         this.audioInstance.stop();
         setTimeout(function () {
           return _this4.changeButtonUI();
         }, 0);
       }
+
       /**
        * changeButtonUI
        */
-
     }, {
       key: "changeButtonUI",
       value: function changeButtonUI() {
@@ -726,37 +661,31 @@
           this.audioButtonInstance.changeUIToPause();
         }
       }
+
       /**
        * dynamically change the value of configuration properties
        * @param key
        * @param val
        * @returns {Promise<void>}
        */
-
     }, {
       key: "change",
       value: function change(key, val) {
         var _this5 = this;
-
         if (!isLegalConfigKey(key)) {
           return Promise.resolve();
         }
-
         if (typeof val === 'undefined') {
           return Promise.resolve();
         }
-
         this.config[key] = val;
-
         if (key === 'autoPlay') {
           return Promise.resolve();
         }
-
         if (key === 'audioSrc') {
           return Promise.resolve().then(function () {
             return functionToPromise(function () {
               _this5.stop();
-
               _this5._initAudioInstance();
             });
           }).then(function () {
@@ -767,7 +696,6 @@
             });
           });
         }
-
         if (this.state.isAudioButtonChanging) {
           return Promise.resolve().then(function () {
             return functionToPromise(function () {}, 10);
@@ -775,14 +703,12 @@
             return _this5.change(key, val);
           });
         }
-
         this.state.isAudioButtonChanging = true;
         return Promise.resolve().then(function () {
           if (!audioButtonNeedChange([_this5.config, _this5.audioButtonInstance.config])) {
             _this5.state.isAudioButtonChanging = false;
             return Promise.resolve();
           }
-
           return Promise.resolve().then(function () {
             return _this5.repaintAudioButton();
           }).then(function () {
@@ -792,92 +718,87 @@
           });
         });
       }
+
       /**
        * changeAudioSrc
        * @param src
        * @returns {Promise<void>}
        */
-
     }, {
       key: "changeAudioSrc",
       value: function changeAudioSrc(src) {
         return this.change('audioSrc', src);
       }
+
       /**
        * changePosition
        * @param position
        * @returns {Promise<void>}
        */
-
     }, {
       key: "changePosition",
       value: function changePosition(position) {
         return this.change('position', position);
       }
+
       /**
        * changeButtonSize
        * @param size
        * @returns {Promise<void>}
        */
-
     }, {
       key: "changeButtonSize",
       value: function changeButtonSize(size) {
         return this.change('buttonSize', size);
       }
+
       /**
        * changeIconSize
        * @param size
        * @returns {Promise<void>}
        */
-
     }, {
       key: "changeIconSize",
       value: function changeIconSize(size) {
         return this.change('iconSize', size);
       }
+
       /**
        * isPlaying
        * @returns {boolean}
        */
-
     }, {
       key: "isPlaying",
       value: function isPlaying() {
         return this.audioInstance.isPlaying();
       }
+
       /**
        * eventBind
        */
-
     }, {
       key: "eventBind",
       value: function eventBind() {
         var _this6 = this;
-
         this.audioButtonInstance.getAudioButton().addEventListener('click', function (e) {
           e.stopPropagation();
-
           if (_this6.isPlaying()) {
             _this6.pause();
-
             return;
           }
-
           _this6.play();
         });
         return this;
       }
+
       /**
        * Repaint AudioButton
        * @returns {Promise<void>}
        */
-
     }, {
       key: "repaintAudioButton",
       value: function repaintAudioButton() {
         var _this7 = this;
-
         return Promise.resolve().then(function () {
           return functionToPromise(function () {
             _this7.context.removeChild(_this7.audioButtonInstance.getAudioButton());
@@ -890,43 +811,39 @@
           return _this7.appendAudioButton();
         });
       }
+
       /**
        * appendAudioButton
        * @returns {Promise<void>}
        */
-
     }, {
       key: "appendAudioButton",
       value: function appendAudioButton() {
         var _this8 = this;
-
         return Promise.resolve().then(function () {
           return functionToPromise(function () {
             _this8.context.appendChild(_this8.audioButtonInstance.getAudioButton());
-
             _this8.changeButtonUI();
-
             _this8.eventBind();
           });
         });
       }
+
       /**
        * Init
        * @private
        */
-
     }, {
       key: "_init",
       value: function _init() {
         this._initAudioInstance();
-
         this._initAudioButtonInstance();
       }
+
       /**
        * InitAudioInstance
        * @private
        */
-
     }, {
       key: "_initAudioInstance",
       value: function _initAudioInstance() {
@@ -935,11 +852,11 @@
         });
         return this;
       }
+
       /**
        * InitAudioButtonInstance
        * @private
        */
-
     }, {
       key: "_initAudioButtonInstance",
       value: function _initAudioButtonInstance() {
@@ -954,28 +871,24 @@
         return this;
       }
     }]);
-
     return _default;
   }();
 
   var instance = CreateInstance();
+
   /**
    * h5AudioControls
    * @param param
    * @returns {H5AudioControls}
    */
-
   var index = (function () {
     if (instance()) {
       return instance();
     }
-
     for (var _len = arguments.length, param = new Array(_len), _key = 0; _key < _len; _key++) {
       param[_key] = arguments[_key];
     }
-
     var h5AudioControls = _construct(_default, param);
-
     instance(h5AudioControls);
     return h5AudioControls;
   });
