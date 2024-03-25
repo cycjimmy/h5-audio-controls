@@ -219,7 +219,7 @@
      * getAudioButton
      * @returns {HTMLAudioElement}
      */
-    _createClass(_default, [{
+    return _createClass(_default, [{
       key: "getAudio",
       value: function getAudio() {
         return this.audio;
@@ -307,7 +307,6 @@
         this.audio.loop = true;
       }
     }]);
-    return _default;
   }();
 
   function styleInject(css, ref) {
@@ -455,7 +454,7 @@
      *   }
      * }
      */
-    _createClass(_default, [{
+    return _createClass(_default, [{
       key: "getAudioButton",
       value: function getAudioButton() {
         return this.audioButton;
@@ -522,7 +521,6 @@
         }
       }
     }]);
-    return _default;
   }();
 
   /**
@@ -589,7 +587,7 @@
      * setContext
      * @param context
      */
-    _createClass(_default, [{
+    return _createClass(_default, [{
       key: "setContext",
       value: function setContext(context) {
         this.context = isString(context) ? document.querySelector(context) : context;
@@ -877,7 +875,6 @@
         return this;
       }
     }]);
-    return _default;
   }();
 
   var instance = CreateInstance();
