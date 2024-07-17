@@ -1,3 +1,10 @@
+## [5.0.4](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.3...v5.0.4) (2024-07-17)
+
+
+### Bug Fixes
+
+* upgrade rollup to v4 ([f724ee5](https://github.com/cycjimmy/h5-audio-controls/commit/f724ee5f5778bb1e78b7a63dcfc43e5cfca3b5b7))
+
 ## [5.0.3](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.2...v5.0.3) (2022-06-29)
 
 
