@@ -98,7 +98,7 @@
    * @returns {function(*=)}
    * @constructor
    */
-  var CreateInstance = (() => {
+  var CreateInstance = () => {
     var instance;
     return newInstance => {
       if (newInstance) {
@@ -106,21 +106,21 @@
       }
       return instance;
     };
-  });
+  };
 
   /**
    * determine a string type
    * @param str
    * @returns {boolean}
    */
-  var isString = (str => typeof str === 'string' && str.constructor === String);
+  var isString = str => typeof str === 'string' && str.constructor === String;
 
   /**
    * determine a promise type
    * @param promise
    * @returns {boolean}
    */
-  var isPromise = (promise => Object.prototype.toString.call(promise).slice(8, -1) === 'Promise');
+  var isPromise = promise => Object.prototype.toString.call(promise).slice(8, -1) === 'Promise';
 
   /**
    * function to promise
@@ -179,7 +179,7 @@
    * isAudioPlaying
    * @param audio
    */
-  var isAudioPlaying = (audio => !audio.paused);
+  var isAudioPlaying = audio => !audio.paused;
 
   var _default$2 = /*#__PURE__*/function () {
     /**
