@@ -1,3 +1,10 @@
+## [5.0.5](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.4...v5.0.5) (2024-10-25)
+
+
+### Bug Fixes
+
+* use @cycjimmy/sass-lib@3 ([4683716](https://github.com/cycjimmy/h5-audio-controls/commit/46837165aaa634aed56be65866ee02de87c7f956))
+
 ## [5.0.4](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.3...v5.0.4) (2024-07-17)
 
 
