@@ -1,7 +1,8 @@
-@import "~@cycjimmy/sass-lib";
+@use "~@cycjimmy/sass-lib" as *;
+@use "~@cycjimmy/sass-lib" as lib;
 
 .musicControlWrapper {
-  @extend %flexCenter;
+  @extend %flex-center;
   position: fixed;
   z-index: 999;
   max-width: 60px;
@@ -36,7 +37,7 @@
   }
 }
 
-@keyframes reverseRotataZ {
+@keyframes reverseRotateZ {
   from {
     transform: rotateZ(0deg);
   }
@@ -53,12 +54,12 @@
 
 .playIcon {
   @extend %musicControl;
-  @include bg-image-full(url("../images/audioPlay.svg"));
+  @include lib.bg-image-full(url("../images/audioPlay.svg"));
 
-  animation: reverseRotataZ 2s linear infinite;
+  animation: reverseRotateZ 2s linear infinite;
 }
 
 .pauseIcon {
   @extend %musicControl;
-  @include bg-image-full(url("../images/audioPause.svg"));
+  @include lib.bg-image-full(url("../images/audioPause.svg"));
 }
