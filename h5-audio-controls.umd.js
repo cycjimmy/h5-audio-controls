@@ -25,12 +25,12 @@
   function _defineProperties(e, r) {
     for (var t = 0; t < r.length; t++) {
       var o = r[t];
-      o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
+      o.enumerable = o.enumerable || false, o.configurable = true, "value" in o && (o.writable = true), Object.defineProperty(e, _toPropertyKey(o.key), o);
     }
   }
   function _createClass(e, r, t) {
     return r && _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
-      writable: !1
+      writable: false
     }), e;
   }
   function _isNativeReflectConstruct() {
@@ -49,12 +49,12 @@
         i,
         u,
         a = [],
-        f = !0,
-        o = !1;
+        f = true,
+        o = false;
       try {
         if (i = (t = t.call(r)).next, 0 === l) ; else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
       } catch (r) {
-        o = !0, n = r;
+        o = true, n = r;
       } finally {
         try {
           if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
@@ -74,7 +74,7 @@
   function _toPrimitive(t, r) {
     if ("object" != typeof t || !t) return t;
     var e = t[Symbol.toPrimitive];
-    if (void 0 !== e) {
+    if (undefined !== e) {
       var i = e.call(t, r);
       if ("object" != typeof i) return i;
       throw new TypeError("@@toPrimitive must return a primitive value.");
@@ -86,10 +86,10 @@
     return "symbol" == typeof i ? i : i + "";
   }
   function _unsupportedIterableToArray(r, a) {
-    if (r) {
+    {
       if ("string" == typeof r) return _arrayLikeToArray(r, a);
       var t = {}.toString.call(r).slice(8, -1);
-      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : undefined;
     }
   }
 
@@ -291,7 +291,7 @@
   }();
 
   function styleInject(css, ref) {
-    if (ref === void 0) ref = {};
+    if (ref === undefined) ref = {};
     var insertAt = ref.insertAt;
     if (typeof document === 'undefined') {
       return;
@@ -352,7 +352,7 @@
   var ePlayIcon = function ePlayIcon(_ref2) {
     var iconUrl = _ref2.iconUrl,
       _ref2$size = _ref2.size,
-      size = _ref2$size === void 0 ? '' : _ref2$size;
+      size = _ref2$size === undefined ? '' : _ref2$size;
     return eIcon({
       iconUrl: iconUrl,
       className: _style.playIcon,
@@ -369,7 +369,7 @@
   var ePauseIcon = function ePauseIcon(_ref3) {
     var iconUrl = _ref3.iconUrl,
       _ref3$size = _ref3.size,
-      size = _ref3$size === void 0 ? '' : _ref3$size;
+      size = _ref3$size === undefined ? '' : _ref3$size;
     return eIcon({
       iconUrl: iconUrl,
       className: _style.pauseIcon,
@@ -389,17 +389,17 @@
      */
     function _default(_ref) {
       var _ref$position = _ref.position,
-        position = _ref$position === void 0 ? 'top-right' : _ref$position,
+        position = _ref$position === undefined ? 'top-right' : _ref$position,
         _ref$positionType = _ref.positionType,
-        positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
+        positionType = _ref$positionType === undefined ? 'fixed' : _ref$positionType,
         _ref$buttonSize = _ref.buttonSize,
-        buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
+        buttonSize = _ref$buttonSize === undefined ? '' : _ref$buttonSize,
         _ref$iconSize = _ref.iconSize,
-        iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
+        iconSize = _ref$iconSize === undefined ? '' : _ref$iconSize,
         _ref$playIcon = _ref.playIcon,
-        playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
+        playIcon = _ref$playIcon === undefined ? '' : _ref$playIcon,
         _ref$pauseIcon = _ref.pauseIcon,
-        pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon;
+        pauseIcon = _ref$pauseIcon === undefined ? '' : _ref$pauseIcon;
       _classCallCheck(this, _default);
       this.config = {
         buttonSize: buttonSize,
@@ -531,21 +531,21 @@
     function _default(audioSrc) {
       var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
         _ref$context = _ref.context,
-        context = _ref$context === void 0 ? document.body : _ref$context,
+        context = _ref$context === undefined ? document.body : _ref$context,
         _ref$position = _ref.position,
-        position = _ref$position === void 0 ? 'top-right' : _ref$position,
+        position = _ref$position === undefined ? 'top-right' : _ref$position,
         _ref$positionType = _ref.positionType,
-        positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
+        positionType = _ref$positionType === undefined ? 'fixed' : _ref$positionType,
         _ref$buttonSize = _ref.buttonSize,
-        buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
+        buttonSize = _ref$buttonSize === undefined ? '' : _ref$buttonSize,
         _ref$iconSize = _ref.iconSize,
-        iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
+        iconSize = _ref$iconSize === undefined ? '' : _ref$iconSize,
         _ref$playIcon = _ref.playIcon,
-        playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
+        playIcon = _ref$playIcon === undefined ? '' : _ref$playIcon,
         _ref$pauseIcon = _ref.pauseIcon,
-        pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon,
+        pauseIcon = _ref$pauseIcon === undefined ? '' : _ref$pauseIcon,
         _ref$autoPlay = _ref.autoPlay,
-        autoPlay = _ref$autoPlay === void 0 ? true : _ref$autoPlay;
+        autoPlay = _ref$autoPlay === undefined ? true : _ref$autoPlay;
       _classCallCheck(this, _default);
       this.config = {
         audioSrc: audioSrc,
