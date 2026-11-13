@@ -1,3 +1,13 @@
+# [6.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.5...v6.0.0) (2026-11-13)
+
+
+* feat!: migrate to Vite 8, ESLint 10 and an ESM-only distribution ([9dcae82](https://github.com/cycjimmy/h5-audio-controls/commit/9dcae82afb716432e40e1a0ff832b2a51dfb301e))
+
+
+### BREAKING CHANGES
+
+* the package is ESM only, so CommonJS consumers have to use `import()` or read the factory off `default`, and the bundles now target ES2015.
+
 ## [5.0.5](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.4...v5.0.5) (2024-10-25)
 
 
