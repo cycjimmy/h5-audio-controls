@@ -96,6 +96,15 @@ jobs:
             fi
 
             if gh pr merge --auto --squash --match-head-commit "$PR_HEAD_SHA" "$PR_URL"; then
+              # The merge runs as `github-actions[bot]`, and a push made with
+              # `GITHUB_TOKEN` does not start other workflows. `repository_dispatch`
+              # is one of the two events that token may raise, so the deployment is
+              # requested explicitly instead of relying on the `push` to `main`.
+              # The release is not requested on purpose: dependabot commits are
+              # `chore(deps):`, which semantic-release does not turn into a version.
+              gh api -X POST "repos/${GITHUB_REPOSITORY}/dispatches" \
+                -f event_type=dependabot-merged >/dev/null \
+                || echo "::warning::Merged, but the follow-up workflows could not be dispatched."
               exit 0
             fi
 
