@@ -1,882 +1,534 @@
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.h5AudioControls = factory());
-})(this, (function () { 'use strict';
-
-  function _arrayLikeToArray(r, a) {
-    (null == a || a > r.length) && (a = r.length);
-    for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
-    return n;
-  }
-  function _arrayWithHoles(r) {
-    if (Array.isArray(r)) return r;
-  }
-  function _classCallCheck(a, n) {
-    if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
-  }
-  function _construct(t, e, r) {
-    if (_isNativeReflectConstruct()) return Reflect.construct.apply(null, arguments);
-    var o = [null];
-    o.push.apply(o, e);
-    var p = new (t.bind.apply(t, o))();
-    return p;
-  }
-  function _defineProperties(e, r) {
-    for (var t = 0; t < r.length; t++) {
-      var o = r[t];
-      o.enumerable = o.enumerable || false, o.configurable = true, "value" in o && (o.writable = true), Object.defineProperty(e, _toPropertyKey(o.key), o);
-    }
-  }
-  function _createClass(e, r, t) {
-    return r && _defineProperties(e.prototype, r), Object.defineProperty(e, "prototype", {
-      writable: false
-    }), e;
-  }
-  function _isNativeReflectConstruct() {
-    try {
-      var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-    } catch (t) {}
-    return (_isNativeReflectConstruct = function () {
-      return !!t;
-    })();
-  }
-  function _iterableToArrayLimit(r, l) {
-    var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-    if (null != t) {
-      var e,
-        n,
-        i,
-        u,
-        a = [],
-        f = true,
-        o = false;
-      try {
-        if (i = (t = t.call(r)).next, 0 === l) ; else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
-      } catch (r) {
-        o = true, n = r;
-      } finally {
-        try {
-          if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
-        } finally {
-          if (o) throw n;
-        }
-      }
-      return a;
-    }
-  }
-  function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function _slicedToArray(r, e) {
-    return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
-  }
-  function _toPrimitive(t, r) {
-    if ("object" != typeof t || !t) return t;
-    var e = t[Symbol.toPrimitive];
-    if (void 0 !== e) {
-      var i = e.call(t, r);
-      if ("object" != typeof i) return i;
-      throw new TypeError("@@toPrimitive must return a primitive value.");
-    }
-    return (String )(t);
-  }
-  function _toPropertyKey(t) {
-    var i = _toPrimitive(t, "string");
-    return "symbol" == typeof i ? i : i + "";
-  }
-  function _unsupportedIterableToArray(r, a) {
-    if (r) {
-      if ("string" == typeof r) return _arrayLikeToArray(r, a);
-      var t = {}.toString.call(r).slice(8, -1);
-      return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
-    }
-  }
-
-  /**
-   * singleton constructor(design patterns)
-   * @returns {function(*=)}
-   * @constructor
-   */
-  var CreateInstance = () => {
-    var instance;
-    return newInstance => {
-      if (newInstance) {
-        instance = newInstance;
-      }
-      return instance;
-    };
-  };
-
-  /**
-   * determine a string type
-   * @param str
-   * @returns {boolean}
-   */
-  var isString = str => typeof str === 'string' && str.constructor === String;
-
-  /**
-   * determine a promise type
-   * @param promise
-   * @returns {boolean}
-   */
-  var isPromise = promise => Object.prototype.toString.call(promise).slice(8, -1) === 'Promise';
-
-  /**
-   * function to promise
-   * @param normalFunction
-   * @param timeout
-   * @returns {Promise<any>}
-   */
-  var functionToPromise = (function (normalFunction) {
-    var timeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    if (isPromise(normalFunction)) {
-      return normalFunction;
-    }
-
-    // eslint-disable-next-line no-undef
-    return new Promise(resolve => {
-      normalFunction();
-      setTimeout(resolve, timeout);
-    });
-  });
-
-  /**
-   * isLegalConfigKey
-   * @param key
-   * @returns {boolean}
-   */
-  var isLegalConfigKey = function isLegalConfigKey(key) {
-    var configKeys = ['audioSrc', 'position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon', 'autoPlay'];
-    for (var i = 0; i < configKeys.length; i += 1) {
-      if (key === configKeys[i]) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  /**
-   * audioButton Need Change
-   * @param config
-   * @param audioButtonConfig
-   * @returns {boolean}
-   */
-  var audioButtonNeedChange = function audioButtonNeedChange(_ref) {
-    var _ref2 = _slicedToArray(_ref, 2),
-      config = _ref2[0],
-      audioButtonConfig = _ref2[1];
-    var configKeys = ['position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon'];
-    for (var i = 0; i < configKeys.length; i += 1) {
-      if (config[configKeys[i]] !== audioButtonConfig[configKeys[i]]) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  /**
-   * isAudioPlaying
-   * @param audio
-   */
-  var isAudioPlaying = audio => !audio.paused;
-
-  var _default$2 = /*#__PURE__*/function () {
-    /**
-     * Audio
-     * @param audioSrc
-     */
-    function _default(_ref) {
-      var audioSrc = _ref.audioSrc;
-      _classCallCheck(this, _default);
-      this.config = {
-        audioSrc: audioSrc
-      };
-      this.audio = new Audio();
-      this._init();
-    }
-
-    /**
-     * getAudioButton
-     * @returns {HTMLAudioElement}
-     */
-    return _createClass(_default, [{
-      key: "getAudio",
-      value: function getAudio() {
-        return this.audio;
-      }
-
-      /**
-       * play
-       * @returns {HTMLAudioElement}
-       */
-    }, {
-      key: "play",
-      value: function play() {
-        var _this = this;
-        var wxFakePlay = function wxFakePlay() {
-          return window.WeixinJSBridge.invoke('getNetworkType', {}, function () {
-            return _this.audio.play();
-          }, false);
-        };
-        if (window.WeixinJSBridge) {
-          wxFakePlay();
-        } else {
-          document.addEventListener('WeixinJSBridgeReady', function () {
-            return _this.audio.play();
-          }, false);
-        }
-        this.audio.play();
-        return this.audio;
-      }
-
-      /**
-       * pause
-       * @returns {HTMLAudioElement}
-       */
-    }, {
-      key: "pause",
-      value: function pause() {
-        this.audio.pause();
-        return this.audio;
-      }
-
-      /**
-       * stop
-       * @returns {HTMLAudioElement}
-       */
-    }, {
-      key: "stop",
-      value: function stop() {
-        this.audio.currentTime = 0;
-        this.audio.pause();
-        return this.audio;
-      }
-
-      /**
-       * isPlaying
-       * @returns {boolean}
-       */
-    }, {
-      key: "isPlaying",
-      value: function isPlaying() {
-        return isAudioPlaying(this.audio);
-      }
-
-      /**
-       * canplay
-       * @returns {Promise<>}
-       */
-    }, {
-      key: "canplay",
-      value: function canplay() {
-        var _this2 = this;
-        return new Promise(function (resolve) {
-          _this2.audio.addEventListener('canplay', resolve);
-        });
-      }
-
-      /**
-       * init
-       * @private
-       */
-    }, {
-      key: "_init",
-      value: function _init() {
-        this.audio.src = this.config.audioSrc;
-        this.audio.preload = 'auto';
-        this.audio.loop = true;
-      }
-    }]);
-  }();
-
-  function styleInject(css, ref) {
-    if (ref === void 0) ref = {};
-    var insertAt = ref.insertAt;
-    if (typeof document === 'undefined') {
-      return;
-    }
-    var head = document.head || document.getElementsByTagName('head')[0];
-    var style = document.createElement('style');
-    style.type = 'text/css';
-    if (insertAt === 'top') {
-      if (head.firstChild) {
-        head.insertBefore(style, head.firstChild);
-      } else {
-        head.appendChild(style);
-      }
-    } else {
-      head.appendChild(style);
-    }
-    if (style.styleSheet) {
-      style.styleSheet.cssText = css;
-    } else {
-      style.appendChild(document.createTextNode(css));
-    }
-  }
-
-  var css_248z = ".index__musicControlWrapper{-webkit-tap-highlight-color:rgba(255,0,0,0);align-items:center;border:none;cursor:pointer;display:flex;height:15vw;justify-content:center;max-height:60px;max-width:60px;outline:none;position:fixed;touch-action:manipulation;width:15vw;z-index:999}.index__musicControlWrapper.left-top{left:0;top:0}.index__musicControlWrapper.top-right{right:0;top:0}.index__musicControlWrapper.right-bottom{bottom:0;right:0}.index__musicControlWrapper.left-bottom{bottom:0;left:0}@keyframes index__reverseRotateZ{0%{transform:rotate(0deg)}to{transform:rotate(-1turn)}}.index__pauseIcon,.index__playIcon{display:block;height:60%;width:60%}.index__playIcon{animation:index__reverseRotateZ 2s linear infinite;background:url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cstyle%3E.st1{fill-rule:evenodd;clip-rule:evenodd;fill:%23fff}%3C/style%3E%3Cpath d='M32 2.8C15.9 2.8 2.8 15.9 2.8 32S15.9 61.2 32 61.2 61.2 48.1 61.2 32 48.1 2.8 32 2.8z' opacity='.2' fill-rule='evenodd' clip-rule='evenodd'/%3E%3Cpath class='st1' d='M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32 32-14.3 32-32S49.7 0 32 0zm0 61.2C15.9 61.2 2.8 48.1 2.8 32S15.9 2.8 32 2.8 61.2 15.9 61.2 32 48.1 61.2 32 61.2z'/%3E%3Cpath class='st1' d='m30.3 11.2-2.1.6L36.1 39c-5.6-.8-10.5 4-10.1 8.7.1 1.6 1.3 2.9 2 3.5 4 3.4 9.4-.2 11.3-5.7.8-2.3.4-4-.8-8.1l-4.9-16.9c2.5-.8 7.7 1 9.4 3.5 1.1 1.6 1.8 3.9 1.4 5.8-.1.5-.4 2 0 1.7.7-.6.9-1.2 1.3-2.4.3-1.1.4-2.7.3-3.7-1.6-10-12.7-7.1-15.7-14.2z'/%3E%3C/svg%3E\") 0 0 no-repeat;background-size:100% 100%}.index__pauseIcon{background:url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 2.8C15.9 2.8 2.8 15.9 2.8 32S15.9 61.2 32 61.2 61.2 48.1 61.2 32 48.1 2.8 32 2.8z' opacity='.2' fill-rule='evenodd' clip-rule='evenodd'/%3E%3Cpath d='M32 0C14.3 0 0 14.3 0 32s14.3 32 32 32 32-14.3 32-32S49.7 0 32 0zM2.8 32C2.8 15.9 15.9 2.8 32 2.8c7.7 0 14.6 3 19.9 7.8L10.6 51.9C5.7 46.6 2.8 39.7 2.8 32zM32 61.2c-7.7 0-14.6-3-19.9-7.8l41.3-41.3c4.8 5.2 7.8 12.2 7.8 19.9 0 16.1-13.1 29.2-29.2 29.2z' fill='%23fff'/%3E%3Cpath d='m30.3 11.2-2.1.6L36.1 39c-5.6-.8-10.5 4-10.1 8.7.1 1.6 1.3 2.9 2 3.5 4 3.4 9.4-.2 11.3-5.7.8-2.3.4-4-.8-8.1l-4.9-16.9c2.5-.8 7.7 1 9.4 3.5 1.1 1.6 1.8 3.9 1.4 5.8-.1.5-.4 2 0 1.7.7-.6.9-1.2 1.3-2.4.3-1.1.4-2.7.3-3.7-1.6-10-12.7-7.1-15.7-14.2z' fill-rule='evenodd' clip-rule='evenodd' fill='%23fff'/%3E%3C/svg%3E\") 0 0 no-repeat;background-size:100% 100%}";
-  var _style = {"musicControlWrapper":"index__musicControlWrapper","pauseIcon":"index__pauseIcon","playIcon":"index__playIcon"};
-  styleInject(css_248z);
-
-  /**
-   * fragmentIcon
-   * @param iconUrl
-   * @param className
-   * @param size
-   * @returns {HTMLSpanElement}
-   */
-  var eIcon = function eIcon(_ref) {
-    var iconUrl = _ref.iconUrl,
-      className = _ref.className,
-      size = _ref.size;
-    var icon = document.createElement('span');
-    var cssText = '';
-    icon.classList.add(className);
-    if (iconUrl) {
-      cssText += "background-image: url(".concat(iconUrl, "); ");
-    }
-    if (size) {
-      cssText += "width: ".concat(size, "; height: ").concat(size);
-    }
-    icon.style.cssText = cssText;
-    return icon;
-  };
-
-  /**
-   * playIcon
-   * @param iconUrl
-   * @param size
-   * @returns {HTMLSpanElement}
-   */
-  var ePlayIcon = function ePlayIcon(_ref2) {
-    var iconUrl = _ref2.iconUrl,
-      _ref2$size = _ref2.size,
-      size = _ref2$size === void 0 ? '' : _ref2$size;
-    return eIcon({
-      iconUrl: iconUrl,
-      className: _style.playIcon,
-      size: size
-    });
-  };
-
-  /**
-   * pauseIcon
-   * @param iconUrl
-   * @param size
-   * @returns {HTMLSpanElement}
-   */
-  var ePauseIcon = function ePauseIcon(_ref3) {
-    var iconUrl = _ref3.iconUrl,
-      _ref3$size = _ref3.size,
-      size = _ref3$size === void 0 ? '' : _ref3$size;
-    return eIcon({
-      iconUrl: iconUrl,
-      className: _style.pauseIcon,
-      size: size
-    });
-  };
-
-  var _default$1 = /*#__PURE__*/function () {
-    /**
-     * AudioButton
-     * @param buttonSize
-     * @param position
-     * @param positionType 'fixed'|'absolute'|'relative'|'sticky'|'static' default: 'fixed'
-     * @param iconSize
-     * @param playIcon
-     * @param pauseIcon
-     */
-    function _default(_ref) {
-      var _ref$position = _ref.position,
-        position = _ref$position === void 0 ? 'top-right' : _ref$position,
-        _ref$positionType = _ref.positionType,
-        positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
-        _ref$buttonSize = _ref.buttonSize,
-        buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
-        _ref$iconSize = _ref.iconSize,
-        iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
-        _ref$playIcon = _ref.playIcon,
-        playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
-        _ref$pauseIcon = _ref.pauseIcon,
-        pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon;
-      _classCallCheck(this, _default);
-      this.config = {
-        buttonSize: buttonSize,
-        position: position,
-        positionType: positionType,
-        iconSize: iconSize,
-        playIcon: playIcon,
-        pauseIcon: pauseIcon
-      };
-      this.buttonSize = isString(this.config.buttonSize) ? this.config.buttonSize : "".concat(this.config.buttonSize, "px");
-      this.iconSize = isString(this.config.iconSize) ? this.config.iconSize : "".concat(this.config.iconSize, "px");
-      this.audioButton = document.createElement('a');
-      this.playIcon = ePlayIcon({
-        iconUrl: this.config.playIcon,
-        size: this.iconSize
-      });
-      this.pauseIcon = ePauseIcon({
-        iconUrl: this.config.pauseIcon,
-        size: this.iconSize
-      });
-      this._init();
-    }
-
-    /**
-     * getAudioButton
-     * @returns {
-     * HTMLAnchorElement |
-     *   {
-     *      changeUIToPlay(): void,
-     *      _init(): void,
-     *      getAudioButton(): *,
-     *      changeUIToPause(): void
-     *   }
-     * }
-     */
-    return _createClass(_default, [{
-      key: "getAudioButton",
-      value: function getAudioButton() {
-        return this.audioButton;
-      }
-
-      /**
-       * changeUIToPlay
-       */
-    }, {
-      key: "changeUIToPlay",
-      value: function changeUIToPlay() {
-        if (this.audioButton.contains(this.pauseIcon)) {
-          this.audioButton.removeChild(this.pauseIcon);
-        }
-        this.audioButton.appendChild(this.playIcon);
-      }
-
-      /**
-       * changeUIToPause
-       */
-    }, {
-      key: "changeUIToPause",
-      value: function changeUIToPause() {
-        if (this.audioButton.contains(this.playIcon)) {
-          this.audioButton.removeChild(this.playIcon);
-        }
-        this.audioButton.appendChild(this.pauseIcon);
-      }
-
-      /**
-       * init
-       * @private
-       */
-    }, {
-      key: "_init",
-      value: function _init() {
-        this.audioButton.classList.add(_style.musicControlWrapper, this.config.position);
-
-        // Init Button Size
-        if (!this.buttonSize) {
-          var shortW = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
-          this.buttonSize = "".concat(shortW * 0.15, "px");
-        }
-        this.audioButton.style.cssText += "width: ".concat(this.buttonSize, "; height: ").concat(this.buttonSize);
-        this._setPositionType();
-        this.changeUIToPlay();
-      }
-
-      /**
-       * _setPositionType
-       * @private
-       */
-    }, {
-      key: "_setPositionType",
-      value: function _setPositionType() {
-        // eslint-disable-next-line default-case
-        switch (this.config.positionType) {
-          // 'fixed' is default in style
-          case 'static':
-          case 'relative':
-          case 'absolute':
-          case 'sticky':
-            this.audioButton.style.position = this.config.positionType;
-        }
-      }
-    }]);
-  }();
-
-  /**
-   * H5AudioControls
-   *
-   * Function:
-   * load
-   * play
-   * pause
-   * stop
-   * changeButtonUI
-   * isPlaying
-   */
-  var _default = /*#__PURE__*/function () {
-    /**
-     * H5AudioControls
-     * @param audioSrc
-     * @param context default: body
-     * @param position 'left-top'|'top-right'(default)|'right-bottom'|'left-bottom'
-     * @param positionType 'fixed'|'absolute'|'relative'|'sticky'|'static' default: 'fixed'
-     * @param buttonSize
-     * @param iconSize
-     * @param playIcon
-     * @param pauseIcon
-     * @param autoPlay default: true
-     */
-    function _default(audioSrc) {
-      var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-        _ref$context = _ref.context,
-        context = _ref$context === void 0 ? document.body : _ref$context,
-        _ref$position = _ref.position,
-        position = _ref$position === void 0 ? 'top-right' : _ref$position,
-        _ref$positionType = _ref.positionType,
-        positionType = _ref$positionType === void 0 ? 'fixed' : _ref$positionType,
-        _ref$buttonSize = _ref.buttonSize,
-        buttonSize = _ref$buttonSize === void 0 ? '' : _ref$buttonSize,
-        _ref$iconSize = _ref.iconSize,
-        iconSize = _ref$iconSize === void 0 ? '' : _ref$iconSize,
-        _ref$playIcon = _ref.playIcon,
-        playIcon = _ref$playIcon === void 0 ? '' : _ref$playIcon,
-        _ref$pauseIcon = _ref.pauseIcon,
-        pauseIcon = _ref$pauseIcon === void 0 ? '' : _ref$pauseIcon,
-        _ref$autoPlay = _ref.autoPlay,
-        autoPlay = _ref$autoPlay === void 0 ? true : _ref$autoPlay;
-      _classCallCheck(this, _default);
-      this.config = {
-        audioSrc: audioSrc,
-        position: position,
-        positionType: positionType,
-        buttonSize: buttonSize,
-        iconSize: iconSize,
-        playIcon: playIcon,
-        pauseIcon: pauseIcon,
-        autoPlay: autoPlay
-      };
-      this.state = {
-        isAudioButtonChanging: false
-      };
-      this.setContext(context);
-      this._init();
-    }
-
-    /**
-     * setContext
-     * @param context
-     */
-    return _createClass(_default, [{
-      key: "setContext",
-      value: function setContext(context) {
-        this.context = isString(context) ? document.querySelector(context) : context;
-        return this;
-      }
-
-      /**
-       * Load
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "load",
-      value: function load() {
-        var _this = this;
-        return this.appendAudioButton().then(function () {
-          return functionToPromise(function () {
-            if (_this.config.autoPlay) {
-              _this.play();
-              _this.audioInstance.canplay().then(function () {
-                _this.changeButtonUI();
-              });
-            }
-          });
-        });
-      }
-
-      /**
-       * play
-       */
-    }, {
-      key: "play",
-      value: function play() {
-        var _this2 = this;
-        this.audioInstance.play();
-        setTimeout(function () {
-          return _this2.changeButtonUI();
-        }, 0);
-      }
-
-      /**
-       * pause
-       */
-    }, {
-      key: "pause",
-      value: function pause() {
-        var _this3 = this;
-        this.audioInstance.pause();
-        setTimeout(function () {
-          return _this3.changeButtonUI();
-        }, 0);
-      }
-
-      /**
-       * stop
-       */
-    }, {
-      key: "stop",
-      value: function stop() {
-        var _this4 = this;
-        this.audioInstance.stop();
-        setTimeout(function () {
-          return _this4.changeButtonUI();
-        }, 0);
-      }
-
-      /**
-       * changeButtonUI
-       */
-    }, {
-      key: "changeButtonUI",
-      value: function changeButtonUI() {
-        if (this.isPlaying()) {
-          this.audioButtonInstance.changeUIToPlay();
-        } else {
-          this.audioButtonInstance.changeUIToPause();
-        }
-      }
-
-      /**
-       * dynamically change the value of configuration properties
-       * @param key
-       * @param val
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "change",
-      value: function change(key, val) {
-        var _this5 = this;
-        if (!isLegalConfigKey(key)) {
-          return Promise.resolve();
-        }
-        if (typeof val === 'undefined') {
-          return Promise.resolve();
-        }
-        this.config[key] = val;
-        if (key === 'autoPlay') {
-          return Promise.resolve();
-        }
-        if (key === 'audioSrc') {
-          return Promise.resolve().then(function () {
-            return functionToPromise(function () {
-              _this5.stop();
-              _this5._initAudioInstance();
-            });
-          }).then(function () {
-            return functionToPromise(function () {
-              if (_this5.config.autoPlay) {
-                _this5.play();
-              }
-            });
-          });
-        }
-        if (this.state.isAudioButtonChanging) {
-          return Promise.resolve().then(function () {
-            return functionToPromise(function () {}, 10);
-          }).then(function () {
-            return _this5.change(key, val);
-          });
-        }
-        this.state.isAudioButtonChanging = true;
-        return Promise.resolve().then(function () {
-          if (!audioButtonNeedChange([_this5.config, _this5.audioButtonInstance.config])) {
-            _this5.state.isAudioButtonChanging = false;
-            return Promise.resolve();
-          }
-          return Promise.resolve().then(function () {
-            return _this5.repaintAudioButton();
-          }).then(function () {
-            return functionToPromise(function () {
-              _this5.state.isAudioButtonChanging = false;
-            });
-          });
-        });
-      }
-
-      /**
-       * changeAudioSrc
-       * @param src
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "changeAudioSrc",
-      value: function changeAudioSrc(src) {
-        return this.change('audioSrc', src);
-      }
-
-      /**
-       * changePosition
-       * @param position
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "changePosition",
-      value: function changePosition(position) {
-        return this.change('position', position);
-      }
-
-      /**
-       * changeButtonSize
-       * @param size
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "changeButtonSize",
-      value: function changeButtonSize(size) {
-        return this.change('buttonSize', size);
-      }
-
-      /**
-       * changeIconSize
-       * @param size
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "changeIconSize",
-      value: function changeIconSize(size) {
-        return this.change('iconSize', size);
-      }
-
-      /**
-       * isPlaying
-       * @returns {boolean}
-       */
-    }, {
-      key: "isPlaying",
-      value: function isPlaying() {
-        return this.audioInstance.isPlaying();
-      }
-
-      /**
-       * eventBind
-       */
-    }, {
-      key: "eventBind",
-      value: function eventBind() {
-        var _this6 = this;
-        this.audioButtonInstance.getAudioButton().addEventListener('click', function (e) {
-          e.stopPropagation();
-          if (_this6.isPlaying()) {
-            _this6.pause();
-            return;
-          }
-          _this6.play();
-        });
-        return this;
-      }
-
-      /**
-       * Repaint AudioButton
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "repaintAudioButton",
-      value: function repaintAudioButton() {
-        var _this7 = this;
-        return Promise.resolve().then(function () {
-          return functionToPromise(function () {
-            _this7.context.removeChild(_this7.audioButtonInstance.getAudioButton());
-          });
-        }).then(function () {
-          return functionToPromise(function () {
-            _this7._initAudioButtonInstance();
-          });
-        }).then(function () {
-          return _this7.appendAudioButton();
-        });
-      }
-
-      /**
-       * appendAudioButton
-       * @returns {Promise<void>}
-       */
-    }, {
-      key: "appendAudioButton",
-      value: function appendAudioButton() {
-        var _this8 = this;
-        return Promise.resolve().then(function () {
-          return functionToPromise(function () {
-            _this8.context.appendChild(_this8.audioButtonInstance.getAudioButton());
-            _this8.changeButtonUI();
-            _this8.eventBind();
-          });
-        });
-      }
-
-      /**
-       * Init
-       * @private
-       */
-    }, {
-      key: "_init",
-      value: function _init() {
-        this._initAudioInstance();
-        this._initAudioButtonInstance();
-      }
-
-      /**
-       * InitAudioInstance
-       * @private
-       */
-    }, {
-      key: "_initAudioInstance",
-      value: function _initAudioInstance() {
-        this.audioInstance = new _default$2({
-          audioSrc: this.config.audioSrc
-        });
-        return this;
-      }
-
-      /**
-       * InitAudioButtonInstance
-       * @private
-       */
-    }, {
-      key: "_initAudioButtonInstance",
-      value: function _initAudioButtonInstance() {
-        this.audioButtonInstance = new _default$1({
-          buttonSize: this.config.buttonSize,
-          position: this.config.position,
-          positionType: this.config.positionType,
-          iconSize: this.config.iconSize,
-          playIcon: this.config.playIcon,
-          pauseIcon: this.config.pauseIcon
-        });
-        return this;
-      }
-    }]);
-  }();
-
-  var instance = CreateInstance();
-
-  /**
-   * h5AudioControls
-   * @param param
-   * @returns {H5AudioControls}
-   */
-  var index = (function () {
-    if (instance()) {
-      return instance();
-    }
-    for (var _len = arguments.length, param = new Array(_len), _key = 0; _key < _len; _key++) {
-      param[_key] = arguments[_key];
-    }
-    var h5AudioControls = _construct(_default, param);
-    instance(h5AudioControls);
-    return h5AudioControls;
-  });
-
-  return index;
-
-}));
+;(function(){try{if(typeof document!='undefined'){var e=document.createElement('style');e.appendChild(document.createTextNode(".index-module__music-control-wrapper{z-index:999;cursor:pointer;-webkit-tap-highlight-color:rgba(255,0,0,0);touch-action:manipulation;border:none;outline:none;justify-content:center;align-items:center;width:15vw;max-width:60px;height:15vw;max-height:60px;display:flex;position:fixed}.index-module__music-control-wrapper.left-top{top:0;left:0}.index-module__music-control-wrapper.top-right{top:0;right:0}.index-module__music-control-wrapper.right-bottom{bottom:0;right:0}.index-module__music-control-wrapper.left-bottom{bottom:0;left:0}@keyframes index-module__reverse-rotate{0%{transform:rotate(0)}to{transform:rotate(-360deg)}}.index-module__pause-icon,.index-module__play-icon{width:60%;height:60%;display:block}.index-module__play-icon{background:url(\"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cstyle%3e.st1{fill-rule:evenodd;clip-rule:evenodd;fill:%23fff}%3c/style%3e%3cpath%20d='M32%202.8C15.9%202.8%202.8%2015.9%202.8%2032S15.9%2061.2%2032%2061.2%2061.2%2048.1%2061.2%2032%2048.1%202.8%2032%202.8z'%20opacity='.2'%20fill-rule='evenodd'%20clip-rule='evenodd'/%3e%3cpath%20class='st1'%20d='M32%200C14.3%200%200%2014.3%200%2032s14.3%2032%2032%2032%2032-14.3%2032-32S49.7%200%2032%200zm0%2061.2C15.9%2061.2%202.8%2048.1%202.8%2032S15.9%202.8%2032%202.8%2061.2%2015.9%2061.2%2032%2048.1%2061.2%2032%2061.2z'/%3e%3cpath%20class='st1'%20d='M30.3%2011.2l-2.1.6L36.1%2039c-5.6-.8-10.5%204-10.1%208.7.1%201.6%201.3%202.9%202%203.5%204%203.4%209.4-.2%2011.3-5.7.8-2.3.4-4-.8-8.1l-4.9-16.9c2.5-.8%207.7%201%209.4%203.5%201.1%201.6%201.8%203.9%201.4%205.8-.1.5-.4%202%200%201.7.7-.6.9-1.2%201.3-2.4.3-1.1.4-2.7.3-3.7-1.6-10-12.7-7.1-15.7-14.2z'/%3e%3c/svg%3e\") 0 0/100% 100% no-repeat;animation:2s linear infinite index-module__reverse-rotate}.index-module__pause-icon{background:url(\"data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3e%3cpath%20d='M32%202.8C15.9%202.8%202.8%2015.9%202.8%2032S15.9%2061.2%2032%2061.2%2061.2%2048.1%2061.2%2032%2048.1%202.8%2032%202.8z'%20opacity='.2'%20fill-rule='evenodd'%20clip-rule='evenodd'/%3e%3cpath%20d='M32%200C14.3%200%200%2014.3%200%2032s14.3%2032%2032%2032%2032-14.3%2032-32S49.7%200%2032%200zM2.8%2032C2.8%2015.9%2015.9%202.8%2032%202.8c7.7%200%2014.6%203%2019.9%207.8L10.6%2051.9C5.7%2046.6%202.8%2039.7%202.8%2032zM32%2061.2c-7.7%200-14.6-3-19.9-7.8l41.3-41.3c4.8%205.2%207.8%2012.2%207.8%2019.9%200%2016.1-13.1%2029.2-29.2%2029.2z'%20fill='%23fff'/%3e%3cpath%20d='M30.3%2011.2l-2.1.6L36.1%2039c-5.6-.8-10.5%204-10.1%208.7.1%201.6%201.3%202.9%202%203.5%204%203.4%209.4-.2%2011.3-5.7.8-2.3.4-4-.8-8.1l-4.9-16.9c2.5-.8%207.7%201%209.4%203.5%201.1%201.6%201.8%203.9%201.4%205.8-.1.5-.4%202%200%201.7.7-.6.9-1.2%201.3-2.4.3-1.1.4-2.7.3-3.7-1.6-10-12.7-7.1-15.7-14.2z'%20fill-rule='evenodd'%20clip-rule='evenodd'%20fill='%23fff'/%3e%3c/svg%3e\") 0 0/100% 100% no-repeat}"));document.head.appendChild(e)}}catch(t){console.error('inject-css',t)}})();
+(function(global, factory) {
+	typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() : typeof define === "function" && define.amd ? define([], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, global.h5AudioControls = factory());
+})(this, function() {
+	// node_modules/@cycjimmy/awesome-js-funcs/dist/designPattern/CreateInstance.js
+	/**
+	* singleton constructor(design patterns)
+	* @returns {function(*=)}
+	* @constructor
+	*/
+	var CreateInstance_default = () => {
+		let instance;
+		return (newInstance) => {
+			if (newInstance) instance = newInstance;
+			return instance;
+		};
+	};
+	// node_modules/@cycjimmy/awesome-js-funcs/dist/judgeBasic/isString.js
+	/**
+	* determine a string type
+	* @param str
+	* @returns {boolean}
+	*/
+	var isString_default = (str) => typeof str === "string" && str.constructor === String;
+	// node_modules/@cycjimmy/awesome-js-funcs/dist/judgeBasic/isPromise.js
+	/**
+	* determine a promise type
+	* @param promise
+	* @returns {boolean}
+	*/
+	var isPromise_default = (promise) => Object.prototype.toString.call(promise).slice(8, -1) === "Promise";
+	// node_modules/@cycjimmy/awesome-js-funcs/dist/typeConversion/functionToPromise.js
+	/**
+	* function to promise
+	* @param normalFunction
+	* @param timeout
+	* @returns {Promise<any>}
+	*/
+	var functionToPromise_default = (normalFunction, timeout = 0) => {
+		if (isPromise_default(normalFunction)) return normalFunction;
+		return new Promise((resolve) => {
+			normalFunction();
+			setTimeout(resolve, timeout);
+		});
+	};
+	// node_modules/@cycjimmy/awesome-js-funcs/dist/media/isAudioPlaying.js
+	/**
+	* isAudioPlaying
+	* @param audio
+	*/
+	var isAudioPlaying_default = (audio) => !audio.paused;
+	// src/Audio.js
+	var Audio_default = class {
+		/**
+		* Audio
+		* @param audioSrc
+		*/
+		constructor({ audioSrc }) {
+			this.config = { audioSrc };
+			this.audio = new Audio();
+			this._init();
+		}
+		/**
+		* getAudioButton
+		* @returns {HTMLAudioElement}
+		*/
+		getAudio() {
+			return this.audio;
+		}
+		/**
+		* play
+		* @returns {HTMLAudioElement}
+		*/
+		play() {
+			const wxFakePlay = () => window.WeixinJSBridge.invoke("getNetworkType", {}, () => this.audio.play(), false);
+			if (window.WeixinJSBridge) wxFakePlay();
+			else document.addEventListener("WeixinJSBridgeReady", () => this.audio.play(), false);
+			this.audio.play();
+			return this.audio;
+		}
+		/**
+		* pause
+		* @returns {HTMLAudioElement}
+		*/
+		pause() {
+			this.audio.pause();
+			return this.audio;
+		}
+		/**
+		* stop
+		* @returns {HTMLAudioElement}
+		*/
+		stop() {
+			this.audio.currentTime = 0;
+			this.audio.pause();
+			return this.audio;
+		}
+		/**
+		* isPlaying
+		* @returns {boolean}
+		*/
+		isPlaying() {
+			return isAudioPlaying_default(this.audio);
+		}
+		/**
+		* canplay
+		* @returns {Promise<>}
+		*/
+		canplay() {
+			return new Promise((resolve) => {
+				this.audio.addEventListener("canplay", resolve);
+			});
+		}
+		/**
+		* init
+		* @private
+		*/
+		_init() {
+			this.audio.src = this.config.audioSrc;
+			this.audio.preload = "auto";
+			this.audio.loop = true;
+		}
+	};
+	var index_module_default = {
+		musicControlWrapper: "index-module__music-control-wrapper",
+		pauseIcon: "index-module__pause-icon",
+		playIcon: "index-module__play-icon",
+		reverseRotate: "index-module__reverse-rotate"
+	};
+	// src/fragments/icons.js
+	/**
+	* fragmentIcon
+	* @param iconUrl
+	* @param className
+	* @param size
+	* @returns {HTMLSpanElement}
+	*/
+	function eIcon({ iconUrl, className, size }) {
+		const icon = document.createElement("span");
+		let cssText = "";
+		icon.classList.add(className);
+		if (iconUrl) cssText += `background-image: url(${iconUrl}); `;
+		if (size) cssText += `width: ${size}; height: ${size}`;
+		icon.style.cssText = cssText;
+		return icon;
+	}
+	/**
+	* playIcon
+	* @param iconUrl
+	* @param size
+	* @returns {HTMLSpanElement}
+	*/
+	var ePlayIcon = ({ iconUrl, size = "" }) => eIcon({
+		iconUrl,
+		className: index_module_default.playIcon,
+		size
+	});
+	/**
+	* pauseIcon
+	* @param iconUrl
+	* @param size
+	* @returns {HTMLSpanElement}
+	*/
+	var ePauseIcon = ({ iconUrl, size = "" }) => eIcon({
+		iconUrl,
+		className: index_module_default.pauseIcon,
+		size
+	});
+	// src/AudioButton.js
+	var AudioButton_default = class {
+		/**
+		* AudioButton
+		* @param buttonSize
+		* @param position
+		* @param positionType 'fixed'|'absolute'|'relative'|'sticky'|'static' default: 'fixed'
+		* @param iconSize
+		* @param playIcon
+		* @param pauseIcon
+		*/
+		constructor({ position = "top-right", positionType = "fixed", buttonSize = "", iconSize = "", playIcon = "", pauseIcon = "" }) {
+			this.config = {
+				buttonSize,
+				position,
+				positionType,
+				iconSize,
+				playIcon,
+				pauseIcon
+			};
+			this.buttonSize = isString_default(this.config.buttonSize) ? this.config.buttonSize : `${this.config.buttonSize}px`;
+			this.iconSize = isString_default(this.config.iconSize) ? this.config.iconSize : `${this.config.iconSize}px`;
+			this.audioButton = document.createElement("a");
+			this.playIcon = ePlayIcon({
+				iconUrl: this.config.playIcon,
+				size: this.iconSize
+			});
+			this.pauseIcon = ePauseIcon({
+				iconUrl: this.config.pauseIcon,
+				size: this.iconSize
+			});
+			this._init();
+		}
+		/**
+		* getAudioButton
+		* @returns {
+		* HTMLAnchorElement |
+		*   {
+		*      changeUIToPlay(): void,
+		*      _init(): void,
+		*      getAudioButton(): *,
+		*      changeUIToPause(): void
+		*   }
+		* }
+		*/
+		getAudioButton() {
+			return this.audioButton;
+		}
+		/**
+		* changeUIToPlay
+		*/
+		changeUIToPlay() {
+			if (this.audioButton.contains(this.pauseIcon)) this.audioButton.removeChild(this.pauseIcon);
+			this.audioButton.appendChild(this.playIcon);
+		}
+		/**
+		* changeUIToPause
+		*/
+		changeUIToPause() {
+			if (this.audioButton.contains(this.playIcon)) this.audioButton.removeChild(this.playIcon);
+			this.audioButton.appendChild(this.pauseIcon);
+		}
+		/**
+		* init
+		* @private
+		*/
+		_init() {
+			this.audioButton.classList.add(index_module_default.musicControlWrapper, this.config.position);
+			if (!this.buttonSize) {
+				const shortW = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
+				this.buttonSize = `${shortW * .15}px`;
+			}
+			this.audioButton.style.cssText += `width: ${this.buttonSize}; height: ${this.buttonSize}`;
+			this._setPositionType();
+			this.changeUIToPlay();
+		}
+		/**
+		* _setPositionType
+		* @private
+		*/
+		_setPositionType() {
+			switch (this.config.positionType) {
+				case "static":
+				case "relative":
+				case "absolute":
+				case "sticky": this.audioButton.style.position = this.config.positionType;
+			}
+		}
+	};
+	// src/tools.js
+	/**
+	* isLegalConfigKey
+	* @param key
+	* @returns {boolean}
+	*/
+	function isLegalConfigKey(key) {
+		const configKeys = [
+			"audioSrc",
+			"position",
+			"buttonSize",
+			"iconSize",
+			"playIcon",
+			"pauseIcon",
+			"autoPlay"
+		];
+		for (let i = 0; i < configKeys.length; i += 1) if (key === configKeys[i]) return true;
+		return false;
+	}
+	/**
+	* audioButton Need Change
+	* @param config
+	* @param audioButtonConfig
+	* @returns {boolean}
+	*/
+	function audioButtonNeedChange([config, audioButtonConfig]) {
+		const configKeys = [
+			"position",
+			"buttonSize",
+			"iconSize",
+			"playIcon",
+			"pauseIcon"
+		];
+		for (let i = 0; i < configKeys.length; i += 1) if (config[configKeys[i]] !== audioButtonConfig[configKeys[i]]) return true;
+		return false;
+	}
+	// src/H5AudioControls.js
+	/**
+	* H5AudioControls
+	*
+	* Function:
+	* load
+	* play
+	* pause
+	* stop
+	* changeButtonUI
+	* isPlaying
+	*/
+	var H5AudioControls_default = class {
+		/**
+		* H5AudioControls
+		* @param audioSrc
+		* @param context default: body
+		* @param position 'left-top'|'top-right'(default)|'right-bottom'|'left-bottom'
+		* @param positionType 'fixed'|'absolute'|'relative'|'sticky'|'static' default: 'fixed'
+		* @param buttonSize
+		* @param iconSize
+		* @param playIcon
+		* @param pauseIcon
+		* @param autoPlay default: true
+		*/
+		constructor(audioSrc, { context = document.body, position = "top-right", positionType = "fixed", buttonSize = "", iconSize = "", playIcon = "", pauseIcon = "", autoPlay = true } = {}) {
+			this.config = {
+				audioSrc,
+				position,
+				positionType,
+				buttonSize,
+				iconSize,
+				playIcon,
+				pauseIcon,
+				autoPlay
+			};
+			this.state = { isAudioButtonChanging: false };
+			this.setContext(context);
+			this._init();
+		}
+		/**
+		* setContext
+		* @param context
+		*/
+		setContext(context) {
+			this.context = isString_default(context) ? document.querySelector(context) : context;
+			return this;
+		}
+		/**
+		* Load
+		* @returns {Promise<void>}
+		*/
+		load() {
+			return this.appendAudioButton().then(() => functionToPromise_default(() => {
+				if (this.config.autoPlay) {
+					this.play();
+					this.audioInstance.canplay().then(() => {
+						this.changeButtonUI();
+					});
+				}
+			}));
+		}
+		/**
+		* play
+		*/
+		play() {
+			this.audioInstance.play();
+			setTimeout(() => this.changeButtonUI(), 0);
+		}
+		/**
+		* pause
+		*/
+		pause() {
+			this.audioInstance.pause();
+			setTimeout(() => this.changeButtonUI(), 0);
+		}
+		/**
+		* stop
+		*/
+		stop() {
+			this.audioInstance.stop();
+			setTimeout(() => this.changeButtonUI(), 0);
+		}
+		/**
+		* changeButtonUI
+		*/
+		changeButtonUI() {
+			if (this.isPlaying()) this.audioButtonInstance.changeUIToPlay();
+			else this.audioButtonInstance.changeUIToPause();
+		}
+		/**
+		* dynamically change the value of configuration properties
+		* @param key
+		* @param val
+		* @returns {Promise<void>}
+		*/
+		change(key, val) {
+			if (!isLegalConfigKey(key)) return Promise.resolve();
+			if (typeof val === "undefined") return Promise.resolve();
+			this.config[key] = val;
+			if (key === "autoPlay") return Promise.resolve();
+			if (key === "audioSrc") return Promise.resolve().then(() => functionToPromise_default(() => {
+				this.stop();
+				this._initAudioInstance();
+			})).then(() => functionToPromise_default(() => {
+				if (this.config.autoPlay) this.play();
+			}));
+			if (this.state.isAudioButtonChanging) return Promise.resolve().then(() => functionToPromise_default(() => {}, 10)).then(() => this.change(key, val));
+			this.state.isAudioButtonChanging = true;
+			return Promise.resolve().then(() => {
+				if (!audioButtonNeedChange([this.config, this.audioButtonInstance.config])) {
+					this.state.isAudioButtonChanging = false;
+					return Promise.resolve();
+				}
+				return Promise.resolve().then(() => this.repaintAudioButton()).then(() => functionToPromise_default(() => {
+					this.state.isAudioButtonChanging = false;
+				}));
+			});
+		}
+		/**
+		* changeAudioSrc
+		* @param src
+		* @returns {Promise<void>}
+		*/
+		changeAudioSrc(src) {
+			return this.change("audioSrc", src);
+		}
+		/**
+		* changePosition
+		* @param position
+		* @returns {Promise<void>}
+		*/
+		changePosition(position) {
+			return this.change("position", position);
+		}
+		/**
+		* changeButtonSize
+		* @param size
+		* @returns {Promise<void>}
+		*/
+		changeButtonSize(size) {
+			return this.change("buttonSize", size);
+		}
+		/**
+		* changeIconSize
+		* @param size
+		* @returns {Promise<void>}
+		*/
+		changeIconSize(size) {
+			return this.change("iconSize", size);
+		}
+		/**
+		* isPlaying
+		* @returns {boolean}
+		*/
+		isPlaying() {
+			return this.audioInstance.isPlaying();
+		}
+		/**
+		* eventBind
+		*/
+		eventBind() {
+			this.audioButtonInstance.getAudioButton().addEventListener("click", (e) => {
+				e.stopPropagation();
+				if (this.isPlaying()) {
+					this.pause();
+					return;
+				}
+				this.play();
+			});
+			return this;
+		}
+		/**
+		* Repaint AudioButton
+		* @returns {Promise<void>}
+		*/
+		repaintAudioButton() {
+			return Promise.resolve().then(() => functionToPromise_default(() => {
+				this.context.removeChild(this.audioButtonInstance.getAudioButton());
+			})).then(() => functionToPromise_default(() => {
+				this._initAudioButtonInstance();
+			})).then(() => this.appendAudioButton());
+		}
+		/**
+		* appendAudioButton
+		* @returns {Promise<void>}
+		*/
+		appendAudioButton() {
+			return Promise.resolve().then(() => functionToPromise_default(() => {
+				this.context.appendChild(this.audioButtonInstance.getAudioButton());
+				this.changeButtonUI();
+				this.eventBind();
+			}));
+		}
+		/**
+		* Init
+		* @private
+		*/
+		_init() {
+			this._initAudioInstance();
+			this._initAudioButtonInstance();
+		}
+		/**
+		* InitAudioInstance
+		* @private
+		*/
+		_initAudioInstance() {
+			this.audioInstance = new Audio_default({ audioSrc: this.config.audioSrc });
+			return this;
+		}
+		/**
+		* InitAudioButtonInstance
+		* @private
+		*/
+		_initAudioButtonInstance() {
+			this.audioButtonInstance = new AudioButton_default({
+				buttonSize: this.config.buttonSize,
+				position: this.config.position,
+				positionType: this.config.positionType,
+				iconSize: this.config.iconSize,
+				playIcon: this.config.playIcon,
+				pauseIcon: this.config.pauseIcon
+			});
+			return this;
+		}
+	};
+	// src/index.js
+	var instance = CreateInstance_default();
+	/**
+	* h5AudioControls
+	* @param param
+	* @returns {H5AudioControls}
+	*/
+	var src_default = (...param) => {
+		if (instance()) return instance();
+		const h5AudioControls = new H5AudioControls_default(...param);
+		instance(h5AudioControls);
+		return h5AudioControls;
+	};
+	return src_default;
+});
