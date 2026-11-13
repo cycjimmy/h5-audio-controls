@@ -1,86 +1,83 @@
-/* eslint no-undef: off */
-/* eslint no-param-reassign: off */
-/* eslint func-names: off */
-import H5AudioControls from '../src/H5AudioControls';
+import H5AudioControls from '../src/H5AudioControls'
 
-const audioSrc = 'audioSrc';
-const mockAddEventListener = (el) => {
+const audioSrc = 'audioSrc'
+function mockAddEventListener(el) {
   const event = {
     stopPropagation: () => {
       /* do nothing */
     },
-  };
+  }
   el.addEventListener = (x, cb) => {
-    el.mockClick = () => cb(event);
-  };
-};
+    el.mockClick = () => cb(event)
+  }
+}
 
-describe('H5AudioControls test', () => {
+describe('h5AudioControls test', () => {
   beforeAll(() => {
     // mock audio events
     window.HTMLMediaElement.prototype.load = () => {
       /* do nothing */
-    };
+    }
     window.HTMLMediaElement.prototype.play = function () {
       Object.defineProperty(this, 'paused', {
         configurable: true,
         get() {
-          return false;
+          return false
         },
-      });
-    };
+      })
+    }
     window.HTMLMediaElement.prototype.pause = function () {
       Object.defineProperty(this, 'paused', {
         configurable: true,
         get() {
-          return true;
+          return true
         },
-      });
-    };
+      })
+    }
 
     // mock canplay
     window.HTMLMediaElement.prototype.addEventListener = (x, cb) => {
       if (x !== 'canplay') {
-        return;
+        return
       }
-      cb();
-    };
-  });
+      cb()
+    }
+  })
 
-  it('H5AudioControls default test', (done) => {
-    document.body.style.position = 'static';
+  it('h5AudioControls default test', (done) => {
+    document.body.style.position = 'static'
 
-    const h5AudioControls = new H5AudioControls(audioSrc);
+    const h5AudioControls = new H5AudioControls(audioSrc)
 
-    mockAddEventListener(h5AudioControls.audioButtonInstance.getAudioButton());
+    mockAddEventListener(h5AudioControls.audioButtonInstance.getAudioButton())
 
     h5AudioControls.load().then(() => {
-      expect(h5AudioControls.context).toBe(document.body);
-      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
+      expect(h5AudioControls.context).toBe(document.body)
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true)
 
-      h5AudioControls.audioButtonInstance.getAudioButton().mockClick();
-      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
+      h5AudioControls.audioButtonInstance.getAudioButton().mockClick()
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false)
 
-      h5AudioControls.audioButtonInstance.getAudioButton().mockClick();
-      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
+      h5AudioControls.audioButtonInstance.getAudioButton().mockClick()
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true)
 
-      h5AudioControls.stop();
-      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
+      h5AudioControls.stop()
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false)
 
-      h5AudioControls.play();
-      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true);
+      h5AudioControls.play()
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(true)
 
-      h5AudioControls.pause();
-      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false);
+      h5AudioControls.pause()
+      expect(h5AudioControls.audioInstance.isPlaying()).toBe(false)
 
-      setTimeout(done, 500);
-    });
-  });
+      setTimeout(done, 500)
+    })
+  })
 
-  it('H5AudioControls change test', () => {
-    const h5AudioControls = new H5AudioControls(audioSrc);
-    const position = 'top-right';
-    const buttonSize = '15vw';
+  it('h5AudioControls change test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc)
+    const position = 'top-right'
+    const buttonSize = '15vw'
 
     return h5AudioControls
       .load()
@@ -88,85 +85,85 @@ describe('H5AudioControls test', () => {
       .then(() => h5AudioControls.change('autoPlay', false))
       .then(() => h5AudioControls.change('autoPlay'))
       .then(() =>
-        // multi changes
-        // eslint-disable-next-line implicit-arrow-linebreak
+      // multi changes
+
         Promise.all([
           h5AudioControls.change('position', position),
           h5AudioControls.change('buttonSize', buttonSize),
-        ]));
-  });
+        ]))
+  })
 
-  it('H5AudioControls changeAudioSrc test', () => {
-    const h5AudioControls = new H5AudioControls(audioSrc);
+  it('h5AudioControls changeAudioSrc test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc)
 
     return Promise.resolve()
       .then(() => h5AudioControls.changeAudioSrc())
       .then(() => h5AudioControls.changeAudioSrc(audioSrc))
       .then(() => {
-        expect(h5AudioControls.config.audioSrc).toBe(audioSrc);
+        expect(h5AudioControls.config.audioSrc).toBe(audioSrc)
 
         // coverall branch
-        h5AudioControls.config.autoPlay = false;
-        return h5AudioControls.changeAudioSrc(audioSrc);
-      });
-  });
+        h5AudioControls.config.autoPlay = false
+        return h5AudioControls.changeAudioSrc(audioSrc)
+      })
+  })
 
-  it('H5AudioControls changePosition test', () => {
-    const h5AudioControls = new H5AudioControls(audioSrc);
-    const position = 'top-right';
+  it('h5AudioControls changePosition test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc)
+    const position = 'top-right'
 
     return h5AudioControls
       .load()
       .then(() => h5AudioControls.changePosition())
       .then(() => h5AudioControls.changePosition(position))
       .then(() => {
-        expect(h5AudioControls.config.position).toBe(position);
-      });
-  });
+        expect(h5AudioControls.config.position).toBe(position)
+      })
+  })
 
-  it('H5AudioControls changeButtonSize test', () => {
-    const h5AudioControls = new H5AudioControls(audioSrc);
-    const buttonSize = '15vw';
+  it('h5AudioControls changeButtonSize test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc)
+    const buttonSize = '15vw'
 
     return h5AudioControls
       .load()
       .then(() => h5AudioControls.changeButtonSize())
       .then(() => h5AudioControls.changeButtonSize(buttonSize))
       .then(() => {
-        expect(h5AudioControls.config.buttonSize).toBe(buttonSize);
+        expect(h5AudioControls.config.buttonSize).toBe(buttonSize)
 
         // cover branch
-        h5AudioControls.config.autoPlay = false;
-        return h5AudioControls.changeButtonSize(buttonSize);
-      });
-  });
+        h5AudioControls.config.autoPlay = false
+        return h5AudioControls.changeButtonSize(buttonSize)
+      })
+  })
 
-  it('H5AudioControls changeIconSize test', () => {
-    const h5AudioControls = new H5AudioControls(audioSrc);
-    const iconSize = '15vw';
+  it('h5AudioControls changeIconSize test', () => {
+    const h5AudioControls = new H5AudioControls(audioSrc)
+    const iconSize = '15vw'
 
     return h5AudioControls
       .load()
       .then(() => h5AudioControls.changeIconSize())
       .then(() => h5AudioControls.changeIconSize(iconSize))
       .then(() => {
-        expect(h5AudioControls.config.iconSize).toBe(iconSize);
-      });
-  });
+        expect(h5AudioControls.config.iconSize).toBe(iconSize)
+      })
+  })
 
-  it('H5AudioControls custom context test', () => {
+  it('h5AudioControls custom context test', () => {
     // mock custom context
-    const mockContext = document.createElement('div');
-    mockContext.id = 'mockContext';
-    document.body.appendChild(mockContext);
+    const mockContext = document.createElement('div')
+    mockContext.id = 'mockContext'
+    document.body.appendChild(mockContext)
 
     const h5AudioControls = new H5AudioControls(audioSrc, {
       context: `#${mockContext.id}`,
       autoPlay: false,
-    });
+    })
 
     return h5AudioControls.load().then(() => {
-      expect(h5AudioControls.context).toBe(mockContext);
-    });
-  });
-});
+      expect(h5AudioControls.context).toBe(mockContext)
+    })
+  })
+})

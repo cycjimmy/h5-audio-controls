@@ -4,8 +4,13 @@ updates:
     directory: /
     schedule:
       interval: daily
+    labels:
+      - dependencies
+      - ci
 
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: daily
+    labels:
+      - dependencies

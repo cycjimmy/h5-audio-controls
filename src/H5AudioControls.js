@@ -1,9 +1,9 @@
-import isString from '@cycjimmy/awesome-js-funcs/esm/judgeBasic/isString';
-import functionToPromise from '@cycjimmy/awesome-js-funcs/esm/typeConversion/functionToPromise';
+import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString'
+import functionToPromise from '@cycjimmy/awesome-js-funcs/typeConversion/functionToPromise'
 
-import { isLegalConfigKey, audioButtonNeedChange } from './tools';
-import Audio from './Audio';
-import AudioButton from './AudioButton';
+import Audio from './Audio'
+import AudioButton from './AudioButton'
+import { audioButtonNeedChange, isLegalConfigKey } from './tools'
 
 /**
  * H5AudioControls
@@ -51,14 +51,14 @@ export default class {
       playIcon,
       pauseIcon,
       autoPlay,
-    };
+    }
 
     this.state = {
       isAudioButtonChanging: false,
-    };
+    }
 
-    this.setContext(context);
-    this._init();
+    this.setContext(context)
+    this._init()
   }
 
   /**
@@ -66,8 +66,10 @@ export default class {
    * @param context
    */
   setContext(context) {
-    this.context = isString(context) ? document.querySelector(context) : context;
-    return this;
+    this.context = isString(context)
+      ? document.querySelector(context)
+      : context
+    return this
   }
 
   /**
@@ -77,36 +79,36 @@ export default class {
   load() {
     return this.appendAudioButton().then(() => functionToPromise(() => {
       if (this.config.autoPlay) {
-        this.play();
+        this.play()
         this.audioInstance.canplay().then(() => {
-          this.changeButtonUI();
-        });
+          this.changeButtonUI()
+        })
       }
-    }));
+    }))
   }
 
   /**
    * play
    */
   play() {
-    this.audioInstance.play();
-    setTimeout(() => this.changeButtonUI(), 0);
+    this.audioInstance.play()
+    setTimeout(() => this.changeButtonUI(), 0)
   }
 
   /**
    * pause
    */
   pause() {
-    this.audioInstance.pause();
-    setTimeout(() => this.changeButtonUI(), 0);
+    this.audioInstance.pause()
+    setTimeout(() => this.changeButtonUI(), 0)
   }
 
   /**
    * stop
    */
   stop() {
-    this.audioInstance.stop();
-    setTimeout(() => this.changeButtonUI(), 0);
+    this.audioInstance.stop()
+    setTimeout(() => this.changeButtonUI(), 0)
   }
 
   /**
@@ -114,9 +116,10 @@ export default class {
    */
   changeButtonUI() {
     if (this.isPlaying()) {
-      this.audioButtonInstance.changeUIToPlay();
-    } else {
-      this.audioButtonInstance.changeUIToPause();
+      this.audioButtonInstance.changeUIToPlay()
+    }
+    else {
+      this.audioButtonInstance.changeUIToPause()
     }
   }
 
@@ -128,52 +131,52 @@ export default class {
    */
   change(key, val) {
     if (!isLegalConfigKey(key)) {
-      return Promise.resolve();
+      return Promise.resolve()
     }
 
     if (typeof val === 'undefined') {
-      return Promise.resolve();
+      return Promise.resolve()
     }
 
-    this.config[key] = val;
+    this.config[key] = val
 
     if (key === 'autoPlay') {
-      return Promise.resolve();
+      return Promise.resolve()
     }
 
     if (key === 'audioSrc') {
       return Promise.resolve()
         .then(() => functionToPromise(() => {
-          this.stop();
-          this._initAudioInstance();
+          this.stop()
+          this._initAudioInstance()
         }))
         .then(() => functionToPromise(() => {
           if (this.config.autoPlay) {
-            this.play();
+            this.play()
           }
-        }));
+        }))
     }
 
     if (this.state.isAudioButtonChanging) {
       return Promise.resolve()
         .then(() => functionToPromise(() => {}, 10))
-        .then(() => this.change(key, val));
+        .then(() => this.change(key, val))
     }
 
-    this.state.isAudioButtonChanging = true;
+    this.state.isAudioButtonChanging = true
 
     return Promise.resolve().then(() => {
       if (!audioButtonNeedChange([this.config, this.audioButtonInstance.config])) {
-        this.state.isAudioButtonChanging = false;
-        return Promise.resolve();
+        this.state.isAudioButtonChanging = false
+        return Promise.resolve()
       }
 
       return Promise.resolve()
         .then(() => this.repaintAudioButton())
         .then(() => functionToPromise(() => {
-          this.state.isAudioButtonChanging = false;
-        }));
-    });
+          this.state.isAudioButtonChanging = false
+        }))
+    })
   }
 
   /**
@@ -182,7 +185,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changeAudioSrc(src) {
-    return this.change('audioSrc', src);
+    return this.change('audioSrc', src)
   }
 
   /**
@@ -191,7 +194,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changePosition(position) {
-    return this.change('position', position);
+    return this.change('position', position)
   }
 
   /**
@@ -200,7 +203,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changeButtonSize(size) {
-    return this.change('buttonSize', size);
+    return this.change('buttonSize', size)
   }
 
   /**
@@ -209,7 +212,7 @@ export default class {
    * @returns {Promise<void>}
    */
   changeIconSize(size) {
-    return this.change('iconSize', size);
+    return this.change('iconSize', size)
   }
 
   /**
@@ -217,7 +220,7 @@ export default class {
    * @returns {boolean}
    */
   isPlaying() {
-    return this.audioInstance.isPlaying();
+    return this.audioInstance.isPlaying()
   }
 
   /**
@@ -225,16 +228,16 @@ export default class {
    */
   eventBind() {
     this.audioButtonInstance.getAudioButton().addEventListener('click', (e) => {
-      e.stopPropagation();
+      e.stopPropagation()
 
       if (this.isPlaying()) {
-        this.pause();
-        return;
+        this.pause()
+        return
       }
-      this.play();
-    });
+      this.play()
+    })
 
-    return this;
+    return this
   }
 
   /**
@@ -244,12 +247,12 @@ export default class {
   repaintAudioButton() {
     return Promise.resolve()
       .then(() => functionToPromise(() => {
-        this.context.removeChild(this.audioButtonInstance.getAudioButton());
+        this.context.removeChild(this.audioButtonInstance.getAudioButton())
       }))
       .then(() => functionToPromise(() => {
-        this._initAudioButtonInstance();
+        this._initAudioButtonInstance()
       }))
-      .then(() => this.appendAudioButton());
+      .then(() => this.appendAudioButton())
   }
 
   /**
@@ -258,10 +261,10 @@ export default class {
    */
   appendAudioButton() {
     return Promise.resolve().then(() => functionToPromise(() => {
-      this.context.appendChild(this.audioButtonInstance.getAudioButton());
-      this.changeButtonUI();
-      this.eventBind();
-    }));
+      this.context.appendChild(this.audioButtonInstance.getAudioButton())
+      this.changeButtonUI()
+      this.eventBind()
+    }))
   }
 
   /**
@@ -269,8 +272,8 @@ export default class {
    * @private
    */
   _init() {
-    this._initAudioInstance();
-    this._initAudioButtonInstance();
+    this._initAudioInstance()
+    this._initAudioButtonInstance()
   }
 
   /**
@@ -280,9 +283,9 @@ export default class {
   _initAudioInstance() {
     this.audioInstance = new Audio({
       audioSrc: this.config.audioSrc,
-    });
+    })
 
-    return this;
+    return this
   }
 
   /**
@@ -297,8 +300,8 @@ export default class {
       iconSize: this.config.iconSize,
       playIcon: this.config.playIcon,
       pauseIcon: this.config.pauseIcon,
-    });
+    })
 
-    return this;
+    return this
   }
 }

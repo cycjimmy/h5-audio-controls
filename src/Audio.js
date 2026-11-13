@@ -1,4 +1,4 @@
-import isAudioPlaying from '@cycjimmy/awesome-js-funcs/esm/media/isAudioPlaying';
+import isAudioPlaying from '@cycjimmy/awesome-js-funcs/media/isAudioPlaying'
 
 export default class {
   /**
@@ -8,10 +8,10 @@ export default class {
   constructor({ audioSrc }) {
     this.config = {
       audioSrc,
-    };
+    }
 
-    this.audio = new Audio();
-    this._init();
+    this.audio = new Audio()
+    this._init()
   }
 
   /**
@@ -19,7 +19,7 @@ export default class {
    * @returns {HTMLAudioElement}
    */
   getAudio() {
-    return this.audio;
+    return this.audio
   }
 
   /**
@@ -27,16 +27,17 @@ export default class {
    * @returns {HTMLAudioElement}
    */
   play() {
-    const wxFakePlay = () => window.WeixinJSBridge.invoke('getNetworkType', {}, () => this.audio.play(), false);
+    const wxFakePlay = () => window.WeixinJSBridge.invoke('getNetworkType', {}, () => this.audio.play(), false)
 
     if (window.WeixinJSBridge) {
-      wxFakePlay();
-    } else {
-      document.addEventListener('WeixinJSBridgeReady', () => this.audio.play(), false);
+      wxFakePlay()
+    }
+    else {
+      document.addEventListener('WeixinJSBridgeReady', () => this.audio.play(), false)
     }
 
-    this.audio.play();
-    return this.audio;
+    this.audio.play()
+    return this.audio
   }
 
   /**
@@ -44,8 +45,8 @@ export default class {
    * @returns {HTMLAudioElement}
    */
   pause() {
-    this.audio.pause();
-    return this.audio;
+    this.audio.pause()
+    return this.audio
   }
 
   /**
@@ -53,9 +54,9 @@ export default class {
    * @returns {HTMLAudioElement}
    */
   stop() {
-    this.audio.currentTime = 0;
-    this.audio.pause();
-    return this.audio;
+    this.audio.currentTime = 0
+    this.audio.pause()
+    return this.audio
   }
 
   /**
@@ -63,7 +64,7 @@ export default class {
    * @returns {boolean}
    */
   isPlaying() {
-    return isAudioPlaying(this.audio);
+    return isAudioPlaying(this.audio)
   }
 
   /**
@@ -72,8 +73,8 @@ export default class {
    */
   canplay() {
     return new Promise((resolve) => {
-      this.audio.addEventListener('canplay', resolve);
-    });
+      this.audio.addEventListener('canplay', resolve)
+    })
   }
 
   /**
@@ -81,8 +82,8 @@ export default class {
    * @private
    */
   _init() {
-    this.audio.src = this.config.audioSrc;
-    this.audio.preload = 'auto';
-    this.audio.loop = true;
+    this.audio.src = this.config.audioSrc
+    this.audio.preload = 'auto'
+    this.audio.loop = true
   }
 }

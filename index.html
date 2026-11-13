@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link rel="shortcut icon" href="/static/favicon.ico">
+  <title>H5 Audio Controls Dev</title>
+
+  <!--
+    This is the Vite dev entry (`npm run dev`). It imports src/ directly and is
+    never deployed. static/index.html is the GitHub Pages demo: it loads the
+    bundled UMD file and is published by `npm run build:deployment`.
+  -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      background-color: #0a4f56;
+    }
+
+    .panel {
+      display: grid;
+      gap: 8px;
+      width: min(90vw, 480px);
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .panel button {
+      height: 36px;
+      font: 500 14px/1 system-ui, sans-serif;
+      color: #fff;
+      cursor: pointer;
+      background-color: transparent;
+      border: 1px solid rgb(255 255 255 / 60%);
+      border-radius: 6px;
+    }
+
+    .panel button:hover {
+      background-color: rgb(255 255 255 / 12%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="panel">
+    <button type="button" data-tip="play">play</button>
+    <button type="button" data-tip="pause">pause</button>
+    <button type="button" data-tip="stop">stop</button>
+    <button type="button" data-tip="trigger">trigger</button>
+    <button type="button" data-tip="changeAudioSrc">changeAudioSrc</button>
+    <button type="button" data-tip="changePosition">changePosition</button>
+    <button type="button" data-tip="changeButtonSize">changeButtonSize</button>
+    <button type="button" data-tip="changeIconSize">changeIconSize</button>
+    <button type="button" data-tip="changePlayIcon">changePlayIcon</button>
+    <button type="button" data-tip="changePauseIcon">changePauseIcon</button>
+    <button type="button" data-tip="changeAll">changeAll</button>
+  </div>
+
+  <script type="module">
+    import h5AudioControls from '/src/index.js'
+
+    const audioSrcList = [
+      'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-LOVE_IS_BLUE.mp3',
+      'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-Secget_Garden.mp3',
+    ]
+    const positionList = ['left-top', 'top-right', 'right-bottom', 'left-bottom']
+    const buttonSizeList = ['16vw', '12vw']
+    const iconSizeList = ['10vw', '7vw']
+    const playIconList = [
+      'https://cycjimmy.github.io/staticFiles/images/icons/icon-play1.svg',
+      'https://cycjimmy.github.io/staticFiles/images/icons/icon-play2.svg',
+    ]
+    const pauseIconList = [
+      'https://cycjimmy.github.io/staticFiles/images/icons/icon-pause1.svg',
+      'https://cycjimmy.github.io/staticFiles/images/icons/icon-pause2.svg',
+    ]
+
+    const audioControls = h5AudioControls(audioSrcList[0], { position: 'left-top' })
+    audioControls.load()
+
+    // Cycles to the next value of a list, falling back to the first one.
+    const next = (list, current) => list[(list.indexOf(current) + 1) % list.length]
+
+    const methods = {
+      changeAudioSrc: () => audioControls.changeAudioSrc(next(audioSrcList, audioControls.config.audioSrc)),
+      changePosition: () => audioControls.changePosition(next(positionList, audioControls.config.position)),
+      changeButtonSize: () => audioControls.changeButtonSize(next(buttonSizeList, audioControls.config.buttonSize) || buttonSizeList[0]),
+      changeIconSize: () => audioControls.changeIconSize(next(iconSizeList, audioControls.config.iconSize) || iconSizeList[0]),
+      changePlayIcon: () => audioControls.change('playIcon', next(playIconList, audioControls.config.playIcon) || playIconList[0]),
+      changePauseIcon: () => audioControls.change('pauseIcon', next(pauseIconList, audioControls.config.pauseIcon) || pauseIconList[0]),
+    }
+
+    const handlers = {
+      ...methods,
+      play: () => audioControls.play(),
+      pause: () => audioControls.pause(),
+      stop: () => audioControls.stop(),
+      trigger: () => (audioControls.isPlaying() ? audioControls.pause() : audioControls.play()),
+      changeAll: () => Object.values(methods).forEach(method => method()),
+    }
+
+    document.querySelectorAll('.panel button').forEach((button) => {
+      button.addEventListener('click', () => {
+        handlers[button.dataset.tip]?.()
+      })
+    })
+  </script>
+</body>
+</html>
