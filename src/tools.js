@@ -3,7 +3,7 @@
  * @param key
  * @returns {boolean}
  */
-export const isLegalConfigKey = (key) => {
+export function isLegalConfigKey(key) {
   const configKeys = [
     'audioSrc',
     'position',
@@ -12,16 +12,16 @@ export const isLegalConfigKey = (key) => {
     'playIcon',
     'pauseIcon',
     'autoPlay',
-  ];
+  ]
 
   for (let i = 0; i < configKeys.length; i += 1) {
     if (key === configKeys[i]) {
-      return true;
+      return true
     }
   }
 
-  return false;
-};
+  return false
+}
 
 /**
  * audioButton Need Change
@@ -29,14 +29,20 @@ export const isLegalConfigKey = (key) => {
  * @param audioButtonConfig
  * @returns {boolean}
  */
-export const audioButtonNeedChange = ([config, audioButtonConfig]) => {
-  const configKeys = ['position', 'buttonSize', 'iconSize', 'playIcon', 'pauseIcon'];
+export function audioButtonNeedChange([config, audioButtonConfig]) {
+  const configKeys = [
+    'position',
+    'buttonSize',
+    'iconSize',
+    'playIcon',
+    'pauseIcon',
+  ]
 
   for (let i = 0; i < configKeys.length; i += 1) {
     if (config[configKeys[i]] !== audioButtonConfig[configKeys[i]]) {
-      return true;
+      return true
     }
   }
 
-  return false;
-};
+  return false
+}

@@ -1,4 +1,4 @@
-import _style from '../style/index.scss';
+import _style from '../style/index.module.scss'
 
 /**
  * fragmentIcon
@@ -7,24 +7,24 @@ import _style from '../style/index.scss';
  * @param size
  * @returns {HTMLSpanElement}
  */
-const eIcon = ({ iconUrl, className, size }) => {
-  const icon = document.createElement('span');
-  let cssText = '';
+function eIcon({ iconUrl, className, size }) {
+  const icon = document.createElement('span')
+  let cssText = ''
 
-  icon.classList.add(className);
+  icon.classList.add(className)
 
   if (iconUrl) {
-    cssText += `background-image: url(${iconUrl}); `;
+    cssText += `background-image: url(${iconUrl}); `
   }
 
   if (size) {
-    cssText += `width: ${size}; height: ${size}`;
+    cssText += `width: ${size}; height: ${size}`
   }
 
-  icon.style.cssText = cssText;
+  icon.style.cssText = cssText
 
-  return icon;
-};
+  return icon
+}
 
 /**
  * playIcon
@@ -32,7 +32,7 @@ const eIcon = ({ iconUrl, className, size }) => {
  * @param size
  * @returns {HTMLSpanElement}
  */
-export const ePlayIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className: _style.playIcon, size });
+export const ePlayIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className: _style.playIcon, size })
 
 /**
  * pauseIcon
@@ -40,4 +40,4 @@ export const ePlayIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className:
  * @param size
  * @returns {HTMLSpanElement}
  */
-export const ePauseIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className: _style.pauseIcon, size });
+export const ePauseIcon = ({ iconUrl, size = '' }) => eIcon({ iconUrl, className: _style.pauseIcon, size })
