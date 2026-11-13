@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/cycjimmy/h5-audio-controls/compare/v6.0.0...v6.0.1) (2026-11-13)
+
+
+### Bug Fixes
+
+* **style:** keep the icon round and make the demo sizes visible ([7a2b962](https://github.com/cycjimmy/h5-audio-controls/commit/7a2b9624740c3eef3cd6f45fee477d0c5dc4d874))
+
 # [6.0.0](https://github.com/cycjimmy/h5-audio-controls/compare/v5.0.5...v6.0.0) (2026-11-13)
 
 

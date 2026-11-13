@@ -1,7 +1,7 @@
 {
   "name": "@cycjimmy/h5-audio-controls",
   "type": "module",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Simple h5 music controller",
   "browser": "dist/h5-audio-controls.umd.min.js",
   "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
