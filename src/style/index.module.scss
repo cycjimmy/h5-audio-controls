@@ -47,9 +47,13 @@
 }
 
 %music-control {
+  // The icon is a flex item inside the button. Flex shrink would squeeze the
+  // width to the button while the height keeps its own value, turning the
+  // round icon into an ellipse whenever `iconSize` exceeds `buttonSize`.
   display: block;
   width: 60%;
   height: 60%;
+  flex: none;
 }
 
 .play-icon {

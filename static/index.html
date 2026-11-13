@@ -125,8 +125,10 @@
     'https://cycjimmy.github.io/staticFiles/media/Richard_Clayderman-Secget_Garden.mp3'
   ];
   const aPosition = ['left-top', 'top-right', 'right-bottom', 'left-bottom'];
-  const aButtonSize = ['16vw', '12vw'];
-  const aIconSize = ['10vw', '7vw'];
+  // The button is capped at 60px by the stylesheet, so the demo has to stay
+  // below that to make every size change visible.
+  const aButtonSize = ['60px', '40px'];
+  const aIconSize = ['32px', '20px'];
   const aPlayIconSrc = [
     'https://cycjimmy.github.io/staticFiles/images/icons/icon-play1.svg',
     'https://cycjimmy.github.io/staticFiles/images/icons/icon-play2.svg'
@@ -173,13 +175,13 @@
     changeButtonSize() {
       switch (audioControls.config.buttonSize) {
         case aButtonSize[0]:
-          audioControls.changeIconSize(aButtonSize[1]);
+          audioControls.changeButtonSize(aButtonSize[1]);
           break;
         case aButtonSize[1]:
-          audioControls.changeIconSize(aButtonSize[0]);
+          audioControls.changeButtonSize(aButtonSize[0]);
           break;
         default:
-          audioControls.changeIconSize(aButtonSize[0]);
+          audioControls.changeButtonSize(aButtonSize[1]);
       }
     },
     changeIconSize() {
@@ -191,7 +193,7 @@
           audioControls.changeIconSize(aIconSize[0]);
           break;
         default:
-          audioControls.changeIconSize(aIconSize[0]);
+          audioControls.changeIconSize(aIconSize[1]);
       }
     },
     changePlayIcon() {
