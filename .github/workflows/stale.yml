@@ -1,0 +1,297 @@
+name: Stale
+
+# Closes inactive issues: general half-year staleness plus a shorter
+# lifecycle for issues that are still waiting on reporter information.
+
+on:
+  schedule:
+    # Every day at 03:00 UTC
+    - cron: '0 3 * * *'
+
+jobs:
+  stale:
+    name: Mark and close stale issues
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      actions: write # for actions/stale to refresh its progress cache
+    steps:
+      - uses: actions/stale@v11
+        with:
+          # Issues only, never touch pull requests
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
+          # Mark stale after half a year of inactivity, close 14 days later
+          days-before-stale: 180
+          days-before-close: 14
+          # needs-info issues have their own shorter lifecycle (see below)
+          exempt-issue-labels: 'triaged,needs-info'
+          stale-issue-label: stale
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has not
+            had recent activity. It will be closed in 14 days if no further
+            activity occurs.
+          close-issue-message: >
+            This issue was closed because it has been inactive for 14 days since
+            it was marked stale. Feel free to reopen it if the problem persists.
+
+  # Kept out of `actions/stale` on purpose: that action persists a processed-issue
+  # list under a single, hardcoded cache key, so two instances in the same
+  # repository would share it and each would skip issues the other had seen.
+  needs-info-cleanup:
+    name: Close issues that need info
+    runs-on: ubuntu-latest
+    # Only issue writes are needed here: this job touches no cache
+    permissions:
+      issues: write
+    steps:
+      - name: Close issues labelled needs-info after 7 days
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'needs-info',
+              per_page: 100,
+            });
+
+            const labelNames = (issue) => issue.labels
+              .map((label) => (typeof label === 'string' ? label : label.name));
+
+            // Repair a close that the compensation below could not undo. When the
+            // reopen fails every retry, the issue stays closed with the label and
+            // its marker attached, and nothing else would ever look at it again.
+            // The marker records the snapshot the close was decided on, so the next
+            // run can redo that check instead of trusting someone read a warning.
+            const CLOSE_MARKER = /<!-- issue-bot:needs-info-close (\S+) -->/;
+            const REPAIR_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+            const recentlyClosed = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed',
+              labels: 'needs-info',
+              since: new Date(Date.now() - REPAIR_WINDOW_MS).toISOString(),
+              per_page: 100,
+            });
+
+            let repaired = 0;
+            for (const listed of recentlyClosed) {
+              // Only issues, never pull requests
+              if (listed.pull_request) continue;
+
+              const thread = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: listed.number,
+                per_page: 100,
+              });
+              // No marker means a human closed it, which is none of this job's
+              // business
+              const decided = thread
+                .map((comment) => (comment.body || '').match(CLOSE_MARKER))
+                .find(Boolean);
+              if (!decided) continue;
+
+              // A reporter comment newer than the snapshot proves the close was
+              // made on state that was already stale when it happened
+              const engaged = thread.some((comment) => comment.user
+                && comment.user.login === listed.user.login
+                && new Date(comment.created_at) > new Date(decided[1]));
+              if (!engaged) continue;
+
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: listed.number,
+                state: 'open',
+              });
+              // Removing the label is also what keeps this pass from looping: the
+              // issue no longer matches the listing above
+              for (const name of ['needs-info', 'stale']) {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: listed.number,
+                  name,
+                }).catch((error) => {
+                  if (error.status !== 404)
+                    core.warning(`Could not remove the ${name} label from #${listed.number}: ${error.message}`);
+                });
+              }
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: listed.number,
+                body: 'This issue was reopened: the requested information arrived just as ' +
+                  'it was closed, so the close was based on outdated state and has been ' +
+                  'undone. It is back in the normal review queue.',
+              });
+              repaired += 1;
+            }
+            if (repaired > 0)
+              core.info(`Repaired ${repaired} close(s) that a previous run could not undo.`);
+
+            let closed = 0;
+            for (const listed of issues) {
+              // Only issues, never pull requests
+              if (listed.pull_request) continue;
+
+              // Re-read before acting: the reporter may have added the missing
+              // details after this listing, in which case issueBot has already
+              // removed the label and nothing should be closed.
+              const { data: issue } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: listed.number,
+              });
+
+              const labels = labelNames(issue);
+              const stillNeedsInfo = issue.state === 'open'
+                && labels.includes('needs-info');
+              if (!stillNeedsInfo) continue;
+
+              // A maintainer who triaged the issue outranks the short lifecycle,
+              // which is what the `triaged` label promises on the issue itself
+              if (labels.includes('triaged')) continue;
+
+              const idleMs = Date.now() - new Date(issue.updated_at).getTime();
+              if (idleMs < WINDOW_MS) continue;
+
+              // Re-read right before acting and compare against the timestamp this
+              // decision was based on. Anything the reporter did after the listing,
+              // including the label removal issueBot performs, bumps `updated_at`,
+              // and that must win over the close: leave the issue to the next run
+              // instead of closing it on a snapshot that is already stale.
+              const { data: fresh } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+              });
+              if (fresh.updated_at !== issue.updated_at) {
+                core.info(`#${issue.number} changed during this run, leaving it for the next one.`);
+                continue;
+              }
+              if (fresh.state !== 'open' || !labelNames(fresh).includes('needs-info')) continue;
+
+              // Keep a failing issue from taking the whole run down: the writes
+              // below refresh `updated_at`, so a partial failure delays this issue
+              // to the next window instead of blocking the remaining candidates.
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  labels: ['stale'],
+                });
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: 'This issue was closed because the requested information was not ' +
+                    'provided within 7 days. Please reopen it or open a new issue with ' +
+                    'the requested details.\n\n' +
+                    `<!-- issue-bot:needs-info-close ${fresh.updated_at} -->`,
+                });
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed',
+                  state_reason: 'not_planned',
+                });
+                closed += 1;
+              } catch (error) {
+                core.warning(`Failed to close #${issue.number}: ${error.message}`);
+                continue;
+              }
+
+              // Closing is not atomic: the reporter can finish writing the details
+              // between the last read and the writes above. Rather than hope another
+              // read before the write closes that window (it cannot), undo the close
+              // when it did happen. `updated_at` is useless as a signal here because
+              // the writes above bumped it, so compare the only two things a human
+              // can change: the body and the thread.
+              try {
+                const { data: after } = await github.rest.issues.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                });
+                const lateComments = await github.paginate(github.rest.issues.listComments, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  since: fresh.updated_at,
+                  per_page: 100,
+                });
+                // Labels count as engagement too: a maintainer can triage or
+                // un-label the issue in the same window, and that decision must
+                // win over the close even though it changes neither the body nor
+                // the thread. `stale` is ignored because this job just added it.
+                const meaningful = (target) => labelNames(target)
+                  .filter((name) => name !== 'stale')
+                  .sort()
+                  .join(',');
+                const engaged = (after.body || '') !== (fresh.body || '')
+                  || meaningful(after) !== meaningful(fresh)
+                  || lateComments.some((comment) => comment.user
+                    && comment.user.login === issue.user.login
+                    && new Date(comment.created_at) > new Date(fresh.updated_at));
+
+                if (!engaged) continue;
+
+                // Reopen before touching anything else, and with a few retries: if
+                // this is the step that fails, the labels are still in place, which
+                // keeps the issue discoverable as "closed but needs-info" for a
+                // manual pass instead of silently losing it.
+                for (let attempt = 1; ; attempt += 1) {
+                  try {
+                    await github.rest.issues.update({
+                      owner: context.repo.owner,
+                      repo: context.repo.repo,
+                      issue_number: issue.number,
+                      state: 'open',
+                    });
+                    break;
+                  } catch (error) {
+                    if (attempt === 3)
+                      throw error;
+                    core.warning(`Reopening #${issue.number} failed (attempt ${attempt}/3): ${error.message}`);
+                    await new Promise((resolve) => { setTimeout(resolve, attempt * 1000); });
+                  }
+                }
+
+                // Drop only what this job owns: a maintainer's `triaged` label is
+                // one of the changes that triggered the reopen and must survive.
+                for (const name of ['needs-info', 'stale']) {
+                  await github.rest.issues.removeLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    name,
+                  }).catch((error) => {
+                    // The label was already gone, nothing to do
+                    if (error.status !== 404)
+                      core.warning(`Could not remove the ${name} label from #${issue.number}: ${error.message}`);
+                  });
+                }
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: 'This issue was reopened: it changed while the automatic cleanup was ' +
+                    'running, so the close was undone and it is back in the normal ' +
+                    'review queue.',
+                });
+                closed -= 1;
+                core.info(`#${issue.number} changed during the cleanup, reopened it.`);
+              } catch (error) {
+                core.warning(`#${issue.number} was closed but changed in the same window, `
+                  + `reopen it manually: ${error.message}`);
+              }
+            }
+
+            core.info(`Closed ${closed} issue(s) idle with the needs-info label for more than 7 days.`);
